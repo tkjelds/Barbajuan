@@ -1,0 +1,15 @@
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/bin/Debug/net7.0/Barbajuan
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/bin/Debug/net7.0/Barbajuan.deps.json
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/bin/Debug/net7.0/Barbajuan.runtimeconfig.json
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/bin/Debug/net7.0/Barbajuan.dll
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/bin/Debug/net7.0/Barbajuan.pdb
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/Debug/net7.0/Barbajuan.csproj.AssemblyReference.cache
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/Debug/net7.0/Barbajuan.GeneratedMSBuildEditorConfig.editorconfig
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/Debug/net7.0/Barbajuan.AssemblyInfoInputs.cache
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/Debug/net7.0/Barbajuan.AssemblyInfo.cs
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/Debug/net7.0/Barbajuan.csproj.CoreCompileInputs.cache
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/Debug/net7.0/Barbajuan.dll
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/Debug/net7.0/refint/Barbajuan.dll
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/Debug/net7.0/Barbajuan.pdb
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/Debug/net7.0/Barbajuan.genruntimeconfig.cache
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/Debug/net7.0/ref/Barbajuan.dll
