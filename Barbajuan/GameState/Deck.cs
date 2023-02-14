@@ -1,45 +1,45 @@
 public class Deck
 {
-    public static Stack<Card>? drawPile;
-    public static Stack<Card>? discardPile;
+    public Stack<Card> drawPile;
+    public Stack<Card> discardPile;
 
     private static Random rng = new Random();
 
+    public Deck(Stack<Card> DrawPile, Stack<Card> DiscardPile)
+    {
+        this.drawPile = DrawPile;
+        this.discardPile = DiscardPile;
+    }
+
     public Stack<Card> getDrawPile()
     {
-        return drawPile!;
+        return this.drawPile!;
     }
 
     public Stack<Card> getDiscardPile()
     {
-        return discardPile!;
-    }
-
-    public Deck(Stack<Card> DrawPile, Stack<Card> DiscardPile)
-    {
-        drawPile = DrawPile;
-        discardPile = DiscardPile;
+        return this.discardPile!;
     }
 
     public void popTopDrawPushDiscard()
     {
-        var card = drawPile.Pop();
+        var card = this.drawPile.Pop();
         discardPile.Push(card);
     }
 
     public Card getTopCard()
     {
-        return discardPile.Peek();
+        return this.discardPile.Peek();
     }
     public bool needsShuffle(int n)
     {
-        return drawPile.Count < n ? true : false;
+        return this.drawPile.Count < n ? true : false;
     }
     public void Shuffle()
     {
         var list = new List<Card>();
-        list.AddRange(discardPile.ToList());
-        list.AddRange(drawPile.ToList());
+        list.AddRange(this.discardPile.ToList());
+        list.AddRange(this.drawPile.ToList());
         int n = list.Count;
         while (n > 1)
         {
@@ -59,7 +59,7 @@ public class Deck
         for (int i = 0; i < n; i++)
         {
             if (needsShuffle(1)) Shuffle();
-            cards.Add(drawPile.Pop());
+            cards.Add(this.drawPile.Pop());
         }
         return cards;
     }
@@ -67,26 +67,7 @@ public class Deck
     {
         var cards = new List<Card>();
         if (needsShuffle(1)) Shuffle();
-        cards.Add(drawPile.Pop());
+        cards.Add(this.drawPile.Pop());
         return cards;
     }
-
-    // public List<Card> dealSeven()
-    // {
-    //     List<Card> hand = new List<Card> { };
-    //     for (int i = 0; i < 6; i++)
-    //     {
-    //         hand.Add(this.cards.Pop());
-    //     }
-    //     return hand;
-    // }
-    // public List<Card> DrawN(int n)
-    // {
-    //     List<Card> hand = new List<Card> { };
-    //     for (int i = 0; i < n - 1; i++)
-    //     {
-    //         hand.Add(this.cards.Pop());
-    //     }
-    //     return hand;
-    // }
 }

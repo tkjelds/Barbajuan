@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5ctV5Ul0MnIxcMiGdceeYKPz93Ofh8d9+JlniKIxLG+c5CqdgtiLXFn7rA32DuLlZ10R4MdrVgDYQaSCtYL9kg==",
+  "dgSpecHash": "8wMLJtUIn39yeEfNFRwlIBVzM5pEPzn6Q8dXH/55nRl9+jq91lAy44pktjnBgrX+4fAvCX02eED//D/+qtJAMg==",
   "success": true,
-  "projectFilePath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
+  "projectFilePath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tkjel\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\tkjel\\.nuget\\packages\\microsoft.codecoverage\\17.3.2\\microsoft.codecoverage.17.3.2.nupkg.sha512",
