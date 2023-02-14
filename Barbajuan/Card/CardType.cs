@@ -1,4 +1,4 @@
-enum CardType
+public enum CardType
 {
     ZERO,
     ONE,
@@ -12,7 +12,7 @@ enum CardType
     NINE,
     REVERSE,
     DRAW2,
-    DRAW4,
     BLOCK,
+    DRAW4,
     WILD
 }

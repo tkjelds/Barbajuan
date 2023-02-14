@@ -1,4 +1,4 @@
-class Card
+public class Card
 {
     public CardColor cardColor;
     public CardType cardType;
