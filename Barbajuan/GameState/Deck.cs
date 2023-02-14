@@ -53,13 +53,21 @@ public class Deck
         discardPile = new Stack<Card>();
     }
 
-    public List<Card> drawN(int n){
+    public List<Card> draw(int n)
+    {
         var cards = new List<Card>();
         for (int i = 0; i < n; i++)
         {
             if (needsShuffle(1)) Shuffle();
             cards.Add(drawPile.Pop());
         }
+        return cards;
+    }
+    public List<Card> draw()
+    {
+        var cards = new List<Card>();
+        if (needsShuffle(1)) Shuffle();
+        cards.Add(drawPile.Pop());
         return cards;
     }
 
