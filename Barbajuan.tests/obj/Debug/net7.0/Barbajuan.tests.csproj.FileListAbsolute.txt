@@ -96,3 +96,9 @@
 /Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/obj/Debug/net7.0/Barbajuan.tests.pdb
 /Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/obj/Debug/net7.0/Barbajuan.tests.genruntimeconfig.cache
 /Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/obj/Debug/net7.0/ref/Barbajuan.tests.dll
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/bin/Debug/net7.0/CoverletSourceRootsMapping
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/bin/Debug/net7.0/Barbajuan.deps.json
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/bin/Debug/net7.0/Barbajuan.runtimeconfig.json
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/bin/Debug/net7.0/Barbajuan
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/bin/Debug/net7.0/Barbajuan.dll
+/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/bin/Debug/net7.0/Barbajuan.pdb

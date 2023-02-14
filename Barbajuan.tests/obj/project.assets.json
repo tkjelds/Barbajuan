@@ -1808,6 +1808,16 @@
         "build": {
           "build/netcoreapp3.1/xunit.runner.visualstudio.props": {}
         }
+      },
+      "Barbajuan/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/Barbajuan.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Barbajuan.dll": {}
+        }
       }
     }
   },
@@ -6132,10 +6142,16 @@
         "xunit.runner.visualstudio.2.4.5.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
+    },
+    "Barbajuan/1.0.0": {
+      "type": "project",
+      "path": "../Barbajuan/Barbajuan.csproj",
+      "msbuildProject": "../Barbajuan/Barbajuan.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "Barbajuan >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.3.2",
       "coverlet.collector >= 3.1.2",
       "xunit >= 2.4.2",
@@ -6166,7 +6182,11 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj": {
+              "projectPath": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
