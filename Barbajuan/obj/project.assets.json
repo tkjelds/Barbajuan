@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
+      "projectUniqueName": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
       "projectName": "Barbajuan",
-      "projectPath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
+      "projectPath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
       "packagesPath": "C:\\Users\\tkjel\\.nuget\\packages\\",
-      "outputPath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan\\obj\\",
+      "outputPath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

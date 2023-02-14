@@ -9,7 +9,8 @@ class Discard
         this.topCard = pile[0];
     }
 
-    public void push(Card card){
+    public void push(Card card)
+    {
         this.pile.Add(card);
         topCard = card;
     }
