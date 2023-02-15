@@ -14,5 +14,5 @@ public enum CardType
     DRAW2,
     BLOCK,
     DRAW4,
-    WILD
+    SELECTCOLOR
 }

@@ -107,7 +107,7 @@ public class DeckTests
         // When
         deck.setup();
         // Then
-        Assert.Equal(108,deck.deckCount());
+        Assert.Equal(108, deck.deckCount());
     }
 
     [Fact]
@@ -118,6 +118,6 @@ public class DeckTests
         // When
         deck.setup();
         // Then
-        Assert.Equal(1,deck.discardPile.Count());
+        Assert.Single(deck.discardPile);
     }
 }

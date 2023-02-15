@@ -11,32 +11,34 @@ public class Deck
         this.discardPile = DiscardPile;
     }
 
-    public Deck(){
+    public Deck()
+    {
         this.drawPile = new Stack<Card>();
         this.discardPile = new Stack<Card>();
     }
 
-    public void setup(){
+    public void setup()
+    {
         var deck = new List<Card>();
         for (int i = 0; i < 4; i++)
         {
-            deck.Add(new Card((CardColor) i, CardType.ZERO));
+            deck.Add(new Card((CardColor)i, CardType.ZERO));
         }
         for (int i = 1; i < 13; i++)
         {
-            deck.Add(new Card(CardColor.BLUE, (CardType) i));
-            deck.Add(new Card(CardColor.RED, (CardType) i));
-            deck.Add(new Card(CardColor.GREEN, (CardType) i));
-            deck.Add(new Card(CardColor.YELLOW, (CardType) i));
-            deck.Add(new Card(CardColor.BLUE, (CardType) i));
-            deck.Add(new Card(CardColor.RED, (CardType) i));
-            deck.Add(new Card(CardColor.GREEN, (CardType) i));
-            deck.Add(new Card(CardColor.YELLOW, (CardType) i));
+            deck.Add(new Card(CardColor.BLUE, (CardType)i));
+            deck.Add(new Card(CardColor.RED, (CardType)i));
+            deck.Add(new Card(CardColor.GREEN, (CardType)i));
+            deck.Add(new Card(CardColor.YELLOW, (CardType)i));
+            deck.Add(new Card(CardColor.BLUE, (CardType)i));
+            deck.Add(new Card(CardColor.RED, (CardType)i));
+            deck.Add(new Card(CardColor.GREEN, (CardType)i));
+            deck.Add(new Card(CardColor.YELLOW, (CardType)i));
         }
         for (int i = 0; i < 4; i++)
         {
             deck.Add(new Card(CardColor.WILD, CardType.DRAW4));
-            deck.Add(new Card(CardColor.WILD, CardType.WILD));
+            deck.Add(new Card(CardColor.WILD, CardType.SELECTCOLOR));
         }
         this.drawPile = new Stack<Card>(deck);
         Shuffle();
