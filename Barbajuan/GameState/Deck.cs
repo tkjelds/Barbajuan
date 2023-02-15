@@ -11,14 +11,35 @@ public class Deck
         this.discardPile = DiscardPile;
     }
 
-    public Stack<Card> getDrawPile()
-    {
-        return this.drawPile!;
+    public Deck(){
+        this.drawPile = new Stack<Card>();
+        this.discardPile = new Stack<Card>();
     }
 
-    public Stack<Card> getDiscardPile()
-    {
-        return this.discardPile!;
+    public void setup(){
+        var deck = new List<Card>();
+        for (int i = 0; i < 4; i++)
+        {
+            deck.Add(new Card((CardColor) i, CardType.ZERO));
+        }
+        for (int i = 1; i < 13; i++)
+        {
+            deck.Add(new Card(CardColor.BLUE, (CardType) i));
+            deck.Add(new Card(CardColor.RED, (CardType) i));
+            deck.Add(new Card(CardColor.GREEN, (CardType) i));
+            deck.Add(new Card(CardColor.YELLOW, (CardType) i));
+            deck.Add(new Card(CardColor.BLUE, (CardType) i));
+            deck.Add(new Card(CardColor.RED, (CardType) i));
+            deck.Add(new Card(CardColor.GREEN, (CardType) i));
+            deck.Add(new Card(CardColor.YELLOW, (CardType) i));
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            deck.Add(new Card(CardColor.WILD, CardType.DRAW4));
+            deck.Add(new Card(CardColor.WILD, CardType.WILD));
+        }
+        this.drawPile = new Stack<Card>(deck);
+        Shuffle();
     }
 
     public void popTopDrawPushDiscard()
@@ -49,8 +70,9 @@ public class Deck
             list[k] = list[n];
             list[n] = value;
         }
-        drawPile = new Stack<Card>(list);
-        discardPile = new Stack<Card>();
+        this.drawPile = new Stack<Card>(list);
+        this.discardPile = new Stack<Card>();
+        this.discardPile.Push(this.drawPile.Pop());
     }
 
     public List<Card> draw(int n)
@@ -71,7 +93,8 @@ public class Deck
         return cards;
     }
 
-    public int deckCount(){
+    public int deckCount()
+    {
         return this.drawPile.Count() + this.discardPile.Count();
     }
 }

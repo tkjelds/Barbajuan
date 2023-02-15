@@ -38,7 +38,7 @@ public class DeckTests
         // Given
         var deck = new Deck(generateCards(10), generateCards(5));
         // Then
-        var deckSize = deck.getDiscardPile().Count() + deck.getDrawPile().Count();
+        var deckSize = deck.discardPile.Count() + deck.drawPile.Count();
 
         Assert.Equal(15, deckSize);
     }
@@ -76,7 +76,7 @@ public class DeckTests
         // When
         var actual = deck.draw(4);
         // Then
-        Assert.Equal(4,actual.Count());
+        Assert.Equal(4, actual.Count());
     }
     [Fact]
     public void DeckShufflesCorrectly()
@@ -86,6 +86,38 @@ public class DeckTests
         // When
         deck.draw(2);
         // Then
-        Assert.Equal(9,deck.drawPile.Count());
+        Assert.Equal(8, deck.drawPile.Count());
+    }
+    [Fact]
+    public void DeckShufflesCorrectlyAndPlacesTopDrawCardOntoDiscardPile()
+    {
+        // Given
+        var deck = new Deck(generateCards(1), generateCards(10));
+        // When
+        deck.draw(2);
+        // Then
+        Assert.Single(deck.discardPile);
+    }
+
+    [Fact]
+    public void DeckHas108CardsAfterSetUp()
+    {
+        // Given
+        var deck = new Deck();
+        // When
+        deck.setup();
+        // Then
+        Assert.Equal(108,deck.deckCount());
+    }
+
+    [Fact]
+    public void DeckSetupGivesFirstCardInDiscardPile()
+    {
+        // Given
+        var deck = new Deck();
+        // When
+        deck.setup();
+        // Then
+        Assert.Equal(1,deck.discardPile.Count());
     }
 }
