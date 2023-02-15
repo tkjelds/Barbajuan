@@ -67,4 +67,25 @@ public class DeckTests
         // Then
         Assert.NotEqual(deck1, deck2);
     }
+
+    [Fact]
+    public void Draw4CardsWhenDrawPileIs3()
+    {
+        // Given
+        var deck = new Deck(generateCards(3), generateCards(2));
+        // When
+        var actual = deck.draw(4);
+        // Then
+        Assert.Equal(4,actual.Count());
+    }
+    [Fact]
+    public void DeckShufflesCorrectly()
+    {
+        // Given
+        var deck = new Deck(generateCards(1), generateCards(10));
+        // When
+        deck.draw(2);
+        // Then
+        Assert.Equal(9,deck.drawPile.Count());
+    }
 }

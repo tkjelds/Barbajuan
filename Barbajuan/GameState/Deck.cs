@@ -70,4 +70,8 @@ public class Deck
         cards.Add(this.drawPile.Pop());
         return cards;
     }
+
+    public int deckCount(){
+        return this.drawPile.Count() + this.discardPile.Count();
+    }
 }
