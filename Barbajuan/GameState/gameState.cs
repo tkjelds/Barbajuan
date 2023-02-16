@@ -1,6 +1,6 @@
 public class GameState : IgameState
 {
-    Player currentPlayer; 
+    Player currentPlayer;
     int currentPlayerIndex = 0;
     List<Player> players;
     Deck deck;
@@ -16,14 +16,14 @@ public class GameState : IgameState
         this.scoreBoard = new List<Player>();
     }
 
-    public GameState(List<Player> players, Deck deck) 
+    public GameState(List<Player> players, Deck deck)
     {
         this.players = players;
         this.deck = deck;
         this.currentPlayer = players[0];
         this.scoreBoard = new List<Player>();
     }
-    public GameState(List<Player> players, Deck deck, bool playDirection) 
+    public GameState(List<Player> players, Deck deck, bool playDirection)
     {
         this.players = players;
         this.deck = deck;
@@ -41,16 +41,17 @@ public class GameState : IgameState
         this.currentPlayerIndex = currentPlayerIndex;
     }
 
-    public GameState(List<Player> players, Deck deck, Player currentPlayer, int currentPlayerIndex, List<Player>  scoreBoard, bool playDirection){
-        this.players = players; 
+    public GameState(List<Player> players, Deck deck, Player currentPlayer, int currentPlayerIndex, List<Player> scoreBoard, bool playDirection)
+    {
+        this.players = players;
         this.deck = deck;
         this.currentPlayer = currentPlayer;
         this.currentPlayerIndex = currentPlayerIndex;
         this.scoreBoard = scoreBoard;
         this.playDirectionClockwise = playDirection;
-    }   
-    
-    
+    }
+
+
 
     public IgameState apply(Card card)
     {
@@ -89,12 +90,14 @@ public class GameState : IgameState
 
     public int nextPlayer()
     {
-        var indexIncrement = (playDirectionClockwise) ?  1 :  -1;
-        if((currentPlayerIndex + indexIncrement) > players.Count()-1) {
+        var indexIncrement = (playDirectionClockwise) ? 1 : -1;
+        if ((currentPlayerIndex + indexIncrement) > players.Count() - 1)
+        {
             return 0;
         }
-        if((currentPlayerIndex + indexIncrement) < 0) {
-            return players.Count()-1;
+        if ((currentPlayerIndex + indexIncrement) < 0)
+        {
+            return players.Count() - 1;
         }
         return currentPlayerIndex + indexIncrement;
     }
@@ -102,7 +105,8 @@ public class GameState : IgameState
     public void run()
     {
         bool notGameOver = true;
-        while(notGameOver){
+        while (notGameOver)
+        {
             // TODO
             //currentPlayer.hand.AddRange(deck.draw(1));
             var action = currentPlayer.action(this);
@@ -110,7 +114,8 @@ public class GameState : IgameState
             this.players = newGameState.GetPlayers();
             this.deck = newGameState.getDeck();
             this.playDirectionClockwise = newGameState.getPlayDirection();
-            if (currentPlayer.hand.Count() == 0) {
+            if (currentPlayer.hand.Count() == 0)
+            {
                 scoreBoard.Add(currentPlayer);
                 players.Remove(currentPlayer);
             }

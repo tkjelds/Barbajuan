@@ -23,4 +23,36 @@ public abstract class Player : Iplayer
         }
         return moves;
     }
+
+    public List<List<Card>> getStackingActions(IgameState gameState){
+        List<List<Card>> moves = new List<List<Card>>();
+        Card toBePlayedOn = gameState.getDeck().discardPile.Peek();
+        foreach (Card card in hand)
+        {   
+            if(card.canBePlayedOn(toBePlayedOn)){
+                var tempHand = hand;
+                moves.Add(new List<Card>(){card});
+                tempHand.Remove(card);
+                moves.AddRange(getStackingMoves(card,tempHand, new List<Card>(){card}));
+            }
+        }
+        return moves;
+    }
+
+    public List<List<Card>> getStackingMoves(Card toBePlayedOn, List<Card> hand, List<Card> currentStack){
+        List<List<Card>> moves = new List<List<Card>>();
+        foreach (Card card in hand)
+        {
+            var tempHand = hand;
+            if(card.canBePlayedOn(toBePlayedOn)){
+                var tempStack = currentStack;
+                tempStack.Add(card);
+                moves.Add(tempStack);
+                tempHand.Remove(card);
+                moves.AddRange(getStackingMoves(card, tempHand, tempStack));
+
+            }
+        }
+        return moves;
+    }
 }
