@@ -53,13 +53,55 @@ public class GameState : IgameState
     
 
     public IgameState apply(Card card)
-    {
-        throw new NotImplementedException();
+    {   
+        var cardType = card.cardType;
+        switch (cardType) {
+            case CardType.DRAW1:
+                currentPlayer.hand.AddRange(deck.draw(1));
+
+                return (new gameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise));
+            case CardType.DRAW2:
+                players[nextPlayer()].hand.AddRange(deck.draw(2));
+                currentPlayer.hand.Remove(card);
+                deck.discardPile.Push(card);
+
+                return (new gameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise));
+            case CardType.DRAW4:
+                players[nextPlayer()].hand.AddRange(deck.draw(4));
+                currentPlayer.hand.Remove(card);
+                deck.discardPile.Push(card);
+
+                return (new gameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise));
+            case CardType.SKIP:
+                currentPlayer.hand.Remove(card);
+                deck.discardPile.Push(card);
+
+                currentPlayerIndex = nextPlayer();
+
+                return (new gameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise));
+            case CardType.REVERSE:
+                currentPlayer.hand.Remove(card);
+                deck.discardPile.Push(card);
+
+                return (new gameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, !(this.playDirectionClockwise)));
+
+            default:
+                currentPlayer.hand.Remove(card);
+                deck.discardPile.Push(card);
+
+                return (new gameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise));
+            
+        }
     }
 
     public IgameState apply(List<Card> Cards)
-    {
-        throw new NotImplementedException();
+    { 
+        foreach(Card card in Cards)
+        {
+            apply(card);
+        }
+
+        return (new gameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise));
     }
 
     public int getCurrentPlayerIndex()
