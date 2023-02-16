@@ -7,7 +7,12 @@ class RandomPlayer : Iplayer
         this.hand = hand;
     }
 
-    public IgameState action()
+    public Card action()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Card action(IgameState gameState)
     {
         throw new NotImplementedException();
     }

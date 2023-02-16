@@ -12,7 +12,8 @@ public enum CardType
     NINE,
     REVERSE,
     DRAW2,
-    BLOCK,
+    SKIP,
     DRAW4,
-    SELECTCOLOR
+    SELECTCOLOR,
+    DRAW1
 }
