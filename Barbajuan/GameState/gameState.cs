@@ -1,4 +1,4 @@
-public class gameState : IgameState
+public class GameState : IgameState
 {
     Player currentPlayer; 
     int currentPlayerIndex = 0;
@@ -6,7 +6,7 @@ public class gameState : IgameState
     Deck deck;
     bool playDirectionClockwise = true;
     List<Player> scoreBoard;
-    public gameState(List<Player> players)
+    public GameState(List<Player> players)
     {
         this.players = players;
         var deck = new Deck();
@@ -16,14 +16,14 @@ public class gameState : IgameState
         this.scoreBoard = new List<Player>();
     }
 
-    public gameState(List<Player> players, Deck deck) 
+    public GameState(List<Player> players, Deck deck) 
     {
         this.players = players;
         this.deck = deck;
         this.currentPlayer = players[0];
         this.scoreBoard = new List<Player>();
     }
-    public gameState(List<Player> players, Deck deck, bool playDirection) 
+    public GameState(List<Player> players, Deck deck, bool playDirection) 
     {
         this.players = players;
         this.deck = deck;
@@ -32,7 +32,7 @@ public class gameState : IgameState
         this.playDirectionClockwise = playDirection;
     }
 
-    public gameState(Player currentPlayer, int currentPlayerIndex, List<Player> players, Deck deck)
+    public GameState(Player currentPlayer, int currentPlayerIndex, List<Player> players, Deck deck)
     {
         this.currentPlayer = currentPlayer;
         this.players = players;
@@ -41,7 +41,7 @@ public class gameState : IgameState
         this.currentPlayerIndex = currentPlayerIndex;
     }
 
-    public gameState(List<Player> players, Deck deck, Player currentPlayer, int currentPlayerIndex, List<Player>  scoreBoard, bool playDirection){
+    public GameState(List<Player> players, Deck deck, Player currentPlayer, int currentPlayerIndex, List<Player>  scoreBoard, bool playDirection){
         this.players = players; 
         this.deck = deck;
         this.currentPlayer = currentPlayer;
@@ -106,10 +106,10 @@ public class gameState : IgameState
             // TODO
             //currentPlayer.hand.AddRange(deck.draw(1));
             var action = currentPlayer.action(this);
-            var newgameState = apply(action);
-            this.players = newgameState.GetPlayers();
-            this.deck = newgameState.getDeck();
-            this.playDirectionClockwise = newgameState.getPlayDirection();
+            var newGameState = apply(action);
+            this.players = newGameState.GetPlayers();
+            this.deck = newGameState.getDeck();
+            this.playDirectionClockwise = newGameState.getPlayDirection();
             if (currentPlayer.hand.Count() == 0) {
                 scoreBoard.Add(currentPlayer);
                 players.Remove(currentPlayer);

@@ -22,9 +22,9 @@ public class GameStateTests
         var Player1 = new TestPlayer(deck.draw(7));
         var Player2 = new TestPlayer(deck.draw(7));
         var Player3 = new TestPlayer(deck.draw(7));
-        var gameState = new gameState(new List<Player>(){Player1,Player2,Player3}, deck);
+        var GameState = new GameState(new List<Player>(){Player1,Player2,Player3}, deck);
         //when 
-        var actual = gameState.GetPlayers()[gameState.nextPlayer()];
+        var actual = GameState.GetPlayers()[GameState.nextPlayer()];
         //then
         Assert.Equal(Player2, actual);
     }
@@ -38,9 +38,9 @@ public class GameStateTests
         var player1 = new TestPlayer(deck.draw(7));
         var player2 = new TestPlayer(deck.draw(7));
         var player3 = new TestPlayer(deck.draw(7));
-        var gameState = new gameState(player3, 2, new List<Player>(){player1,player2,player3}, deck);
+        var GameState = new GameState(player3, 2, new List<Player>(){player1,player2,player3}, deck);
         // When
-        var actual = gameState.GetPlayers()[gameState.nextPlayer()];    
+        var actual = GameState.GetPlayers()[GameState.nextPlayer()];    
         // Then
         Assert.Equal(player1, actual);
     }
@@ -54,9 +54,9 @@ public class GameStateTests
         var player1 = new TestPlayer(deck.draw(7));
         var player2 = new TestPlayer(deck.draw(7));
         var player3 = new TestPlayer(deck.draw(7));
-        var gameState = new gameState(new List<Player>(){player1,player2,player3}, deck, false);
+        var GameState = new GameState(new List<Player>(){player1,player2,player3}, deck, false);
         // When
-        var actual = gameState.GetPlayers()[gameState.nextPlayer()];    
+        var actual = GameState.GetPlayers()[GameState.nextPlayer()];    
         // Then
         Assert.Equal(player3, actual);
     }
@@ -67,11 +67,11 @@ public class GameStateTests
         var hand = new List<Card>();
         players.Add(new RandomPlayer(hand));
 
-        var gameState = new gameState(players);
+        var GameState = new GameState(players);
 
         // When
 
-        var actual = gameState.IsGameOver();
+        var actual = GameState.IsGameOver();
 
         // Then
         Assert.True(actual);
@@ -88,10 +88,10 @@ public class GameStateTests
             players.Add(new RandomPlayer(new List<Card>()));
         }
 
-        var gameState = new gameState(players);
+        var GameState = new GameState(players);
         // When
 
-        var actual = gameState.IsGameOver();
+        var actual = GameState.IsGameOver();
 
         // Then
         Assert.False(actual);
