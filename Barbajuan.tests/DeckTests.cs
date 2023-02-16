@@ -2,11 +2,11 @@ namespace Barbajuan.tests;
 
 public class DeckTests
 {
-    public static Random rng = new Random();
-    public Stack<Card> generateCards(int n)
+    public static Random rng = new();
+    public static Stack<Card> generateCards(int n)
     {
         var Stack = new Stack<Card>();
-        for (int i = 0; i < n; i++)
+        for (var i = 0; i < n; i++)
         {
             Stack.Push(new Card((CardColor)rng.Next(3), (CardType)rng.Next(12)));
         }
@@ -38,7 +38,7 @@ public class DeckTests
         // Given
         var deck = new Deck(generateCards(10), generateCards(5));
         // Then
-        var deckSize = deck.discardPile.Count() + deck.drawPile.Count();
+        var deckSize = deck.discardPile.Count + deck.drawPile.Count;
 
         Assert.Equal(15, deckSize);
     }
@@ -76,7 +76,7 @@ public class DeckTests
         // When
         var actual = deck.draw(4);
         // Then
-        Assert.Equal(4, actual.Count());
+        Assert.Equal(4, actual.Count);
     }
     [Fact]
     public void DeckShufflesCorrectly()
@@ -86,7 +86,7 @@ public class DeckTests
         // When
         deck.draw(2);
         // Then
-        Assert.Equal(8, deck.drawPile.Count());
+        Assert.Equal(8, deck.drawPile.Count);
     }
     [Fact]
     public void DeckShufflesCorrectlyAndPlacesTopDrawCardOntoDiscardPile()

@@ -3,7 +3,7 @@ public class Deck
     public Stack<Card> drawPile;
     public Stack<Card> discardPile;
 
-    private static Random rng = new Random();
+    private static readonly Random rng = new();
 
     public Deck(Stack<Card> DrawPile, Stack<Card> DiscardPile)
     {
@@ -20,11 +20,11 @@ public class Deck
     public void setup()
     {
         var deck = new List<Card>();
-        for (int i = 0; i < 4; i++)
+        for (var i = 0; i < 4; i++)
         {
             deck.Add(new Card((CardColor)i, CardType.ZERO));
         }
-        for (int i = 1; i < 13; i++)
+        for (var i = 1; i < 13; i++)
         {
             deck.Add(new Card(CardColor.BLUE, (CardType)i));
             deck.Add(new Card(CardColor.RED, (CardType)i));
@@ -35,42 +35,34 @@ public class Deck
             deck.Add(new Card(CardColor.GREEN, (CardType)i));
             deck.Add(new Card(CardColor.YELLOW, (CardType)i));
         }
-        for (int i = 0; i < 4; i++)
+        for (var i = 0; i < 4; i++)
         {
             deck.Add(new Card(CardColor.WILD, CardType.DRAW4));
             deck.Add(new Card(CardColor.WILD, CardType.SELECTCOLOR));
         }
         this.drawPile = new Stack<Card>(deck);
-        Shuffle();
+        this.Shuffle();
     }
 
     public void popTopDrawPushDiscard()
     {
         var card = this.drawPile.Pop();
-        discardPile.Push(card);
+        this.discardPile.Push(card);
     }
 
-    public Card getTopCard()
-    {
-        return this.discardPile.Peek();
-    }
-    public bool needsShuffle(int n)
-    {
-        return this.drawPile.Count < n ? true : false;
-    }
+    public Card getTopCard() => this.discardPile.Peek();
+    public bool needsShuffle(int n) => this.drawPile.Count < n;
     public void Shuffle()
     {
         var list = new List<Card>();
         list.AddRange(this.discardPile.ToList());
         list.AddRange(this.drawPile.ToList());
-        int n = list.Count;
+        var n = list.Count;
         while (n > 1)
         {
             n--;
-            int k = rng.Next(n + 1);
-            Card value = list[k];
-            list[k] = list[n];
-            list[n] = value;
+            var k = rng.Next(n + 1);
+            (list[n], list[k]) = (list[k], list[n]);
         }
         this.drawPile = new Stack<Card>(list);
         this.discardPile = new Stack<Card>();
@@ -80,9 +72,13 @@ public class Deck
     public List<Card> draw(int n)
     {
         var cards = new List<Card>();
-        for (int i = 0; i < n; i++)
+        for (var i = 0; i < n; i++)
         {
-            if (needsShuffle(1)) Shuffle();
+            if (this.needsShuffle(1))
+            {
+                this.Shuffle();
+            }
+
             cards.Add(this.drawPile.Pop());
         }
         return cards;
@@ -90,13 +86,14 @@ public class Deck
     public List<Card> draw()
     {
         var cards = new List<Card>();
-        if (needsShuffle(1)) Shuffle();
+        if (this.needsShuffle(1))
+        {
+            this.Shuffle();
+        }
+
         cards.Add(this.drawPile.Pop());
         return cards;
     }
 
-    public int deckCount()
-    {
-        return this.drawPile.Count() + this.discardPile.Count();
-    }
+    public int deckCount() => this.drawPile.Count + this.discardPile.Count;
 }

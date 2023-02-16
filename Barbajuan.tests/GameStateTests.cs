@@ -2,11 +2,11 @@ namespace Barbajuan.tests;
 
 public class GameStateTests
 {
-    public static Random rng = new Random();
-    public Stack<Card> generateCards(int n)
+    public static Random rng = new();
+    public static Stack<Card> generateCards(int n)
     {
         var Stack = new Stack<Card>();
-        for (int i = 0; i < n; i++)
+        for (var i = 0; i < n; i++)
         {
             Stack.Push(new Card((CardColor)rng.Next(3), (CardType)rng.Next(12)));
         }
@@ -83,7 +83,7 @@ public class GameStateTests
         // Given
         var players = new List<Player>();
 
-        for (int i = 0; i < 10; i++)
+        for (var i = 0; i < 10; i++)
         {
             players.Add(new RandomPlayer(new List<Card>()));
         }

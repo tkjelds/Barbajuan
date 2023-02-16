@@ -1,6 +1,6 @@
+namespace Barbajuan.tests;
 using static CardColor;
 using static CardType;
-namespace Barbajuan.tests;
 
 public class CardTests
 {

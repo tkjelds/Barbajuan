@@ -2,57 +2,67 @@ public abstract class Player : Iplayer
 {
     public List<Card> hand;
 
-    protected Player(List<Card> hand)
-    {
-        this.hand = hand;
-    }
+    protected Player(List<Card> hand) => this.hand = hand;
 
-    public Card action(IgameState gameState)
+    public List<Card> action(IgameState gameState)
     {
-        var moves = getActions(gameState);
-        if (moves.Count() == 0) return new Card(CardColor.WILD,CardType.DRAW1);
+        var moves = this.getActions(gameState.getDeck().discardPile.Peek());
+        if (moves.Count == 0)
+        {
+            return new List<Card>() { new Card(CardColor.WILD, CardType.DRAW1) };
+        }
+
         return moves[0];
     }
 
-    public List<Card> getActions(IgameState gameState)
+    public List<List<Card>> getActions(Card topCard)
     {
-        List<Card> moves = new List<Card>();
-        foreach (Card card in hand)
+        var moves = new List<List<Card>>();
+        foreach (var card in this.hand)
         {
-            if(card.canBePlayedOn(gameState.getDeck().discardPile.Peek())) moves.Add(card);
-        }
-        return moves;
-    }
-
-    public List<List<Card>> getStackingActions(IgameState gameState){
-        List<List<Card>> moves = new List<List<Card>>();
-        Card toBePlayedOn = gameState.getDeck().discardPile.Peek();
-        foreach (Card card in hand)
-        {   
-            if(card.canBePlayedOn(toBePlayedOn)){
-                var tempHand = hand;
-                moves.Add(new List<Card>(){card});
-                tempHand.Remove(card);
-                moves.AddRange(getStackingMoves(card,tempHand, new List<Card>(){card}));
+            if (card.canBePlayedOn(topCard))
+            {
+                moves.Add(new List<Card>() { card });
             }
         }
         return moves;
     }
 
-    public List<List<Card>> getStackingMoves(Card toBePlayedOn, List<Card> hand, List<Card> currentStack){
-        List<List<Card>> moves = new List<List<Card>>();
-        foreach (Card card in hand)
+    public List<List<Card>> getStackingActions(Card topCard)
+    {
+        var moves = new List<List<Card>>();
+        foreach (var card in new List<Card>(hand))
         {
-            var tempHand = hand;
-            if(card.canBePlayedOn(toBePlayedOn)){
-                var tempStack = currentStack;
-                tempStack.Add(card);
-                moves.Add(tempStack);
-                tempHand.Remove(card);
-                moves.AddRange(getStackingMoves(card, tempHand, tempStack));
+            if (card.canBePlayedOn(topCard))
+            {
+                var nextHand = new List<Card>(hand);
+                moves.Add(new List<Card>() { card });
+                nextHand.Remove(card);
+                moves.AddRange(getCardOfSameType(card, nextHand, new List<Card>() { card }));
+            }
+        }
+        return moves;
+    }
+
+    public List<List<Card>> getCardOfSameType(Card toBePlayedOn, List<Card> hand, List<Card> currentStack)
+    {
+        var moves = new List<List<Card>>();
+        foreach (var card in new List<Card>(hand))
+        {
+            var nextHand = new List<Card>(hand);
+            if (card.cardType == toBePlayedOn.cardType)
+            {
+                var moveStack = new List<Card>(currentStack);
+                moveStack.Add(card);
+                moves.Add(moveStack);
+                nextHand.Remove(card);
+                moves.AddRange(getCardOfSameType(card, nextHand, moveStack));
 
             }
         }
         return moves;
     }
+
+    List<Card> Iplayer.getActions(Card topCard) => throw new NotImplementedException();
+    Card Iplayer.action(IgameState gameState) => throw new NotImplementedException();
 }
