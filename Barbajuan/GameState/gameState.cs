@@ -1,4 +1,4 @@
-class gameState : IgameState
+public class gameState : IgameState
 {
     Player currentPlayer; 
     List<Player> players;
