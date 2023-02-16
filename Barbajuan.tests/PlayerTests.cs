@@ -39,4 +39,24 @@ public class PlayerTests
         // Then
         Assert.Equal(7, stackingMoves.Count());
     }
+
+    [Fact]
+    public void stackignMovesReturnsCorrectMoves()
+    {
+        // Given
+        var toBePlayedOn = new Card(RED, ZERO);
+        var player = new RandomPlayer(new List<Card>() { new Card(BLUE, ZERO), new Card(RED, FOUR), new Card(YELLOW, FOUR), new Card(BLUE, FOUR) });
+        // When
+        var actual = player.getStackingActions(toBePlayedOn);
+        var expected = new List<List<Card>>(){
+            new List<Card>() {new Card(BLUE, ZERO)},
+            new List<Card>() {new Card(RED, FOUR)},
+            new List<Card>() {new Card(RED, FOUR), new Card(YELLOW, FOUR)},
+            new List<Card>() {new Card(RED, FOUR), new Card(YELLOW, FOUR), new Card(BLUE,FOUR)},
+            new List<Card>() {new Card(RED, FOUR), new Card(BLUE, FOUR)},
+            new List<Card>() {new Card(RED, FOUR), new Card(BLUE, FOUR), new Card(YELLOW,FOUR)}
+        };
+        // Then
+        expected.Should().BeEquivalentTo(actual);
+    }
 }
