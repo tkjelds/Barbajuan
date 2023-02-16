@@ -1,6 +1,7 @@
 public class gameState : IgameState
 {
     Player currentPlayer; 
+    int currentPlayerIndex = 0;
     List<Player> players;
     Deck deck;
     bool playDirectionClockwise = true;
@@ -22,11 +23,29 @@ public class gameState : IgameState
         this.currentPlayer = players[0];
         this.scoreBoard = new List<Player>();
     }
+    public gameState(List<Player> players, Deck deck, bool playDirection) 
+    {
+        this.players = players;
+        this.deck = deck;
+        this.currentPlayer = players[0];
+        this.scoreBoard = new List<Player>();
+        this.playDirectionClockwise = playDirection;
+    }
 
-    public gameState(List<Player> players, Deck deck, Player currentPlayer, List<Player>  scoreBoard, bool playDirection){
+    public gameState(Player currentPlayer, int currentPlayerIndex, List<Player> players, Deck deck)
+    {
+        this.currentPlayer = currentPlayer;
+        this.players = players;
+        this.deck = deck;
+        this.scoreBoard = new List<Player>();
+        this.currentPlayerIndex = currentPlayerIndex;
+    }
+
+    public gameState(List<Player> players, Deck deck, Player currentPlayer, int currentPlayerIndex, List<Player>  scoreBoard, bool playDirection){
         this.players = players; 
         this.deck = deck;
         this.currentPlayer = currentPlayer;
+        this.currentPlayerIndex = currentPlayerIndex;
         this.scoreBoard = scoreBoard;
         this.playDirectionClockwise = playDirection;
     }   
@@ -41,6 +60,11 @@ public class gameState : IgameState
     public IgameState apply(List<Card> Cards)
     {
         throw new NotImplementedException();
+    }
+
+    public int getCurrentPlayerIndex()
+    {
+        return currentPlayerIndex;
     }
 
     public Deck getDeck()
@@ -65,7 +89,14 @@ public class gameState : IgameState
 
     public int nextPlayer()
     {
-        throw new NotImplementedException();
+        var indexIncrement = (playDirectionClockwise) ?  1 :  -1;
+        if((currentPlayerIndex + indexIncrement) > players.Count()-1) {
+            return 0;
+        }
+        if((currentPlayerIndex + indexIncrement) < 0) {
+            return players.Count()-1;
+        }
+        return currentPlayerIndex + indexIncrement;
     }
 
     public void run()

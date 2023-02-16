@@ -8,4 +8,5 @@ public interface IgameState
     public Deck getDeck();
     public List<Player> GetPlayers();
     public bool getPlayDirection();
+    public int getCurrentPlayerIndex();
 }

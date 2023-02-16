@@ -13,22 +13,53 @@ public class GameStateTests
         return Stack;
     }
         
-    [Fact (Skip="not implemented")]
+    [Fact]
     public void NextPlayerReturnsCorrectPlayer()
     {
         //given
-        var Deck = new Deck();
-        Deck.setup();
-        var Player1 = new TestPlayer(Deck.draw(7));
-        var Player2 = new TestPlayer(Deck.draw(7));
-        var Player3 = new TestPlayer(Deck.draw(7));
-        var gameState = new gameState(new List<Player>(){Player1,Player2,Player3});
+        var deck = new Deck();
+        deck.setup();
+        var Player1 = new TestPlayer(deck.draw(7));
+        var Player2 = new TestPlayer(deck.draw(7));
+        var Player3 = new TestPlayer(deck.draw(7));
+        var gameState = new gameState(new List<Player>(){Player1,Player2,Player3}, deck);
         //when 
         var actual = gameState.GetPlayers()[gameState.nextPlayer()];
         //then
         Assert.Equal(Player2, actual);
     }
     
+    [Fact]
+    public void NextPlayerReturnsCorrectPlayerWithWrapAround()
+    {
+        // Given
+        var deck = new Deck();
+        deck.setup();
+        var player1 = new TestPlayer(deck.draw(7));
+        var player2 = new TestPlayer(deck.draw(7));
+        var player3 = new TestPlayer(deck.draw(7));
+        var gameState = new gameState(player3, 2, new List<Player>(){player1,player2,player3}, deck);
+        // When
+        var actual = gameState.GetPlayers()[gameState.nextPlayer()];    
+        // Then
+        Assert.Equal(player1, actual);
+    }
+
+    [Fact]
+    public void NextPlayerReturnsExpectedWhenCounterClockwisePlayDirection()
+    {
+        // Given
+        var deck = new Deck();
+        deck.setup();
+        var player1 = new TestPlayer(deck.draw(7));
+        var player2 = new TestPlayer(deck.draw(7));
+        var player3 = new TestPlayer(deck.draw(7));
+        var gameState = new gameState(new List<Player>(){player1,player2,player3}, deck, false);
+        // When
+        var actual = gameState.GetPlayers()[gameState.nextPlayer()];    
+        // Then
+        Assert.Equal(player3, actual);
+    }
     [Fact]
     public void IsGameOverOnePlayer()
     {
