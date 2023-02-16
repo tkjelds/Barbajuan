@@ -1,10 +1,10 @@
-class gameState : IgameState
+public class gameState : IgameState
 {
     Player currentPlayer; 
     List<Player> players;
     Deck deck;
     bool playDirectionClockwise = true;
-    List<Iplayer> scoreBoard;
+    List<Player> scoreBoard;
     public gameState(List<Player> players)
     {
         this.players = players;
@@ -12,9 +12,27 @@ class gameState : IgameState
         deck.setup();
         this.deck = deck;
         this.currentPlayer = players[0];
-        this.scoreBoard = new List<Iplayer>();
+        this.scoreBoard = new List<Player>();
     }
+
+    public gameState(List<Player> players, Deck deck) 
+    {
+        this.players = players;
+        this.deck = deck;
+        this.currentPlayer = players[0];
+        this.scoreBoard = new List<Player>();
+    }
+
+    public gameState(List<Player> players, Deck deck, Player currentPlayer, List<Player>  scoreBoard, bool playDirection){
+        this.players = players; 
+        this.deck = deck;
+        this.currentPlayer = currentPlayer;
+        this.scoreBoard = scoreBoard;
+        this.playDirectionClockwise = playDirection;
+    }   
     
+    
+
     public IgameState apply(Card card)
     {
         throw new NotImplementedException();

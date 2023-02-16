@@ -1,24 +1,6 @@
-class RandomPlayer : Iplayer
+class RandomPlayer : Player
 {
-    private Hand hand;
-
-    public RandomPlayer(Hand hand)
+    public RandomPlayer(List<Card> hand) : base(hand)
     {
-        this.hand = hand;
-    }
-
-    public Card action()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Card action(IgameState gameState)
-    {
-        throw new NotImplementedException();
-    }
-
-    public List<Card> getActions(IgameState gameState)
-    {
-        throw new NotImplementedException();
     }
 }
