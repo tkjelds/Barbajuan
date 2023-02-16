@@ -33,11 +33,16 @@ public class PlayerTests
     {
         // Given
         var toBePlayedOn = new Card(RED, ZERO);
-        var player = new RandomPlayer(new List<Card>() { new Card(BLUE, ZERO), new Card(RED, FOUR), new Card(YELLOW, FOUR), new Card(BLUE, FOUR), new Card(WILD, DRAW4) });
+        var player = new RandomPlayer(new List<Card>() { new Card(BLUE, ZERO), 
+        new Card(RED, FOUR), 
+        new Card(YELLOW, FOUR), 
+        new Card(BLUE, FOUR), 
+        new Card(WILD, DRAW4),
+        new Card(WILD, SELECTCOLOR) });
         // When
         var stackingMoves = player.getStackingActions(toBePlayedOn);
         // Then
-        Assert.Equal(7, stackingMoves.Count());
+        Assert.Equal(14, stackingMoves.Count());
     }
 
     [Fact]

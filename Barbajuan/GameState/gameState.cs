@@ -59,6 +59,7 @@ public class GameState : IgameState
         switch (cardType)
         {
             case CardType.DRAW1:
+            
                 this.currentPlayer.hand.AddRange(this.deck.draw(1));
 
                 return new GameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise);

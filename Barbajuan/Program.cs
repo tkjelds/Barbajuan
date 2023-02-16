@@ -10,7 +10,7 @@ internal class Program
             new Card(BLUE, ZERO), 
             new Card(RED, FOUR), 
             new Card(YELLOW, FOUR), 
-            new Card(BLUE, FOUR)});
+            new Card(WILD, DRAW4)});
         // When
         var stackingMoves = player.getStackingActions(toBePlayedOn);
         foreach (var move in stackingMoves)
