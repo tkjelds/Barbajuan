@@ -1,7 +1,7 @@
 public class GameState : IgameState
 {
     private Player currentPlayer;
-    private int currentPlayerIndex;
+    private int nextPlayerIndex;
     private List<Player> players;
     private Deck deck;
     private bool playDirectionClockwise = true;
@@ -59,74 +59,90 @@ public class GameState : IgameState
         switch (cardType)
         {
             case CardType.DRAW1:
-            
                 this.currentPlayer.hand.AddRange(this.deck.draw(1));
-
-                return new GameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise);
+                break;
             case CardType.DRAW2:
                 this.players[this.nextPlayer()].hand.AddRange(this.deck.draw(2));
                 this.currentPlayer.hand.Remove(card);
                 this.deck.discardPile.Push(card);
-
-                return new GameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise);
+                break;
             case CardType.DRAW4:
                 this.players[this.nextPlayer()].hand.AddRange(this.deck.draw(4));
                 this.currentPlayer.hand.Remove(card);
                 this.deck.discardPile.Push(card);
-
-                return new GameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise);
+                break;
             case CardType.SKIP:
                 this.currentPlayer.hand.Remove(card);
                 this.deck.discardPile.Push(card);
-
-                this.currentPlayerIndex = this.nextPlayer();
-
-                return new GameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise);
+                
+                break;
             case CardType.REVERSE:
                 this.currentPlayer.hand.Remove(card);
                 this.deck.discardPile.Push(card);
 
-                return new GameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, !this.playDirectionClockwise);
+                break;
             case CardType.ZERO:
+                this.currentPlayer.hand.Remove(card);
+                this.deck.discardPile.Push(card);
                 break;
             case CardType.ONE:
+                this.currentPlayer.hand.Remove(card);
+                this.deck.discardPile.Push(card);
                 break;
             case CardType.TWO:
+                this.currentPlayer.hand.Remove(card);
+                this.deck.discardPile.Push(card);
                 break;
             case CardType.THREE:
+                this.currentPlayer.hand.Remove(card);
+                this.deck.discardPile.Push(card);
                 break;
             case CardType.FOUR:
+                this.currentPlayer.hand.Remove(card);
+                this.deck.discardPile.Push(card);
                 break;
             case CardType.FIVE:
+                this.currentPlayer.hand.Remove(card);
+                this.deck.discardPile.Push(card);
                 break;
             case CardType.SIX:
+                this.currentPlayer.hand.Remove(card);
+                this.deck.discardPile.Push(card);
                 break;
             case CardType.SEVEN:
+                this.currentPlayer.hand.Remove(card);
+                this.deck.discardPile.Push(card);
                 break;
             case CardType.EIGHT:
+                this.currentPlayer.hand.Remove(card);
+                this.deck.discardPile.Push(card);
                 break;
             case CardType.NINE:
+                this.currentPlayer.hand.Remove(card);
+                this.deck.discardPile.Push(card);
                 break;
             case CardType.SELECTCOLOR:
+                this.currentPlayer.hand.Remove(card);
+                this.deck.discardPile.Push(card);
                 break;
             default:
                 this.currentPlayer.hand.Remove(card);
                 this.deck.discardPile.Push(card);
 
-                return new GameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise);
-
+                break;
         }
         return this;
     }
 
     public IgameState apply(List<Card> Cards)
     {
+        
         foreach (var card in Cards)
         {
             this.apply(card);
         }
-
-        return new GameState(this.players, this.deck, this.currentPlayer, this.currentPlayerIndex, this.scoreBoard, this.playDirectionClockwise);
+        
+        return this;
     }
 
     public int getCurrentPlayerIndex() => this.currentPlayerIndex;
