@@ -53,98 +53,70 @@ public class GameState : IgameState
         this.playDirectionClockwise = playDirection;
     }
 
+    public GameState(GameState gamestate) 
+    {
+        this.players = gamestate.players;
+        this.deck = gamestate.deck;
+        this.currentPlayer = gamestate.currentPlayer;
+        this.currentPlayerIndex = gamestate.currentPlayerIndex;
+        this.scoreBoard = gamestate.scoreBoard;
+        this.nextPlayerIndex = gamestate.nextPlayerIndex;
+        this.playDirectionClockwise = gamestate.playDirectionClockwise;
+    }
+
 
 
     public IgameState apply(Card card)
     {
+        var gs = new GameState(this);
         var cardType = card.cardType;
         switch (cardType)
         {
             case CardType.DRAW1:
-                this.currentPlayer.hand.AddRange(this.deck.draw(1));
+                gs.currentPlayer.hand.AddRange(gs.deck.draw(1));
                 break;
             case CardType.DRAW2:
-                this.players[this.nextPlayer()].hand.AddRange(this.deck.draw(2));
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
+                gs.players[gs.nextPlayer()].hand.AddRange(gs.deck.draw(2));
+                gs.currentPlayer.hand.Remove(card);
+                gs.deck.discardPile.Push(card);
                 break;
             case CardType.DRAW4:
-                this.players[this.nextPlayer()].hand.AddRange(this.deck.draw(4));
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
+                gs.players[gs.nextPlayer()].hand.AddRange(gs.deck.draw(4));
+                gs.currentPlayer.hand.Remove(card);
+                gs.deck.discardPile.Push(card);
                 break;
             case CardType.SKIP:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
+                gs.currentPlayer.hand.Remove(card);
+                gs.deck.discardPile.Push(card);
                 
+                nextPlayerIndex = nextPlayer(nextPlayerIndex);
                 break;
             case CardType.REVERSE:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
+                gs.currentPlayer.hand.Remove(card);
+                gs.deck.discardPile.Push(card);
 
+                gs.playDirectionClockwise = !gs.playDirectionClockwise;
                 break;
-            case CardType.ZERO:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
-                break;
-            case CardType.ONE:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
-                break;
-            case CardType.TWO:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
-                break;
-            case CardType.THREE:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
-                break;
-            case CardType.FOUR:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
-                break;
-            case CardType.FIVE:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
-                break;
-            case CardType.SIX:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
-                break;
-            case CardType.SEVEN:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
-                break;
-            case CardType.EIGHT:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
-                break;
-            case CardType.NINE:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
-                break;
-            case CardType.SELECTCOLOR:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
-                break;
+            
             default:
-                this.currentPlayer.hand.Remove(card);
-                this.deck.discardPile.Push(card);
+                gs.currentPlayer.hand.Remove(card);
+                gs.deck.discardPile.Push(card);
 
                 break;
         }
-        return this;
+        return gs;
     }
 
     public IgameState apply(List<Card> Cards)
     {
+        var gs = new GameState(this);
         
         foreach (var card in Cards)
         {
-            this.apply(card);
+            gs.apply(card);
         }
         
-        return this;
+        return gs;
     }
 
     public int getCurrentPlayerIndex() => this.currentPlayerIndex;
@@ -171,6 +143,21 @@ public class GameState : IgameState
         return this.currentPlayerIndex + indexIncrement;
     }
 
+    public int nextPlayer(int index) 
+    {
+        var indexIncrement = this.playDirectionClockwise ? 1 : -1;
+
+        if ((index + indexIncrement) > this.players.Count - 1)
+        {
+            return 0;
+        }
+        if ((index + indexIncrement) < 0)
+        {
+            return this.players.Count - 1;
+        }
+        return index + indexIncrement;
+    } 
+
     public void run()
     {
         var notGameOver = true;
@@ -183,12 +170,16 @@ public class GameState : IgameState
             this.players = newGameState.GetPlayers();
             this.deck = newGameState.getDeck();
             this.playDirectionClockwise = newGameState.getPlayDirection();
+
             if (this.currentPlayer.hand.Count == 0)
             {
                 this.scoreBoard.Add(this.currentPlayer);
                 this.players.Remove(this.currentPlayer);
             }
-            this.currentPlayer = this.players[this.nextPlayer()];
+
+            this.currentPlayer = players[nextPlayerIndex];
+            this.currentPlayerIndex = nextPlayerIndex;
+
             if (this.IsGameOver())
             {
                 notGameOver = false;

@@ -78,7 +78,7 @@ public class GameStateTests
     }
 
     [Fact]
-    public void TestIsGameOverMultiplePlayers()
+    public void IsGameOverMultiplePlayers()
     {
         // Given
         var players = new List<Player>();
@@ -96,4 +96,21 @@ public class GameStateTests
         // Then
         Assert.False(actual);
     }
+
+    [Fact]
+    public void ApplyTests()
+    {
+        // Given
+        var players = new List<Player>();
+
+
+        var GameState = new GameState(players);
+        // When
+
+        var actual = GameState.IsGameOver();
+
+        // Then
+        Assert.True(actual);
+    }
+
 }
