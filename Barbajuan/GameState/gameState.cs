@@ -2,6 +2,7 @@ public class GameState : IgameState
 {
     private Player currentPlayer;
     private int nextPlayerIndex;
+    private int currentPlayerIndex;
     private List<Player> players;
     private Deck deck;
     private bool playDirectionClockwise = true;
@@ -41,13 +42,14 @@ public class GameState : IgameState
         this.currentPlayerIndex = currentPlayerIndex;
     }
 
-    public GameState(List<Player> players, Deck deck, Player currentPlayer, int currentPlayerIndex, List<Player> scoreBoard, bool playDirection)
+    public GameState(List<Player> players, Deck deck, Player currentPlayer, int currentPlayerIndex, int nextPlayerIndex, List<Player> scoreBoard, bool playDirection)
     {
         this.players = players;
         this.deck = deck;
         this.currentPlayer = currentPlayer;
         this.currentPlayerIndex = currentPlayerIndex;
         this.scoreBoard = scoreBoard;
+        this.nextPlayerIndex = nextPlayerIndex;
         this.playDirectionClockwise = playDirection;
     }
 
