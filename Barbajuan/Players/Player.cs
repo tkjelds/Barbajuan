@@ -1,10 +1,17 @@
 using static CardColor;
 using static CardType;
-public abstract class Player : Iplayer
+[Serializable]
+public class Player : Iplayer, ICloneable
 {
     public List<Card> hand;
 
-    protected Player(List<Card> hand) => this.hand = hand;
+    public string name = "Unassigned";
+
+    public Player(List<Card> hand) => this.hand = hand;
+
+    public Player(Player player){
+        hand = player.hand;
+    }
 
     public List<Card> action(IgameState gameState)
     {
@@ -13,14 +20,14 @@ public abstract class Player : Iplayer
         {
             return new List<Card>() { new Card(WILD, DRAW1) };
         }
-        moves = (List<List<Card>>)moves.Distinct();
+        moves = new List<List<Card>>(moves.Distinct());
         return moves[0];
     }
 
     public List<List<Card>> getActions(Card topCard)
     {
         var moves = new List<List<Card>>();
-        foreach (var card in this.hand)
+        foreach (var card in new List<Card>(this.hand))
         {
             if (card.canBePlayedOn(topCard))
             {
@@ -97,4 +104,11 @@ public abstract class Player : Iplayer
 
     List<Card> Iplayer.getActions(Card topCard) => throw new NotImplementedException();
     Card Iplayer.action(IgameState gameState) => throw new NotImplementedException();
+
+    public object Clone()
+    {
+        Player copyPlayer = (Player)this.MemberwiseClone();
+        copyPlayer.hand = new List<Card>(this.hand);
+        return copyPlayer;
+    }
 }
