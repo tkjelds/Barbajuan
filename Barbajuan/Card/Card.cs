@@ -1,3 +1,4 @@
+[Serializable]
 public class Card
 {
     public CardColor cardColor;
@@ -7,6 +8,10 @@ public class Card
     {
         this.cardColor = cardColor;
         this.cardType = cardType;
+    }
+
+    public override string ToString(){
+        return "Color: " + this.cardColor.ToString() + "  Card type: " + this.cardType.ToString();
     }
 
 }

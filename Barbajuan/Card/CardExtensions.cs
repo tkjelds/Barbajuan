@@ -3,12 +3,12 @@ public static class CardExtensions
 {
     public static bool canBePlayedOn(this Card card1, Card card2)
     {
-        if (card2.cardColor == WILD || card1.cardColor == WILD)
+        if (card2.cardColor is WILD || card1.cardColor is WILD)
         {
             return true;
         }
 
-        if (card2.cardType is CardType.DRAW4 or CardType.SELECTCOLOR)
+        if (card1.cardType is CardType.DRAW4 || card1.cardType is CardType.SELECTCOLOR)
         {
             return true;
         }
