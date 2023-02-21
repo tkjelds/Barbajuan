@@ -61,18 +61,6 @@ public class GameState : IgameState
         this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
     }
 
-    public GameState(GameState gamestate) 
-    {
-        this.players = gamestate.players;
-        this.deck = new Deck(new Stack<Card> (gamestate.deck.drawPile), new Stack<Card> (gamestate.deck.discardPile));
-        this.currentPlayer = (Player) gamestate.currentPlayer.Clone();
-        this.currentPlayerIndex = gamestate.currentPlayerIndex;
-        this.scoreBoard = gamestate.scoreBoard;
-        this.nextPlayerIndex = gamestate.nextPlayerIndex;
-        this.playDirectionClockwise = gamestate.playDirectionClockwise;
-    }
-
-
 public IgameState apply(GameState gs, Card card)
     {   
         var foundCard = gs.currentPlayer.hand.Find(c => c.cardColor == card.cardColor && c.cardType == card.cardType);
@@ -245,20 +233,21 @@ public IgameState apply(GameState gs, Card card)
             // Console.WriteLine("Number of plays: " + counter);
             // Console.WriteLine("");
             update(newGameState);
-            if (newGameState.IsGameOver())
+            if (IsGameOver())
             {
                 notGameOver = false;
-                Console.WriteLine("Loser: " + newGameState.getNextPlayerIndex());
+                Console.WriteLine("Loser: " + newGameState.GetPlayers()[nextPlayer(getNextPlayerIndex(), (GameState)newGameState)].name);
             }
 
         }
 
+        for (int playerIndex = 0; playerIndex < scoreBoard.Count(); playerIndex++)
+        {
+            Console.WriteLine("Placement :" + (playerIndex + 1) + "   Name :" + scoreBoard[playerIndex].name);
+        }
+
     }
 
-    public object Clone()
-    {
-        return this.MemberwiseClone();
-    }
     public static T DeepClone<T>(T obj)
     {
         using (var ms = new MemoryStream())

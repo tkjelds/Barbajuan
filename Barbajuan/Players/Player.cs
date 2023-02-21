@@ -1,7 +1,7 @@
 using static CardColor;
 using static CardType;
 [Serializable]
-public class Player : Iplayer, ICloneable
+public class Player : Iplayer
 {
     public List<Card> hand;
 
@@ -9,8 +9,15 @@ public class Player : Iplayer, ICloneable
 
     public Player(List<Card> hand) => this.hand = hand;
 
+
+
     public Player(Player player){
         hand = player.hand;
+    }
+
+    public Player(List<Card> hand, string name) : this(hand)
+    {
+        this.name = name;
     }
 
     public List<Card> action(IgameState gameState)
@@ -104,11 +111,4 @@ public class Player : Iplayer, ICloneable
 
     List<Card> Iplayer.getActions(Card topCard) => throw new NotImplementedException();
     Card Iplayer.action(IgameState gameState) => throw new NotImplementedException();
-
-    public object Clone()
-    {
-        Player copyPlayer = (Player)this.MemberwiseClone();
-        copyPlayer.hand = new List<Card>(this.hand);
-        return copyPlayer;
-    }
 }
