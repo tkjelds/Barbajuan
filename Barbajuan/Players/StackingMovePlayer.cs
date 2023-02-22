@@ -5,9 +5,10 @@ class StackingMovePlayer : Iplayer
 {
     String name;
     List<Card> hand = new List<Card>();
-    
+
     public StackingMovePlayer(String name) => this.name = name;
-    public StackingMovePlayer(String name, List<Card> hand) {
+    public StackingMovePlayer(String name, List<Card> hand)
+    {
         this.name = name;
         this.hand = hand;
     }
@@ -20,7 +21,7 @@ class StackingMovePlayer : Iplayer
             return new List<Card>() { new Card(WILD, DRAW1) };
         }
         moves.Distinct();
-        moves.Sort((x,y) => x.Count().CompareTo(y.Count()));
+        moves.Sort((x, y) => x.Count().CompareTo(y.Count()));
         return moves.Last();
     }
 

@@ -11,7 +11,7 @@ public class TestPlayer : Iplayer
         this.hand = hand;
     }
 
-    public TestPlayer(){}
+    public TestPlayer() { }
 
     public List<Card> action(IgameState gameState)
     {

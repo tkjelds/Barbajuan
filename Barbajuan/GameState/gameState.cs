@@ -22,7 +22,8 @@ public class GameState : IgameState
         this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
     }
 
-    public GameState(List<Iplayer> players, int currentPlayerIndex){
+    public GameState(List<Iplayer> players, int currentPlayerIndex)
+    {
         this.players = players;
         var deck = new Deck();
         deck.setup();
@@ -32,7 +33,8 @@ public class GameState : IgameState
         this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
     }
 
-    public GameState(List<Iplayer> players, int currentPlayerIndex, bool playDirection){
+    public GameState(List<Iplayer> players, int currentPlayerIndex, bool playDirection)
+    {
         this.players = players;
         var deck = new Deck();
         deck.setup();
@@ -43,7 +45,8 @@ public class GameState : IgameState
         this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
     }
 
-    public GameState(List<Iplayer> players, bool playDirection){
+    public GameState(List<Iplayer> players, bool playDirection)
+    {
         this.players = players;
         var deck = new Deck();
         deck.setup();
@@ -156,7 +159,8 @@ public class GameState : IgameState
         {
             gs.apply(gs, card);
         }
-        if (gs.currentPlayer.getHand().Count() == 0){
+        if (gs.currentPlayer.getHand().Count() == 0)
+        {
             if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs); }
             gs.playerKnockOut(gs.currentPlayer);
             return gs;
@@ -166,7 +170,7 @@ public class GameState : IgameState
         if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs); }
         if (gs.players.Count() > 1)
         {
-            gs.currentPlayer = gs.players[gs.nextPlayer(gs.currentPlayerIndex,gs)];
+            gs.currentPlayer = gs.players[gs.nextPlayer(gs.currentPlayerIndex, gs)];
             gs.currentPlayerIndex = gs.nextPlayerIndex;
             gs.nextPlayerIndex = gs.nextPlayer();
         }
@@ -174,43 +178,49 @@ public class GameState : IgameState
         return gs;
     }
 
-    public void playerKnockOut(Iplayer player) {
-        Console.WriteLine(" i have been removed from the game, name: " + player.getName() );
+    public void playerKnockOut(Iplayer player)
+    {
+        Console.WriteLine(" i have been removed from the game, name: " + player.getName());
         var amountOfPlayersBeforeRemove = players.Count();
         this.players.Remove(player);
         this.scoreBoard.Add(player);
-        if(this.getCurrentPlayerIndex() == 0 && this.playDirectionClockwise){
+        if (this.getCurrentPlayerIndex() == 0 && this.playDirectionClockwise)
+        {
             this.currentPlayerIndex = 0;
             this.nextPlayerIndex = 1;
-            this.currentPlayer= this.players[currentPlayerIndex];
+            this.currentPlayer = this.players[currentPlayerIndex];
             return;
         }
-        if(this.getCurrentPlayerIndex() == 0 && !this.playDirectionClockwise){
-            this.currentPlayerIndex = this.players.Count()-1;
-            this.nextPlayerIndex = nextPlayer(this.currentPlayerIndex,this);
-            this.currentPlayer= this.players[currentPlayerIndex];
+        if (this.getCurrentPlayerIndex() == 0 && !this.playDirectionClockwise)
+        {
+            this.currentPlayerIndex = this.players.Count() - 1;
+            this.nextPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
+            this.currentPlayer = this.players[currentPlayerIndex];
             return;
-        } 
-        if(this.getCurrentPlayerIndex() == amountOfPlayersBeforeRemove-1 && this.playDirectionClockwise){
+        }
+        if (this.getCurrentPlayerIndex() == amountOfPlayersBeforeRemove - 1 && this.playDirectionClockwise)
+        {
             this.currentPlayerIndex = 0;
-            this.nextPlayerIndex = nextPlayer(currentPlayerIndex,this);
-            this.currentPlayer= this.players[currentPlayerIndex];
+            this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
+            this.currentPlayer = this.players[currentPlayerIndex];
             return;
         }
-        if(this.getCurrentPlayerIndex() == amountOfPlayersBeforeRemove-1 && !this.playDirectionClockwise){
-            this.currentPlayerIndex = nextPlayer(currentPlayerIndex,this);
-            this.nextPlayerIndex = nextPlayer(currentPlayerIndex,this);
-            this.currentPlayer= this.players[currentPlayerIndex];
+        if (this.getCurrentPlayerIndex() == amountOfPlayersBeforeRemove - 1 && !this.playDirectionClockwise)
+        {
+            this.currentPlayerIndex = nextPlayer(currentPlayerIndex, this);
+            this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
+            this.currentPlayer = this.players[currentPlayerIndex];
             return;
         }
-        if(!playDirectionClockwise){
-            this.currentPlayerIndex = nextPlayer(this.currentPlayerIndex,this);
-            this.nextPlayerIndex =nextPlayer(this.currentPlayerIndex,this);
+        if (!playDirectionClockwise)
+        {
+            this.currentPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
+            this.nextPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
             this.currentPlayer = this.players[currentPlayerIndex];
             return;
         }
 
-        
+
     }
     public int getCurrentPlayerIndex() => this.currentPlayerIndex;
 
@@ -286,8 +296,8 @@ public class GameState : IgameState
             {
                 Console.WriteLine("Current Play: " + card.cardColor.ToString() + "   " + card.cardType.ToString());
             }
-           Console.WriteLine();
-           // Console.WriteLine("Amount of cards in hand: " + currentPlayer.hand.Count());
+            Console.WriteLine();
+            // Console.WriteLine("Amount of cards in hand: " + currentPlayer.hand.Count());
             // Console.WriteLine("Current top card of discard pile: " + newGameState.getDeck().discardPile.Peek().ToString());
             // Console.WriteLine("");
             Console.WriteLine("Number of plays: " + counter);

@@ -9,7 +9,8 @@ public class Player : Iplayer
 
     public Player(List<Card> hand) => this.hand = hand;
 
-    public Player(string name){
+    public Player(string name)
+    {
         this.hand = new List<Card>();
         this.name = name;
     }

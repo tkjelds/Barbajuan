@@ -515,8 +515,8 @@ public class GameStateTests
         // When
         gs.playerKnockOut(gs.getCurrentPlayer());
         // Then
-        Assert.Equal(0,gs.getCurrentPlayerIndex());
-        Assert.Equal(1,gs.getNextPlayerIndex());
+        Assert.Equal(0, gs.getCurrentPlayerIndex());
+        Assert.Equal(1, gs.getNextPlayerIndex());
     }
 
     [Fact]
@@ -529,12 +529,12 @@ public class GameStateTests
             new TestPlayer(),
             new TestPlayer()
         };
-        var gs = new GameState(players,false);
+        var gs = new GameState(players, false);
         // When
         gs.playerKnockOut(gs.getCurrentPlayer());
         // Then
-        Assert.Equal(2,gs.getCurrentPlayerIndex());
-        Assert.Equal(1,gs.getNextPlayerIndex());
+        Assert.Equal(2, gs.getCurrentPlayerIndex());
+        Assert.Equal(1, gs.getNextPlayerIndex());
     }
 
     [Fact]
@@ -547,12 +547,12 @@ public class GameStateTests
             new TestPlayer(),
             new TestPlayer()
         };
-        var gs = new GameState(players,3);
+        var gs = new GameState(players, 3);
         // When
         gs.playerKnockOut(gs.getCurrentPlayer());
         // Then
-        Assert.Equal(0,gs.getCurrentPlayerIndex());
-        Assert.Equal(1,gs.getNextPlayerIndex());
+        Assert.Equal(0, gs.getCurrentPlayerIndex());
+        Assert.Equal(1, gs.getNextPlayerIndex());
     }
     [Fact]
     public void LastPlayerKnockOutWhenReversePlayDirection()
@@ -564,11 +564,11 @@ public class GameStateTests
             new TestPlayer(),
             new TestPlayer()
         };
-        var gs = new GameState(players,3, false);
+        var gs = new GameState(players, 3, false);
         // When
         gs.playerKnockOut(gs.getCurrentPlayer());
         // Then
-        Assert.Equal(2,gs.getCurrentPlayerIndex());
-        Assert.Equal(1,gs.getNextPlayerIndex());
+        Assert.Equal(2, gs.getCurrentPlayerIndex());
+        Assert.Equal(1, gs.getNextPlayerIndex());
     }
 }
