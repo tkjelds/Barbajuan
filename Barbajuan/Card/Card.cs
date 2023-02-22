@@ -10,7 +10,8 @@ public class Card
         this.cardType = cardType;
     }
 
-    public override string ToString(){
+    public override string ToString()
+    {
         return "Color: " + this.cardColor.ToString() + "  Card type: " + this.cardType.ToString();
     }
 

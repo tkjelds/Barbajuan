@@ -1,72 +1,48 @@
 using static CardColor;
 using static CardType;
 [Serializable]
-public class Player : Iplayer
+class StackingMovePlayer : Iplayer
 {
-    public List<Card> hand;
-
-    public string name = "Unassigned";
-
-    public Player(List<Card> hand) => this.hand = hand;
-
-    public Player(string name){
-        this.hand = new List<Card>();
+    String name;
+    List<Card> hand = new List<Card>();
+    
+    public StackingMovePlayer(String name) => this.name = name;
+    public StackingMovePlayer(String name, List<Card> hand) {
         this.name = name;
-    }
-
-    public Player(Player player)
-    {
-        hand = player.hand;
-    }
-
-    public Player(List<Card> hand, string name) : this(hand)
-    {
-        this.name = name;
+        this.hand = hand;
     }
 
     public List<Card> action(IgameState gameState)
     {
-        var moves = this.getActions(gameState.getDeck().discardPile.Peek());
+        var moves = getStackingActions(gameState.getDeck().discardPile.Peek());
         if (moves.Count == 0)
         {
             return new List<Card>() { new Card(WILD, DRAW1) };
         }
-        moves = new List<List<Card>>(moves.Distinct());
-        return moves[0];
+        moves.Distinct();
+        moves.Sort((x,y) => x.Count().CompareTo(y.Count()));
+        return moves.Last();
     }
 
-    public List<List<Card>> getActions(Card topCard)
+    public void addCardsToHand(List<Card> cards)
     {
-        var moves = new List<List<Card>>();
-        foreach (var card in new List<Card>(this.hand))
-        {
-            if (card.canBePlayedOn(topCard))
-            {
-                if (card.cardType == DRAW4)
-                {
-                    moves.Add(new List<Card>() { new Card(GREEN, DRAW4) });
-                    moves.Add(new List<Card>() { new Card(BLUE, DRAW4) });
-                    moves.Add(new List<Card>() { new Card(YELLOW, DRAW4) });
-                    moves.Add(new List<Card>() { new Card(RED, DRAW4) });
-                }
-                if (card.cardType == SELECTCOLOR)
-                {
-                    moves.Add(new List<Card>() { new Card(GREEN, SELECTCOLOR) });
-                    moves.Add(new List<Card>() { new Card(BLUE, SELECTCOLOR) });
-                    moves.Add(new List<Card>() { new Card(YELLOW, SELECTCOLOR) });
-                    moves.Add(new List<Card>() { new Card(RED, SELECTCOLOR) });
-                }
-                else
-                {
-                    moves.Add(new List<Card>() { card });
-                }
-
-
-            }
-        }
-        return moves;
+        this.hand.AddRange(cards);
     }
 
+    public List<Card> getHand()
+    {
+        return hand;
+    }
+
+    public string getName()
+    {
+        return name;
+    }
+
+    public void removeCardFromHand(Card cards)
+    {
+        hand.Remove(cards);
+    }
     public List<List<Card>> getStackingActions(Card topCard)
     {
         var moves = new List<List<Card>>();
@@ -100,7 +76,6 @@ public class Player : Iplayer
         }
         return moves;
     }
-
     public List<List<Card>> getCardOfSameType(Card toBePlayedOn, List<Card> hand, List<Card> currentStack)
     {
         var moves = new List<List<Card>>();
@@ -118,24 +93,5 @@ public class Player : Iplayer
             }
         }
         return moves;
-    }
-    public List<Card> getHand()
-    {
-        return hand;
-    }
-
-    public void removeCardFromHand(Card cards)
-    {
-        hand.Remove(cards);
-    }
-
-    public string getName()
-    {
-        return name;
-    }
-
-    public void addCardsToHand(List<Card> cards)
-    {
-        this.hand.AddRange(cards);
     }
 }

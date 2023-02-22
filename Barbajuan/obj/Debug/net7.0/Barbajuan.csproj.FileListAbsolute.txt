@@ -58,3 +58,8 @@ C:\Users\Damie\Documents\Bachelor\Barbajuan\Barbajuan\obj\Debug\net7.0\refint\Ba
 C:\Users\Damie\Documents\Bachelor\Barbajuan\Barbajuan\obj\Debug\net7.0\Barbajuan.pdb
 C:\Users\Damie\Documents\Bachelor\Barbajuan\Barbajuan\obj\Debug\net7.0\Barbajuan.genruntimeconfig.cache
 C:\Users\Damie\Documents\Bachelor\Barbajuan\Barbajuan\obj\Debug\net7.0\ref\Barbajuan.dll
+D:\Documents\ITU\Barbajuan\Barbajuan\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\Documents\ITU\Barbajuan\Barbajuan\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Documents\ITU\Barbajuan\Barbajuan\bin\Debug\net7.0\Newtonsoft.Json.dll
+D:\Documents\ITU\Barbajuan\Barbajuan\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
+D:\Documents\ITU\Barbajuan\Barbajuan\obj\Debug\net7.0\Barbajuan.csproj.CopyComplete

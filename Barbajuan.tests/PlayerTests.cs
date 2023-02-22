@@ -10,7 +10,7 @@ public class PlayerTests
         discardStack.Push(new Card(BLUE, DRAW1));
         var deck = new Deck(new Stack<Card>(), discardStack);
         var player = new TestPlayer(new List<Card>() { new Card(GREEN, ZERO), new Card(RED, ONE), new Card(YELLOW, TWO) });
-        var gameState = new GameState(new List<Player>() { player }, deck);
+        var gameState = new GameState(new List<Iplayer>() { player }, deck);
         //When
         var actual = player.action(gameState).First();
         //Then
@@ -33,10 +33,10 @@ public class PlayerTests
     {
         // Given
         var toBePlayedOn = new Card(RED, ZERO);
-        var player = new RandomPlayer(new List<Card>() { new Card(BLUE, ZERO), 
-        new Card(RED, FOUR), 
-        new Card(YELLOW, FOUR), 
-        new Card(BLUE, FOUR), 
+        var player = new RandomPlayer(new List<Card>() { new Card(BLUE, ZERO),
+        new Card(RED, FOUR),
+        new Card(YELLOW, FOUR),
+        new Card(BLUE, FOUR),
         new Card(WILD, DRAW4),
         new Card(WILD, SELECTCOLOR) });
         // When
