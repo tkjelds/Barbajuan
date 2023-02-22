@@ -9,9 +9,13 @@ public class Player : Iplayer
 
     public Player(List<Card> hand) => this.hand = hand;
 
+    public Player(string name){
+        this.hand = new List<Card>();
+        this.name = name;
+    }
 
-
-    public Player(Player player){
+    public Player(Player player)
+    {
         hand = player.hand;
     }
 
@@ -38,22 +42,25 @@ public class Player : Iplayer
         {
             if (card.canBePlayedOn(topCard))
             {
-                if (card.cardType == DRAW4){
-                moves.Add(new List<Card>(){new Card(GREEN,DRAW4)});
-                moves.Add(new List<Card>(){new Card(BLUE,DRAW4)});
-                moves.Add(new List<Card>(){new Card(YELLOW,DRAW4)});
-                moves.Add(new List<Card>(){new Card(RED,DRAW4)});
-                }
-                if(card.cardType == SELECTCOLOR){
-                moves.Add(new List<Card>(){new Card(GREEN,SELECTCOLOR)});
-                moves.Add(new List<Card>(){new Card(BLUE,SELECTCOLOR)});
-                moves.Add(new List<Card>(){new Card(YELLOW,SELECTCOLOR)});
-                moves.Add(new List<Card>(){new Card(RED,SELECTCOLOR)});
-                } else
+                if (card.cardType == DRAW4)
                 {
-                    moves.Add(new List<Card>() { card }); 
+                    moves.Add(new List<Card>() { new Card(GREEN, DRAW4) });
+                    moves.Add(new List<Card>() { new Card(BLUE, DRAW4) });
+                    moves.Add(new List<Card>() { new Card(YELLOW, DRAW4) });
+                    moves.Add(new List<Card>() { new Card(RED, DRAW4) });
                 }
-                
+                if (card.cardType == SELECTCOLOR)
+                {
+                    moves.Add(new List<Card>() { new Card(GREEN, SELECTCOLOR) });
+                    moves.Add(new List<Card>() { new Card(BLUE, SELECTCOLOR) });
+                    moves.Add(new List<Card>() { new Card(YELLOW, SELECTCOLOR) });
+                    moves.Add(new List<Card>() { new Card(RED, SELECTCOLOR) });
+                }
+                else
+                {
+                    moves.Add(new List<Card>() { card });
+                }
+
 
             }
         }
@@ -67,22 +74,26 @@ public class Player : Iplayer
         {
             if (card.canBePlayedOn(topCard))
             {
-                if (card.cardType == DRAW4){
-                moves.Add(new List<Card>(){new Card(GREEN,DRAW4)});
-                moves.Add(new List<Card>(){new Card(BLUE,DRAW4)});
-                moves.Add(new List<Card>(){new Card(YELLOW,DRAW4)});
-                moves.Add(new List<Card>(){new Card(RED,DRAW4)});
+                if (card.cardType == DRAW4)
+                {
+                    moves.Add(new List<Card>() { new Card(GREEN, DRAW4) });
+                    moves.Add(new List<Card>() { new Card(BLUE, DRAW4) });
+                    moves.Add(new List<Card>() { new Card(YELLOW, DRAW4) });
+                    moves.Add(new List<Card>() { new Card(RED, DRAW4) });
                 }
-                if(card.cardType == SELECTCOLOR){
-                moves.Add(new List<Card>(){new Card(GREEN,SELECTCOLOR)});
-                moves.Add(new List<Card>(){new Card(BLUE,SELECTCOLOR)});
-                moves.Add(new List<Card>(){new Card(YELLOW,SELECTCOLOR)});
-                moves.Add(new List<Card>(){new Card(RED,SELECTCOLOR)});
-                } if(card.cardType != SELECTCOLOR && card.cardType != DRAW4) {
-                var nextHand = new List<Card>(hand);
-                moves.Add(new List<Card>() { card });
-                nextHand.Remove(card);
-                moves.AddRange(getCardOfSameType(card, nextHand, new List<Card>() { card }));                    
+                if (card.cardType == SELECTCOLOR)
+                {
+                    moves.Add(new List<Card>() { new Card(GREEN, SELECTCOLOR) });
+                    moves.Add(new List<Card>() { new Card(BLUE, SELECTCOLOR) });
+                    moves.Add(new List<Card>() { new Card(YELLOW, SELECTCOLOR) });
+                    moves.Add(new List<Card>() { new Card(RED, SELECTCOLOR) });
+                }
+                if (card.cardType != SELECTCOLOR && card.cardType != DRAW4)
+                {
+                    var nextHand = new List<Card>(hand);
+                    moves.Add(new List<Card>() { card });
+                    nextHand.Remove(card);
+                    moves.AddRange(getCardOfSameType(card, nextHand, new List<Card>() { card }));
                 }
 
             }

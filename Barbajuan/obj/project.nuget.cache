@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "viObACGVaRU5cjYwmFNY83d6OCfgjHlu7KnPKAWfSRcz3zFwTPD4n49hC1XHn+AYAKAzsxY9dyetM+qs4P3sSQ==",
+  "dgSpecHash": "AwxoOmmKIZV4ee9IPdL+AL4no8HK6TL3zaw6b+YH5kwJKAZgT0qihbsyrpCIGFceNsTURTlm6C6uyJntxJKu4Q==",
   "success": true,
   "projectFilePath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\tkjel\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\7.0.3\\microsoft.aspnetcore.jsonpatch.7.0.3.nupkg.sha512",
+    "C:\\Users\\tkjel\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\7.0.3\\microsoft.aspnetcore.mvc.newtonsoftjson.7.0.3.nupkg.sha512",
+    "C:\\Users\\tkjel\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\tkjel\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\tkjel\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512"
+  ],
   "logs": []
 }

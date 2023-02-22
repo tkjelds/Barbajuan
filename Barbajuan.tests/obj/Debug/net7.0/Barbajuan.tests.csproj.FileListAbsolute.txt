@@ -425,3 +425,6 @@ C:\Users\Damie\Documents\Bachelor\Barbajuan\Barbajuan.tests\obj\Debug\net7.0\ref
 C:\Users\Damie\Documents\Bachelor\Barbajuan\Barbajuan.tests\obj\Debug\net7.0\Barbajuan.tests.pdb
 C:\Users\Damie\Documents\Bachelor\Barbajuan\Barbajuan.tests\obj\Debug\net7.0\Barbajuan.tests.genruntimeconfig.cache
 C:\Users\Damie\Documents\Bachelor\Barbajuan\Barbajuan.tests\obj\Debug\net7.0\ref\Barbajuan.tests.dll
+D:\Documents\ITU\Barbajuan\Barbajuan.tests\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\Documents\ITU\Barbajuan\Barbajuan.tests\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Documents\ITU\Barbajuan\Barbajuan.tests\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll

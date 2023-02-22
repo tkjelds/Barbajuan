@@ -1,5 +1,5 @@
 using System.Runtime.Serialization.Formatters.Binary;
-
+using Newtonsoft.Json;
 [Serializable]
 public class GameState : IgameState
 {
@@ -37,7 +37,7 @@ public class GameState : IgameState
         this.currentPlayer = players[0];
         this.scoreBoard = new List<Iplayer>();
         this.playDirectionClockwise = playDirection;
-        this.nextPlayerIndex = nextPlayer(currentPlayerIndex,this );
+        this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
     }
 
     public GameState(Iplayer currentPlayer, int currentPlayerIndex, List<Iplayer> players, Deck deck)
@@ -61,8 +61,8 @@ public class GameState : IgameState
         this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
     }
 
-public IgameState apply(GameState gs, Card card)
-    {   
+    public IgameState apply(GameState gs, Card card)
+    {
         var foundCard = gs.currentPlayer.getHand().Find(c => c.cardColor == card.cardColor && c.cardType == card.cardType);
         switch (card.cardType)
         {
@@ -72,7 +72,7 @@ public IgameState apply(GameState gs, Card card)
             case CardType.DRAW2: // Tested
                 gs.players[nextPlayer(gs.currentPlayerIndex, gs)]
                 .addCardsToHand(gs.deck.draw(2));
-                
+
                 gs.currentPlayer.removeCardFromHand(foundCard!);
                 gs.deck.discardPile.Push(foundCard!);
                 break;
@@ -90,19 +90,20 @@ public IgameState apply(GameState gs, Card card)
                 break;
             case CardType.REVERSE: // Tested
                 //If the number of players are 2, reverse functions like a skip card.
-                if(gs.GetPlayers().Count() == 2) {
-                gs.currentPlayer.removeCardFromHand(foundCard!);
-                gs.deck.discardPile.Push(foundCard!);
-                
-                gs.nextPlayerIndex = nextPlayer(gs.nextPlayerIndex, gs);
-                break;
-                } 
+                if (gs.GetPlayers().Count() == 2)
+                {
+                    gs.currentPlayer.removeCardFromHand(foundCard!);
+                    gs.deck.discardPile.Push(foundCard!);
+
+                    gs.nextPlayerIndex = nextPlayer(gs.nextPlayerIndex, gs);
+                    break;
+                }
                 gs.currentPlayer.removeCardFromHand(foundCard!);
                 gs.deck.discardPile.Push(foundCard!);
                 gs.playDirectionClockwise = !gs.playDirectionClockwise;
                 gs.nextPlayerIndex = nextPlayer(gs.currentPlayerIndex, gs);
                 break;
-            case CardType.SELECTCOLOR: 
+            case CardType.SELECTCOLOR:
                 foundCard = gs.currentPlayer.getHand().Find(c => c.cardType == CardType.SELECTCOLOR);
                 gs.currentPlayer.removeCardFromHand(foundCard!);
                 gs.deck.discardPile.Push(card);
@@ -118,38 +119,36 @@ public IgameState apply(GameState gs, Card card)
     public IgameState apply(List<Card> cards)
     {
         GameState gs = DeepClone<GameState>(this);
-       
 
-
-        if(gs.currentPlayer.getHand().Count() == 0)  {
+        if (gs.currentPlayer.getHand().Count() == 0)
+        {
             gs.scoreBoard.Add(gs.currentPlayer);
             gs.players.Remove(gs.currentPlayer);
-            if(gs.currentPlayerIndex == gs.nextPlayerIndex) {
+            if (gs.currentPlayerIndex == gs.nextPlayerIndex)
+            {
                 gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs);
             }
-            if(gs.players.Count() == 1) return gs;
-            gs.currentPlayerIndex = gs.nextPlayer(gs.currentPlayerIndex,gs);
-            gs.nextPlayerIndex = gs.nextPlayer(gs.currentPlayerIndex,gs);
+            if (gs.players.Count() == 1) return gs;
+            gs.currentPlayerIndex = gs.nextPlayer(gs.currentPlayerIndex, gs);
+            gs.nextPlayerIndex = gs.nextPlayer(gs.currentPlayerIndex, gs);
             gs.currentPlayer = gs.players[gs.currentPlayerIndex];
-        
+
             return gs;
-        }  
-    
+        }
+
 
         foreach (var card in cards)
         {
-            gs.apply(gs,card);
+            gs.apply(gs, card);
         }
-        
 
-
-
-        if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) {gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs);}
-        if(gs.players.Count() > 1) {  
-        gs.currentPlayer = gs.players[gs.nextPlayerIndex];
-        gs.currentPlayerIndex = gs.nextPlayerIndex;
-        gs.nextPlayerIndex = gs.nextPlayer();
-        } 
+        if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs); }
+        if (gs.players.Count() > 1)
+        {
+            gs.currentPlayer = gs.players[gs.nextPlayerIndex];
+            gs.currentPlayerIndex = gs.nextPlayerIndex;
+            gs.nextPlayerIndex = gs.nextPlayer();
+        }
 
         return gs;
     }
@@ -183,7 +182,7 @@ public IgameState apply(GameState gs, Card card)
         return this.currentPlayerIndex + indexIncrement;
     }
 
-    public int nextPlayer(int index, GameState gs) 
+    public int nextPlayer(int index, GameState gs)
     {
         var indexIncrement = gs.playDirectionClockwise ? 1 : -1;
 
@@ -196,12 +195,13 @@ public IgameState apply(GameState gs, Card card)
             return gs.players.Count - 1;
         }
         return index + indexIncrement;
-    } 
+    }
 
-    public void update(IgameState gs){
+    public void update(IgameState gs)
+    {
         this.currentPlayer = gs.getCurrentPlayer();
         this.nextPlayerIndex = gs.getNextPlayerIndex();
-        this.currentPlayerIndex = gs.getCurrentPlayerIndex();;
+        this.currentPlayerIndex = gs.getCurrentPlayerIndex(); ;
         this.players = gs.GetPlayers();
         this.deck = gs.getDeck();
         this.playDirectionClockwise = gs.getPlayDirection();
@@ -217,17 +217,18 @@ public IgameState apply(GameState gs, Card card)
         var counter = 0;
         var notGameOver = true;
         while (notGameOver)
-        {   
+        {
             counter++;
             // TODO
-            //Console.WriteLine("Current player: " + this.currentPlayerIndex);
+            Console.WriteLine("Current player: " + this.currentPlayer.getName());
             var action = this.currentPlayer.action(this);
             var newGameState = this.apply(action);
             foreach (var card in action)
             {
-                //Console.WriteLine("Current Play: " + card.cardColor.ToString() + "   " + card.cardType.ToString());
+                Console.WriteLine("Current Play: " + card.cardColor.ToString() + "   " + card.cardType.ToString());
             }
-            // Console.WriteLine("Amount of cards in hand: " + currentPlayer.hand.Count());
+           Console.WriteLine();
+           // Console.WriteLine("Amount of cards in hand: " + currentPlayer.hand.Count());
             // Console.WriteLine("Current top card of discard pile: " + newGameState.getDeck().discardPile.Peek().ToString());
             // Console.WriteLine("");
             // Console.WriteLine("Number of plays: " + counter);
@@ -248,12 +249,18 @@ public IgameState apply(GameState gs, Card card)
 
     }
 
+    public static T DeepCloneJson<T>(T self)
+    {
+        var serialized = JsonConvert.SerializeObject(self);
+        return JsonConvert.DeserializeObject<T>(serialized);
+    }
+
     public static T DeepClone<T>(T obj)
     {
         using (var ms = new MemoryStream())
         {
             var formatter = new BinaryFormatter();
-            #pragma warning disable SYSLIB0011
+#pragma warning disable SYSLIB0011
             formatter.Serialize(ms, obj);
             ms.Position = 0;
             return (T)formatter.Deserialize(ms);
