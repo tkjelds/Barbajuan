@@ -22,6 +22,38 @@ public class GameState : IgameState
         this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
     }
 
+    public GameState(List<Iplayer> players, int currentPlayerIndex){
+        this.players = players;
+        var deck = new Deck();
+        deck.setup();
+        this.deck = deck;
+        this.currentPlayer = players[currentPlayerIndex];
+        this.scoreBoard = new List<Iplayer>();
+        this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
+    }
+
+    public GameState(List<Iplayer> players, int currentPlayerIndex, bool playDirection){
+        this.players = players;
+        var deck = new Deck();
+        deck.setup();
+        this.deck = deck;
+        this.currentPlayer = players[currentPlayerIndex];
+        this.scoreBoard = new List<Iplayer>();
+        this.playDirectionClockwise = playDirection;
+        this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
+    }
+
+    public GameState(List<Iplayer> players, bool playDirection){
+        this.players = players;
+        var deck = new Deck();
+        deck.setup();
+        this.deck = deck;
+        this.currentPlayer = players[currentPlayerIndex];
+        this.scoreBoard = new List<Iplayer>();
+        this.playDirectionClockwise = playDirection;
+        this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
+    }
+
     public GameState(List<Iplayer> players, Deck deck)
     {
         this.players = players;
@@ -120,32 +152,21 @@ public class GameState : IgameState
     {
         GameState gs = DeepClone<GameState>(this);
 
-        if (gs.currentPlayer.getHand().Count() == 0)
-        {
-            gs.scoreBoard.Add(gs.currentPlayer);
-            gs.players.Remove(gs.currentPlayer);
-            if (gs.currentPlayerIndex == gs.nextPlayerIndex)
-            {
-                gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs);
-            }
-            if (gs.players.Count() == 1) return gs;
-            gs.currentPlayerIndex = gs.nextPlayer(gs.currentPlayerIndex, gs);
-            gs.nextPlayerIndex = gs.nextPlayer(gs.currentPlayerIndex, gs);
-            gs.currentPlayer = gs.players[gs.currentPlayerIndex];
-
-            return gs;
-        }
-
-
         foreach (var card in cards)
         {
             gs.apply(gs, card);
         }
+        if (gs.currentPlayer.getHand().Count() == 0){
+            if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs); }
+            gs.playerKnockOut(gs.currentPlayer);
+            return gs;
+        }
+
 
         if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs); }
         if (gs.players.Count() > 1)
         {
-            gs.currentPlayer = gs.players[gs.nextPlayerIndex];
+            gs.currentPlayer = gs.players[gs.nextPlayer(gs.currentPlayerIndex,gs)];
             gs.currentPlayerIndex = gs.nextPlayerIndex;
             gs.nextPlayerIndex = gs.nextPlayer();
         }
@@ -153,6 +174,44 @@ public class GameState : IgameState
         return gs;
     }
 
+    public void playerKnockOut(Iplayer player) {
+        Console.WriteLine(" i have been removed from the game, name: " + player.getName() );
+        var amountOfPlayersBeforeRemove = players.Count();
+        this.players.Remove(player);
+        this.scoreBoard.Add(player);
+        if(this.getCurrentPlayerIndex() == 0 && this.playDirectionClockwise){
+            this.currentPlayerIndex = 0;
+            this.nextPlayerIndex = 1;
+            this.currentPlayer= this.players[currentPlayerIndex];
+            return;
+        }
+        if(this.getCurrentPlayerIndex() == 0 && !this.playDirectionClockwise){
+            this.currentPlayerIndex = this.players.Count()-1;
+            this.nextPlayerIndex = nextPlayer(this.currentPlayerIndex,this);
+            this.currentPlayer= this.players[currentPlayerIndex];
+            return;
+        } 
+        if(this.getCurrentPlayerIndex() == amountOfPlayersBeforeRemove-1 && this.playDirectionClockwise){
+            this.currentPlayerIndex = 0;
+            this.nextPlayerIndex = nextPlayer(currentPlayerIndex,this);
+            this.currentPlayer= this.players[currentPlayerIndex];
+            return;
+        }
+        if(this.getCurrentPlayerIndex() == amountOfPlayersBeforeRemove-1 && !this.playDirectionClockwise){
+            this.currentPlayerIndex = nextPlayer(currentPlayerIndex,this);
+            this.nextPlayerIndex = nextPlayer(currentPlayerIndex,this);
+            this.currentPlayer= this.players[currentPlayerIndex];
+            return;
+        }
+        if(!playDirectionClockwise){
+            this.currentPlayerIndex = nextPlayer(this.currentPlayerIndex,this);
+            this.nextPlayerIndex =nextPlayer(this.currentPlayerIndex,this);
+            this.currentPlayer = this.players[currentPlayerIndex];
+            return;
+        }
+
+        
+    }
     public int getCurrentPlayerIndex() => this.currentPlayerIndex;
 
     public Deck getDeck() => this.deck;
@@ -231,7 +290,7 @@ public class GameState : IgameState
            // Console.WriteLine("Amount of cards in hand: " + currentPlayer.hand.Count());
             // Console.WriteLine("Current top card of discard pile: " + newGameState.getDeck().discardPile.Peek().ToString());
             // Console.WriteLine("");
-            // Console.WriteLine("Number of plays: " + counter);
+            Console.WriteLine("Number of plays: " + counter);
             // Console.WriteLine("");
             update(newGameState);
             if (IsGameOver())

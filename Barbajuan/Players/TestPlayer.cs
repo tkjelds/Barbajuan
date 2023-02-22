@@ -4,12 +4,14 @@ using static CardType;
 public class TestPlayer : Iplayer
 {
 
-    List<Card> hand;
+    List<Card> hand = new List<Card>();
 
     public TestPlayer(List<Card> hand)
     {
         this.hand = hand;
     }
+
+    public TestPlayer(){}
 
     public List<Card> action(IgameState gameState)
     {
@@ -64,7 +66,7 @@ public class TestPlayer : Iplayer
 
     public string getName()
     {
-        throw new NotImplementedException();
+        return "TestBot";
     }
 
     public void removeCardFromHand(Card cards)

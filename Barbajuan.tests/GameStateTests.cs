@@ -500,4 +500,75 @@ public class GameStateTests
         Assert.Equal(1, actual.getCurrentPlayerIndex());
         Assert.Equal(2, actual.getNextPlayerIndex());
     }
+
+    [Fact]
+    public void FirstPlayerKnockOutReturnsCorrectIndexes()
+    {
+        var players = new List<Iplayer>{
+            new TestPlayer(),
+            new TestPlayer(),
+            new TestPlayer(),
+            new TestPlayer()
+        };
+        // Given
+        var gs = new GameState(players);
+        // When
+        gs.playerKnockOut(gs.getCurrentPlayer());
+        // Then
+        Assert.Equal(0,gs.getCurrentPlayerIndex());
+        Assert.Equal(1,gs.getNextPlayerIndex());
+    }
+
+    [Fact]
+    public void FirstPlayerKnockOutReversePlayDirection()
+    {
+        // Given
+        var players = new List<Iplayer>{
+            new TestPlayer(),
+            new TestPlayer(),
+            new TestPlayer(),
+            new TestPlayer()
+        };
+        var gs = new GameState(players,false);
+        // When
+        gs.playerKnockOut(gs.getCurrentPlayer());
+        // Then
+        Assert.Equal(2,gs.getCurrentPlayerIndex());
+        Assert.Equal(1,gs.getNextPlayerIndex());
+    }
+
+    [Fact]
+    public void LastPlayerKnockOutReturnsCorrectPlayer()
+    {
+        // Given
+        var players = new List<Iplayer>{
+            new TestPlayer(),
+            new TestPlayer(),
+            new TestPlayer(),
+            new TestPlayer()
+        };
+        var gs = new GameState(players,3);
+        // When
+        gs.playerKnockOut(gs.getCurrentPlayer());
+        // Then
+        Assert.Equal(0,gs.getCurrentPlayerIndex());
+        Assert.Equal(1,gs.getNextPlayerIndex());
+    }
+    [Fact]
+    public void LastPlayerKnockOutWhenReversePlayDirection()
+    {
+        // Given
+        var players = new List<Iplayer>{
+            new TestPlayer(),
+            new TestPlayer(),
+            new TestPlayer(),
+            new TestPlayer()
+        };
+        var gs = new GameState(players,3, false);
+        // When
+        gs.playerKnockOut(gs.getCurrentPlayer());
+        // Then
+        Assert.Equal(2,gs.getCurrentPlayerIndex());
+        Assert.Equal(1,gs.getNextPlayerIndex());
+    }
 }
