@@ -108,7 +108,23 @@ public class Player : Iplayer
         }
         return moves;
     }
+    public List<Card> getHand()
+    {
+        return hand;
+    }
 
-    List<Card> Iplayer.getActions(Card topCard) => throw new NotImplementedException();
-    Card Iplayer.action(IgameState gameState) => throw new NotImplementedException();
+    public void removeCardFromHand(Card cards)
+    {
+        hand.Remove(cards);
+    }
+
+    public string getName()
+    {
+        return name;
+    }
+
+    public void addCardsToHand(List<Card> cards)
+    {
+        this.hand.AddRange(cards);
+    }
 }
