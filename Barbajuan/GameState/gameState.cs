@@ -29,6 +29,7 @@ public class GameState : IgameState
         deck.setup();
         this.deck = deck;
         this.currentPlayer = players[currentPlayerIndex];
+        this.currentPlayerIndex = currentPlayerIndex;
         this.scoreBoard = new List<Iplayer>();
         this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
     }
@@ -178,16 +179,40 @@ public class GameState : IgameState
         return gs;
     }
 
+    public IgameState applyNoClone(List<Card> cards)
+    {
+
+        foreach (var card in cards)
+        {
+            apply(this, card);
+        }
+        if (currentPlayer.getHand().Count() == 0)
+        {
+            if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { nextPlayerIndex = nextPlayer(nextPlayerIndex, this); }
+            playerKnockOut(this.currentPlayer);
+            return this;
+        }
+
+
+        if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { nextPlayerIndex = nextPlayer(nextPlayerIndex, this); }
+        if (players.Count() > 1)
+        {
+            currentPlayer = players[nextPlayer(currentPlayerIndex, this)];
+            currentPlayerIndex = nextPlayerIndex;
+            nextPlayerIndex = nextPlayer();
+        }
+
+        return this;
+    }
+
     public void playerKnockOut(Iplayer player)
     {
-        Console.WriteLine(" i have been removed from the game, name: " + player.getName());
+        //Console.WriteLine(" i have been removed from the game, name: " + player.getName());
         var amountOfPlayersBeforeRemove = players.Count();
         this.players.Remove(player);
         this.scoreBoard.Add(player);
         if (this.getCurrentPlayerIndex() == 0 && this.playDirectionClockwise)
-        {
-            this.currentPlayerIndex = 0;
-            this.nextPlayerIndex = 1;
+        {     
             this.currentPlayer = this.players[currentPlayerIndex];
             return;
         }
@@ -316,6 +341,48 @@ public class GameState : IgameState
             Console.WriteLine("Placement :" + (playerIndex + 1) + "   Name :" + scoreBoard[playerIndex].getName());
         }
 
+    }
+
+    public List<Iplayer> runReturnScoreBoard()
+    {
+        foreach (var player in players)
+        {
+            player.addCardsToHand(deck.draw(7));
+        }
+        var counter = 0;
+        var notGameOver = true;
+        while (notGameOver)
+        {
+            counter++;
+            // TODO
+            //Console.WriteLine("Current player: " + this.currentPlayer.getName());
+            var action = this.currentPlayer.action(this);
+            var newGameState = this.applyNoClone(action);
+            // foreach (var card in action)
+            // {
+            //     Console.WriteLine("Current Play: " + card.cardColor.ToString() + "   " + card.cardType.ToString());
+            // }
+            // Console.WriteLine();
+            // Console.WriteLine("Amount of cards in hand: " + currentPlayer.hand.Count());
+            // Console.WriteLine("Current top card of discard pile: " + newGameState.getDeck().discardPile.Peek().ToString());
+            // Console.WriteLine("");
+            // Console.WriteLine("Number of plays: " + counter);
+            // Console.WriteLine("");
+            //update(newGameState);
+            if (IsGameOver())
+            {
+                scoreBoard.Add(players[0]);
+                notGameOver = false;
+                // Console.WriteLine("Loser: " + newGameState.GetPlayers()[nextPlayer(getNextPlayerIndex(), (GameState)newGameState)].getName());
+            }
+
+        }
+
+        // for (int playerIndex = 0; playerIndex < scoreBoard.Count(); playerIndex++)
+        // {
+        //     Console.WriteLine("Placement :" + (playerIndex + 1) + "   Name :" + scoreBoard[playerIndex].getName());
+        // }
+        return scoreBoard;
     }
 
     public static T DeepCloneJson<T>(T self)
