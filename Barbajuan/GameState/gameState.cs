@@ -218,15 +218,19 @@ public class GameState : IgameState
         }
         if (this.getCurrentPlayerIndex() == 0 && !this.playDirectionClockwise)
         {
-            this.currentPlayerIndex = this.players.Count() - 1;
+            this.currentPlayerIndex = nextPlayer(this.currentPlayerIndex,this);
             this.nextPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
             this.currentPlayer = this.players[currentPlayerIndex];
             return;
         }
         if (this.getCurrentPlayerIndex() == amountOfPlayersBeforeRemove - 1 && this.playDirectionClockwise)
         {
-            this.currentPlayerIndex = 0;
-            this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
+            if(this.nextPlayerIndex > this.GetPlayers().Count()-1){
+                this.currentPlayerIndex = 0;
+            } else this.currentPlayerIndex = this.nextPlayerIndex;
+            
+            
+            this.nextPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
             this.currentPlayer = this.players[currentPlayerIndex];
             return;
         }
@@ -290,7 +294,20 @@ public class GameState : IgameState
         }
         return index + indexIncrement;
     }
+    public int prevPlayer(int index, GameState gs)
+    {
+        var indexIncrement = gs.playDirectionClockwise ? -1 : 1;
 
+        if ((index + indexIncrement) > gs.players.Count - 1)
+        {
+            return 0;
+        }
+        if ((index + indexIncrement) < 0)
+        {
+            return gs.players.Count - 1;
+        }
+        return index + indexIncrement;
+    }
     public void update(IgameState gs)
     {
         this.currentPlayer = gs.getCurrentPlayer();
