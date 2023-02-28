@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "AwxoOmmKIZV4ee9IPdL+AL4no8HK6TL3zaw6b+YH5kwJKAZgT0qihbsyrpCIGFceNsTURTlm6C6uyJntxJKu4Q==",
+  "dgSpecHash": "fNb0pG/kqNX7fjsuwPcHIwdzZqNpz4c75yFmFF/d+6r0z7hurovcyolVin/IIEkSiBj82VaFed0TSkTJNsFm6g==",
   "success": true,
   "projectFilePath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\tkjel\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512",
     "C:\\Users\\tkjel\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\7.0.3\\microsoft.aspnetcore.jsonpatch.7.0.3.nupkg.sha512",
     "C:\\Users\\tkjel\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\7.0.3\\microsoft.aspnetcore.mvc.newtonsoftjson.7.0.3.nupkg.sha512",
     "C:\\Users\\tkjel\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

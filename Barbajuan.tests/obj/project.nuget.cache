@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "2oQvrxXivkqBRwml/UwgMXB+OMfvQ9dr7JsoJJIdhXrH/WoWXyluyvX/JUCTMkhz2ZrU9WBGxwtJuTkJxqauhg==",
+  "dgSpecHash": "nfBffTREFUCbvTpYIJ8h42OPVGfy6RZp05ftVPB2dS+CQGoIpxh1sOd26rqWh6pARPX1X+DlZGjCoKu0duyqBQ==",
   "success": true,
   "projectFilePath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tkjel\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
+    "C:\\Users\\tkjel\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512",
     "C:\\Users\\tkjel\\.nuget\\packages\\fluentassertions\\6.10.0\\fluentassertions.6.10.0.nupkg.sha512",
     "C:\\Users\\tkjel\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\7.0.3\\microsoft.aspnetcore.jsonpatch.7.0.3.nupkg.sha512",
     "C:\\Users\\tkjel\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\7.0.3\\microsoft.aspnetcore.mvc.newtonsoftjson.7.0.3.nupkg.sha512",

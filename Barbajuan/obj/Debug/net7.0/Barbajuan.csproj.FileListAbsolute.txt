@@ -63,3 +63,4 @@ D:\Documents\ITU\Barbajuan\Barbajuan\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.N
 D:\Documents\ITU\Barbajuan\Barbajuan\bin\Debug\net7.0\Newtonsoft.Json.dll
 D:\Documents\ITU\Barbajuan\Barbajuan\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
 D:\Documents\ITU\Barbajuan\Barbajuan\obj\Debug\net7.0\Barbajuan.csproj.CopyComplete
+D:\Documents\ITU\Barbajuan\Barbajuan\bin\Debug\net7.0\CsvHelper.dll

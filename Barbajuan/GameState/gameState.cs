@@ -94,7 +94,7 @@ public class GameState : IgameState
         this.currentPlayerIndex = currentPlayerIndex;
         this.scoreBoard = scoreBoard;
         this.playDirectionClockwise = playDirection;
-        this.nextPlayerIndex = nextPlayer(currentPlayerIndex, this);
+        this.nextPlayerIndex = nextPlayerIndex;
     }
 
     public IgameState apply(GameState gs, Card card)
@@ -171,7 +171,7 @@ public class GameState : IgameState
         if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs); }
         if (gs.players.Count() > 1)
         {
-            gs.currentPlayer = gs.players[gs.nextPlayer(gs.currentPlayerIndex, gs)];
+            gs.currentPlayer = gs.players[prevPlayer(nextPlayer(nextPlayerIndex,this),this)];
             gs.currentPlayerIndex = gs.nextPlayerIndex;
             gs.nextPlayerIndex = gs.nextPlayer();
         }
@@ -197,7 +197,7 @@ public class GameState : IgameState
         if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { nextPlayerIndex = nextPlayer(nextPlayerIndex, this); }
         if (players.Count() > 1)
         {
-            currentPlayer = players[nextPlayer(currentPlayerIndex, this)];
+            this.currentPlayer = this.players[prevPlayer(nextPlayer(nextPlayerIndex,this),this)];
             currentPlayerIndex = nextPlayerIndex;
             nextPlayerIndex = nextPlayer();
         }
@@ -212,24 +212,23 @@ public class GameState : IgameState
         this.players.Remove(player);
         this.scoreBoard.Add(player);
         if (this.getCurrentPlayerIndex() == 0 && this.playDirectionClockwise)
-        {     
+        {
             this.currentPlayer = this.players[currentPlayerIndex];
             return;
         }
         if (this.getCurrentPlayerIndex() == 0 && !this.playDirectionClockwise)
         {
-            this.currentPlayerIndex = nextPlayer(this.currentPlayerIndex,this);
+            this.currentPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
             this.nextPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
             this.currentPlayer = this.players[currentPlayerIndex];
             return;
         }
         if (this.getCurrentPlayerIndex() == amountOfPlayersBeforeRemove - 1 && this.playDirectionClockwise)
         {
-            if(this.nextPlayerIndex > this.GetPlayers().Count()-1){
-                this.currentPlayerIndex = 0;
-            } else this.currentPlayerIndex = this.nextPlayerIndex;
-            
-            
+            if (this.nextPlayerIndex > this.GetPlayers().Count() - 1) this.currentPlayerIndex = 0;
+            else this.currentPlayerIndex = this.nextPlayerIndex;
+
+
             this.nextPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
             this.currentPlayer = this.players[currentPlayerIndex];
             return;
@@ -360,6 +359,30 @@ public class GameState : IgameState
 
     }
 
+
+public int runReturnNumberOfTurns()
+    {
+        foreach (var player in players)
+        {
+            player.addCardsToHand(deck.draw(7));
+        }
+        var counter = 0;
+        var notGameOver = true;
+        while (notGameOver)
+        {
+            counter++;
+            var action = this.currentPlayer.action(this);
+            var newGameState = this.applyNoClone(action);
+            if (IsGameOver())
+            {
+                scoreBoard.Add(players[0]);
+                notGameOver = false;
+            }
+
+        }
+
+        return counter;
+    }
     public List<Iplayer> runReturnScoreBoard()
     {
         foreach (var player in players)

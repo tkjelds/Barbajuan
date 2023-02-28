@@ -428,3 +428,4 @@ C:\Users\Damie\Documents\Bachelor\Barbajuan\Barbajuan.tests\obj\Debug\net7.0\ref
 D:\Documents\ITU\Barbajuan\Barbajuan.tests\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll
 D:\Documents\ITU\Barbajuan\Barbajuan.tests\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Documents\ITU\Barbajuan\Barbajuan.tests\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
+D:\Documents\ITU\Barbajuan\Barbajuan.tests\bin\Debug\net7.0\CsvHelper.dll

@@ -20,6 +20,14 @@
         }
       },
       "coverlet.collector/3.1.2": {},
+      "CsvHelper/30.0.1": {
+        "runtime": {
+          "lib/net6.0/CsvHelper.dll": {
+            "assemblyVersion": "30.0.0.0",
+            "fileVersion": "30.0.1.0"
+          }
+        }
+      },
       "FluentAssertions/6.10.0": {
         "dependencies": {
           "System.Configuration.ConfigurationManager": "4.4.0"
@@ -1099,6 +1107,7 @@
       "xunit.runner.visualstudio/2.4.5": {},
       "Barbajuan/1.0.0": {
         "dependencies": {
+          "CsvHelper": "30.0.1",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "7.0.3"
         },
         "runtime": {
@@ -1119,6 +1128,13 @@
       "sha512": "sha512-wuLDIDKD5XMt0A7lE31JPenT7QQwZPFkP5rRpdJeblyXZ9MGLI8rYjvm5fvAKln+2/X+4IxxQDxBtwdrqKNLZw==",
       "path": "coverlet.collector/3.1.2",
       "hashPath": "coverlet.collector.3.1.2.nupkg.sha512"
+    },
+    "CsvHelper/30.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rcZtgbWR+As4G3Vpgx0AMNmShGuQLFjkHAPIIflzrfkJCx8/AOd4m96ZRmiU1Wi39qS5UVjV0P8qdgqOo5Cwyg==",
+      "path": "csvhelper/30.0.1",
+      "hashPath": "csvhelper.30.0.1.nupkg.sha512"
     },
     "FluentAssertions/6.10.0": {
       "type": "package",
