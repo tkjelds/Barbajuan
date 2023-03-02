@@ -318,12 +318,16 @@ public class GameState : IgameState
         this.scoreBoard = gs.getScoreBoard();
     }
 
-    public void run()
-    {
-        foreach (var player in players)
+
+    public void DealSevenToEachPlayer(){
+            foreach (var player in players)
         {
             player.addCardsToHand(deck.draw(7));
         }
+    }
+    public void run()
+    {
+        DealSevenToEachPlayer();
         var counter = 0;
         var notGameOver = true;
         while (notGameOver)
@@ -362,10 +366,7 @@ public class GameState : IgameState
 
 public int runReturnNumberOfTurns()
     {
-        foreach (var player in players)
-        {
-            player.addCardsToHand(deck.draw(7));
-        }
+        DealSevenToEachPlayer();
         var counter = 0;
         var notGameOver = true;
         while (notGameOver)
@@ -431,7 +432,7 @@ public int runReturnNumberOfTurns()
         return JsonConvert.DeserializeObject<T>(serialized);
     }
 
-    public static T DeepClone<T>(T obj)
+    public T DeepClone<T>(T obj)
     {
         using (var ms = new MemoryStream())
         {

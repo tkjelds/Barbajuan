@@ -53,6 +53,20 @@ public class Deck : ICloneable
 
     public Card getTopCard() => this.discardPile.Peek();
     public bool needsShuffle(int n) => this.drawPile.Count < n;
+    
+    public void ShuffleDrawPile(){
+        var list = new List<Card>();
+        list.AddRange(this.drawPile.ToList());
+        var n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            var k = rng.Next(n + 1);
+            (list[n], list[k]) = (list[k], list[n]);
+        }
+        this.drawPile = new Stack<Card>(list);
+    }
+    
     public void Shuffle()
     {
         var list = new List<Card>();

@@ -120,4 +120,32 @@ public class DeckTests
         // Then
         Assert.Single(deck.discardPile);
     }
+
+    [Fact]
+    public void ShuffleDrawPileTest(){
+        var deck = new Deck(generateCards(100),generateCards(100));
+        var topCardOfOriginalDeck = deck.drawPile.Peek();
+        
+        
+        deck.ShuffleDrawPile();
+
+        var actual = deck.drawPile.Peek();
+
+        Assert.Equal(100,deck.drawPile.Count());
+        Assert.NotEqual(topCardOfOriginalDeck,actual);
+    }
+
+    [Fact]
+    public void ShuffleDrawPileTestDoesNotAffectDiscard(){
+        var deck = new Deck(generateCards(100),generateCards(100));
+        var topCardOfOriginalDiscardPile = deck.discardPile.Peek();
+        
+        
+        deck.ShuffleDrawPile();
+
+        var actual = deck.discardPile.Peek();
+
+        Assert.Equal(100,deck.discardPile.Count());
+        Assert.Equal(topCardOfOriginalDiscardPile,actual);
+    }
 }

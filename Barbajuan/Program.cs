@@ -2,7 +2,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        // List<List<Iplayer>> scoreBoards = new List<List<Iplayer>>();
+        List<List<Iplayer>> scoreBoards = new List<List<Iplayer>>();
         // List<(String, List<int>)> playerPlacements = new List<(string, List<int>)>();
         // playerPlacements.Add(("bot 1", new List<int>() { 0, 0, 0, 0 }));
         // playerPlacements.Add(("bot 2", new List<int>() { 0, 0, 0, 0 }));
