@@ -1,7 +1,7 @@
 using static CardColor;
 using static CardType;
 [Serializable]
-class StackingMovePlayer : Iplayer
+public class StackingMovePlayer : Iplayer
 {
     String name;
     List<Card> hand = new List<Card>();

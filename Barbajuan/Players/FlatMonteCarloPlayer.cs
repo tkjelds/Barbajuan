@@ -13,33 +13,84 @@ MonteCarloNode   Parent
 */
 
 
+using System.Collections.Concurrent;
+
 [Serializable]
 public class FlatMonteCarloPlayer : Iplayer
 {
 
     List<Card> Hand = new List<Card>();
 
-    int Determinzations = 0;
+    int Determinations = 0;
 
     int Iterations = 0;
 
     string Name = "Not_Assigned";
+
+    ImoveEvaluator Evaluator = new NaiveMoveEvaluator();
     
+    ImovePicker Picker = new NaiveMovePicker();
+    
+
+
 
     public FlatMonteCarloPlayer(){}
 
 
-    public FlatMonteCarloPlayer(List<Card> hand, int determinzations, int iterations, string name)
+    public FlatMonteCarloPlayer(List<Card> hand, int determinations, int iterations, string name)
     {
         Hand = hand;
-        Determinzations = determinzations;
+        Determinations = determinations;
         Iterations = iterations;
         Name = name;
     }
 
+    public FlatMonteCarloPlayer(List<Card> hand, int determinations, int iterations, string name, ImoveEvaluator evaluator, ImovePicker picker)
+    {
+        Hand = hand;
+        Determinations = determinations;
+        Iterations = iterations;
+        Name = name;
+        Evaluator = evaluator;
+        Picker = picker;
+    }
+
     public List<Card> action(IgameState gameState)
     {
+        ConcurrentDictionary<List<Card>,int> moveAndValue = new ConcurrentDictionary<List<Card>, int>();
+        var legalMoves = getStackingActions(gameState.getDeck().discardPile.Peek());
+        moveAndValue = new ConcurrentDictionary<List<Card>, int>(Determinations,legalMoves.Count());
+        foreach (var move in legalMoves)
+        {
+            moveAndValue.TryAdd(move,0);
+        }
+        var determinations = new List<GameState>();
+        for (int i = 0; i < Determinations; i++)
+        {
+            determinations.Add(createDetermination((GameState) gameState));
+        }
+
+        Parallel.ForEach(determinations, d => {
+            // int utilSum = 0;
+            for (int i = 0; i < Iterations; i++)
+            {
+                var copyOfd = d.DeepClone(d);
+                // var value = Simulate(copyOfd);
+                // var updatedValue = moveAndValue[value.item1] + value.item2; 
+                // moveAndValue.TryUpdate(value);
+                // utilsum += Simulate(copyOfd); 
+                // Update util value for move in dictionary   
+            }
+        });
+
         throw new NotImplementedException();
+    }
+
+    private int Simulate(GameState determination)
+    {
+        Console.WriteLine("it do be like that");
+        throw new NotImplementedException();
+        
     }
 
     public void addCardsToHand(List<Card> cards)
@@ -59,10 +110,10 @@ public class FlatMonteCarloPlayer : Iplayer
 
     public void removeCardFromHand(Card cards)
     {
-        throw new NotImplementedException();
+        Hand.Remove(cards);
     }
 
-    public GameState CreateDetermination(GameState gs) {
+    public GameState createDetermination(GameState gs) {
         var copyGameState = gs.DeepClone(gs);
         List<(int,Iplayer)> cardsInHandPerPlayer = new List<(int, Iplayer)>();
         // Remove cards from players hand.

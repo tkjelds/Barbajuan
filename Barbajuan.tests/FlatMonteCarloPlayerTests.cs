@@ -17,7 +17,7 @@ public class FlatMonteCarloPlayerTests
         players[0].addCardsToHand(gs.getDeck().draw(1)); // bot 1 has 8 cards
         players[1].addCardsToHand(gs.getDeck().draw(2)); // bot 2 has 9 cards
         
-        var copyGameState = MonteCarloPlayer.CreateDetermination(gs);
+        var copyGameState = MonteCarloPlayer.createDetermination(gs);
         // When
         
         var playerOneHand = gs.GetPlayers().Find(x => x.getName() == "bot 1")!.getHand();
@@ -50,7 +50,7 @@ public class FlatMonteCarloPlayerTests
         players[0].addCardsToHand(gs.getDeck().draw(1)); // bot 1 has 8 cards
         players[1].addCardsToHand(gs.getDeck().draw(2)); // bot 2 has 9 cards
         
-        var copyGameState = MonteCarloPlayer.CreateDetermination(gs);
+        var copyGameState = MonteCarloPlayer.createDetermination(gs);
         // When
         
         var playerOneHand = gs.GetPlayers().Find(x => x.getName() == "bot 1")!.getHand();
