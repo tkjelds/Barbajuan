@@ -1,4 +1,4 @@
 public interface ImovePicker
 {
-    List<Card> pick(List<List<Card>> moves);
+    List<Card> pick(GameState gameState);
 }

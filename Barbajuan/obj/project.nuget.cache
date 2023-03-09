@@ -1,15 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "c6jy4RSooBMdOChy7ROrdHs4bnt+IbP5EfddqXAGYXW9/Txzp5Q+vF0iw+HggSzZ62HC3dBO5xIUSoGORxR42w==",
+  "dgSpecHash": "SoOYvuQ5pfN3fvW2wBByuT0LZx8rFAvEp1Gsv3WaTqnKXadHWz00453zIMAughRORoMGIMui931T16r4mmkwlQ==",
   "success": true,
-  "projectFilePath": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj",
+  "projectFilePath": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
   "expectedPackageFiles": [
-    "/Users/torekjelds/.nuget/packages/csvhelper/30.0.1/csvhelper.30.0.1.nupkg.sha512",
-    "/Users/torekjelds/.nuget/packages/microsoft.aspnetcore.jsonpatch/7.0.3/microsoft.aspnetcore.jsonpatch.7.0.3.nupkg.sha512",
-    "/Users/torekjelds/.nuget/packages/microsoft.aspnetcore.mvc.newtonsoftjson/7.0.3/microsoft.aspnetcore.mvc.newtonsoftjson.7.0.3.nupkg.sha512",
-    "/Users/torekjelds/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
-    "/Users/torekjelds/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
-    "/Users/torekjelds/.nuget/packages/newtonsoft.json.bson/1.0.2/newtonsoft.json.bson.1.0.2.nupkg.sha512"
+    "C:\\Users\\Damie\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512",
+    "C:\\Users\\Damie\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\7.0.3\\microsoft.aspnetcore.jsonpatch.7.0.3.nupkg.sha512",
+    "C:\\Users\\Damie\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\7.0.3\\microsoft.aspnetcore.mvc.newtonsoftjson.7.0.3.nupkg.sha512",
+    "C:\\Users\\Damie\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\Damie\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Damie\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512"
   ],
   "logs": []
 }

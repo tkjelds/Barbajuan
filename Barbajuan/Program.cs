@@ -3,6 +3,15 @@ internal class Program
     private static void Main(string[] args)
     {
         List<List<Iplayer>> scoreBoards = new List<List<Iplayer>>();
+        var players = new List<Iplayer>(){
+                new Player("bot 1"),
+                new Player("bot 2"),
+                new Player("bot 3"),
+                new FlatMonteCarloPlayer("bot 4",10,100)
+            };
+        var gameState = new GameState(players);
+
+        gameState.runReturnNumberOfTurns();
         // List<(String, List<int>)> playerPlacements = new List<(string, List<int>)>();
         // playerPlacements.Add(("bot 1", new List<int>() { 0, 0, 0, 0 }));
         // playerPlacements.Add(("bot 2", new List<int>() { 0, 0, 0, 0 }));

@@ -6228,32 +6228,34 @@
     ]
   },
   "packageFolders": {
-    "/Users/torekjelds/.nuget/packages/": {}
+    "C:\\Users\\Damie\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/Barbajuan.tests.csproj",
+      "projectUniqueName": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
       "projectName": "Barbajuan.tests",
-      "projectPath": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/Barbajuan.tests.csproj",
-      "packagesPath": "/Users/torekjelds/.nuget/packages/",
-      "outputPath": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan.tests/obj/",
+      "projectPath": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
+      "packagesPath": "C:\\Users\\Damie\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan.tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/torekjelds/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Damie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj": {
-              "projectPath": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj"
+            "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan\\Barbajuan.csproj": {
+              "projectPath": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan\\Barbajuan.csproj"
             }
           }
         }
@@ -6309,7 +6311,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.101/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }
