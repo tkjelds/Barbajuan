@@ -26,7 +26,7 @@ public class FlatMonteCarloPlayer : Iplayer
 
     string Name = "Not_Assigned";
 
-    IgameEvaluator Evaluator = new HighestPlacementsEvaluator();
+    IgameEvaluator Evaluator = new FactorialEvaluator();
     
     ImovePicker Picker = new RandomMovePicker();
     
