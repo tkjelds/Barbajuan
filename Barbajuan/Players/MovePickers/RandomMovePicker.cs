@@ -17,7 +17,6 @@ public class RandomMovePicker : ImovePicker
         {
             return new List<Card>() { new Card(WILD, DRAW1) };
         }
-
         return moves[rng.Next(moves.Count())];
     }
 

@@ -67,11 +67,21 @@ public class FlatMonteCarloPlayer : Iplayer
         // Add all our own legal moves to the moveAndValue bag
         // -------------
         ConcurrentDictionary<int,int> moveAndValue = new ConcurrentDictionary<int, int>();
+        ListOfCardsTheSame cardsTheSame = new ListOfCardsTheSame();
         var legalMoves = getStackingActions(gameState.getDeck().discardPile.Peek());
         if (legalMoves.Count == 0)
         {
             return new List<Card>() { new Card(WILD, DRAW1) };
         }
+        legalMoves.Distinct();
+        // Console.WriteLine("Legal moves : ");
+        // foreach(var move in legalMoves){
+        //     Console.Write("Move : ");
+        //     foreach(var card in move){
+        //         Console.Write(card.ToString() + "  ");
+        //     }
+        //     Console.WriteLine();
+        // }
         moveAndValue = new ConcurrentDictionary<int, int>(Determinations,legalMoves.Count());
         var  numberToMove = new List<(int,List<Card>)>();    
         for (int i = 0; i < legalMoves.Count(); i++)
@@ -100,7 +110,7 @@ public class FlatMonteCarloPlayer : Iplayer
                 {
                     var returnedMove = value.Item1;
                     //Console.WriteLine("Jeg skal til at blive fundet");
-                    var numberOfMove = numberToMove.Find(m => m.Equals(returnedMove)).Item1;
+                    var numberOfMove = numberToMove.Find(m => cardsTheSame.Equals(m.Item2,returnedMove)).Item1;
                     //Console.WriteLine("Jeg er blevet fundet");
                     var existing = moveAndValue[numberOfMove];
                     var updated = existing + value.Item2;
@@ -113,9 +123,10 @@ public class FlatMonteCarloPlayer : Iplayer
                 // Update util value for move in dictionary   
             }
         });
-        Console.WriteLine("Number of keys in dict : " + moveAndValue.Count() + "   Number of legal moves : " + legalMoves.Count());
+        // Console.WriteLine("Number of keys in dict : " + moveAndValue.Count() + "   Number of legal moves : " + legalMoves.Count());
         
         var moveAndValueList = moveAndValue.ToList();
+        Console.WriteLine("turn over"); 
         foreach (var mv in moveAndValueList)
         {
             var move = numberToMove[mv.Key];
@@ -133,6 +144,12 @@ public class FlatMonteCarloPlayer : Iplayer
     private (List<Card>, int) Simulate(GameState determination)
     {
         var pickedAction = Picker.pick(determination);
+        // Console.Write("Picked action : ");
+        // foreach (var card in pickedAction)
+        // {
+        //     Console.Write("   " + card.ToString() + "   ");
+        // }
+        // Console.WriteLine();
         var result = (pickedAction, 0);
         determination.apply(pickedAction);
         var notGameOver = true;

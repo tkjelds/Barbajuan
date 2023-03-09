@@ -7,7 +7,7 @@ internal class Program
                 new Player("bot 1"),
                 new Player("bot 2"),
                 new Player("bot 3"),
-                new FlatMonteCarloPlayer("bot 4",10,100)
+                new FlatMonteCarloPlayer("bot 4",10,1000)
             };
         var gameState = new GameState(players);
 
