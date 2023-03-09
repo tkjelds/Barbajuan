@@ -1,6 +1,6 @@
 [Serializable]
 // Returns 1 if firstplace, returns 0 if not
-public class NaiveMoveEvaluator : ImoveEvaluator
+public class NaiveGameEvaluator : IgameEvaluator
 {
     public int evaluate(GameState gs, string playerName)
     {

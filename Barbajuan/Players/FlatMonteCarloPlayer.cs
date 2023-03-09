@@ -1,6 +1,5 @@
 /*
 
-
 public class monteCarloNode
 
 Value NodeValue
@@ -27,7 +26,7 @@ public class FlatMonteCarloPlayer : Iplayer
 
     string Name = "Not_Assigned";
 
-    ImoveEvaluator Evaluator = new NaiveMoveEvaluator();
+    IgameEvaluator Evaluator = new HighestPlacementsEvaluator();
     
     ImovePicker Picker = new RandomMovePicker();
     
@@ -52,7 +51,7 @@ public class FlatMonteCarloPlayer : Iplayer
         Name = name;
     }
 
-    public FlatMonteCarloPlayer(List<Card> hand, int determinations, int iterations, string name, ImoveEvaluator evaluator, ImovePicker picker)
+    public FlatMonteCarloPlayer(List<Card> hand, int determinations, int iterations, string name, IgameEvaluator evaluator, ImovePicker picker)
     {
         Hand = hand;
         Determinations = determinations;
@@ -63,16 +62,15 @@ public class FlatMonteCarloPlayer : Iplayer
     }
 
     public List<Card> action(IgameState gameState)
-    {
+    {   
+        int totalnumberofgames = 0;
         // Add all our own legal moves to the moveAndValue bag
         // -------------
         ConcurrentDictionary<int,int> moveAndValue = new ConcurrentDictionary<int, int>();
         ListOfCardsTheSame cardsTheSame = new ListOfCardsTheSame();
         var legalMoves = getStackingActions(gameState.getDeck().discardPile.Peek());
-        if (legalMoves.Count == 0)
-        {
-            return new List<Card>() { new Card(WILD, DRAW1) };
-        }
+        if (legalMoves.Count == 0) return new List<Card>() { new Card(WILD, DRAW1) };
+        if (legalMoves.Count == 1) return legalMoves[0];
         legalMoves.Distinct();
         // Console.WriteLine("Legal moves : ");
         // foreach(var move in legalMoves){
@@ -102,7 +100,8 @@ public class FlatMonteCarloPlayer : Iplayer
         Parallel.ForEach(determinations, d => {
             // int utilSum = 0;
             for (int i = 0; i < Iterations; i++)
-            {
+            {   
+                totalnumberofgames++;
                 var copyOfd = d.DeepClone(d);
                 var value = Simulate(copyOfd);
                 // Big if true
@@ -126,19 +125,28 @@ public class FlatMonteCarloPlayer : Iplayer
         // Console.WriteLine("Number of keys in dict : " + moveAndValue.Count() + "   Number of legal moves : " + legalMoves.Count());
         
         var moveAndValueList = moveAndValue.ToList();
-        Console.WriteLine("turn over"); 
-        foreach (var mv in moveAndValueList)
-        {
-            var move = numberToMove[mv.Key];
-            Console.WriteLine("Move : ");
-            foreach (var card in move.Item2)
-            {
-                Console.Write("  " + card.ToString() +  "  ");
-            }
-            Console.WriteLine("Number of wins : " + mv.Value);
-        }
+        // Console.WriteLine("turn over"); 
+        // foreach (var mv in moveAndValueList)
+        // {
+        //     var move = numberToMove[mv.Key];
+        //     Console.WriteLine("Move : ");
+        //     foreach (var card in move.Item2)
+        //     {
+        //         Console.Write("  " + card.ToString() +  "  ");
+        //     }
+        //     Console.WriteLine("Number of wins : " + mv.Value);
+        // }
         moveAndValueList.Sort((x,y) => x.Value.CompareTo(y.Value));
-        return numberToMove.Find(x => x.Item1 == moveAndValueList[0].Key).Item2;
+
+        //Console.WriteLine("Total number of tested games (I think): " + totalnumberofgames);
+        var bestMove = moveAndValueList.Last().Key;
+        var chosenMove = numberToMove.Find(x => x.Item1 == bestMove).Item2;
+        //Console.WriteLine("Chosen move is : ");
+        // foreach (var card  in chosenMove)
+        // {
+        //     Console.Write("  " + card.ToString() +  "  ");
+        // }
+        return chosenMove;
     }
 
     private (List<Card>, int) Simulate(GameState determination)
@@ -151,14 +159,14 @@ public class FlatMonteCarloPlayer : Iplayer
         // }
         // Console.WriteLine();
         var result = (pickedAction, 0);
-        determination.apply(pickedAction);
+        determination.applyNoClone(pickedAction);
         var notGameOver = true;
-        while (notGameOver)
+        while (notGameOver) // TODO change to when we are knocked out
         {
             var action = Picker.pick(determination);
             determination.applyNoClone(action);
-            if(determination.IsGameOver()){
-                determination.getScoreBoard().Add(determination.GetPlayers()[0]);
+            if(determination.IsGameOver() || (determination.GetPlayers().Find(p => p.getName() == Name) == null)) {
+                if (determination.IsGameOver()) determination.getScoreBoard().Add(determination.GetPlayers()[0]);
                 notGameOver = false;
                 var actionValue = Evaluator.evaluate(determination, Name);
                 result.Item2 = actionValue;

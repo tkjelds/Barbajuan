@@ -213,14 +213,14 @@ public class GameState : IgameState
         this.scoreBoard.Add(player);
         if (this.getCurrentPlayerIndex() == 0 && this.playDirectionClockwise)
         {
-            this.currentPlayer = this.players[currentPlayerIndex];
+            this.currentPlayer = this.players[prevPlayer(nextPlayer(currentPlayerIndex,this),this)];
             return;
         }
         if (this.getCurrentPlayerIndex() == 0 && !this.playDirectionClockwise)
         {
             this.currentPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
             this.nextPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
-            this.currentPlayer = this.players[currentPlayerIndex];
+            this.currentPlayer = this.players[prevPlayer(nextPlayer(currentPlayerIndex,this),this)];
             return;
         }
         if (this.getCurrentPlayerIndex() == amountOfPlayersBeforeRemove - 1 && this.playDirectionClockwise)
