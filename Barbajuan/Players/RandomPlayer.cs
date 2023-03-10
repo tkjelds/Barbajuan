@@ -116,7 +116,7 @@ public class RandomPlayer : Iplayer
     }
     public List<Card> getHand()
     {
-        return Hand;
+        return this.Hand;
     }
 
     public void removeCardFromHand(Card cards)

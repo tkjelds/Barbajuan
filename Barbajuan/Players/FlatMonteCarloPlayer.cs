@@ -99,28 +99,9 @@ public class FlatMonteCarloPlayer : Iplayer
         for (var i = 0; i<Determinations; i++)
         {
             var d = createDetermination((GameState) gameState);
-            Parallel.For(0,Iterations, x => {
-                var copyOfd = d.DeepClone(d);
-                //var copyOfd = d.Clone();
-                var value = Simulate(copyOfd);
-                // Big if true
-                while (true)
-                {
-                    var returnedMove = value.Item1;
-                    //Console.WriteLine("Jeg skal til at blive fundet");
-                    var numberOfMove = numberToMove.Find(m => cardsTheSame.Equals(m.Item2,returnedMove)).Item1;
-                    //Console.WriteLine("Jeg er blevet fundet");
-                    var existing = moveAndValue[numberOfMove];
-                    var updated = existing + value.Item2;
-                    //Console.WriteLine("Jeg er blevet opdateret lokalt og skal til at blive opdateret i ditionarien");
-                    if (moveAndValue.TryUpdate(numberOfMove, updated, existing)) break;
-                }   
-
-            });
-            // for (int i = 0; i < Iterations; i++)
-            // {   
-            //     totalnumberofgames++;
-            //     var copyOfd = d.DeepClone(d);
+            // Parallel.For(0,Iterations, x => {
+            //     //var copyOfd = d.DeepClone(d);
+            //     var copyOfd = d.Clone();
             //     var value = Simulate(copyOfd);
             //     // Big if true
             //     while (true)
@@ -134,11 +115,29 @@ public class FlatMonteCarloPlayer : Iplayer
             //         //Console.WriteLine("Jeg er blevet opdateret lokalt og skal til at blive opdateret i ditionarien");
             //         if (moveAndValue.TryUpdate(numberOfMove, updated, existing)) break;
             //     }   
-            //     // var updatedValue = moveAndValue[value.item1] + value.item2; 
-            //     // moveAndValue.TryUpdate(value);
-            //     // utilsum += Simulate(copyOfd); 
-            //     // Update util value for move in dictionary   
-            // }
+
+            // });
+            for (int j = 0; j < Iterations; j++)
+            {   
+                var copyOfd = d.Clone();
+                var value = Simulate(copyOfd);
+                // Big if true
+                while (true)
+                {
+                    var returnedMove = value.Item1;
+                    //Console.WriteLine("Jeg skal til at blive fundet");
+                    var numberOfMove = numberToMove.Find(m => cardsTheSame.Equals(m.Item2,returnedMove)).Item1;
+                    //Console.WriteLine("Jeg er blevet fundet");
+                    var existing = moveAndValue[numberOfMove];
+                    var updated = existing + value.Item2;
+                    //Console.WriteLine("Jeg er blevet opdateret lokalt og skal til at blive opdateret i ditionarien");
+                    if (moveAndValue.TryUpdate(numberOfMove, updated, existing)) break;
+                }   
+                // var updatedValue = moveAndValue[value.item1] + value.item2; 
+                // moveAndValue.TryUpdate(value);
+                // utilsum += Simulate(copyOfd); 
+                // Update util value for move in dictionary   
+            }
         }
         // Parallel.ForEach(determinations, d => {
         //     // int utilSum = 0;
@@ -239,8 +238,8 @@ public class FlatMonteCarloPlayer : Iplayer
     }
 
     public GameState createDetermination(GameState gs) {
-        var copyGameState = gs.DeepClone(gs);
-        //var copyGameState = gs.Clone();
+        //var copyGameState = gs.DeepClone(gs);
+        var copyGameState = gs.Clone();
         List<(int,Iplayer)> cardsInHandPerPlayer = new List<(int, Iplayer)>();
         // Remove cards from players hand.
         // And add them to the draw pile.

@@ -154,8 +154,8 @@ public class GameState : IgameState
 
     public IgameState apply(List<Card> cards)
     {
-        GameState gs = DeepClone<GameState>(this);
-        //GameState gs = Clone();
+        //GameState gs = DeepClone<GameState>(this);
+        GameState gs = Clone();
         foreach (var card in cards)
         {
             gs.apply(gs, card);
@@ -171,7 +171,7 @@ public class GameState : IgameState
         if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs); }
         if (gs.players.Count() > 1)
         {
-            gs.currentPlayer = gs.players[prevPlayer(nextPlayer(nextPlayerIndex,this),this)];
+            gs.currentPlayer = gs.players[prevPlayer(nextPlayer(nextPlayerIndex,gs),gs)];
             gs.currentPlayerIndex = gs.nextPlayerIndex;
             gs.nextPlayerIndex = gs.nextPlayer();
         }
@@ -213,14 +213,14 @@ public class GameState : IgameState
         this.scoreBoard.Add(player);
         if (this.getCurrentPlayerIndex() == 0 && this.playDirectionClockwise)
         {
-            this.currentPlayer = this.players[prevPlayer(nextPlayer(currentPlayerIndex,this),this)];
+            this.currentPlayer = this.players[currentPlayerIndex];
             return;
         }
         if (this.getCurrentPlayerIndex() == 0 && !this.playDirectionClockwise)
         {
             this.currentPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
             this.nextPlayerIndex = nextPlayer(this.currentPlayerIndex, this);
-            this.currentPlayer = this.players[prevPlayer(nextPlayer(currentPlayerIndex,this),this)];
+            this.currentPlayer = this.players[currentPlayerIndex];
             return;
         }
         if (this.getCurrentPlayerIndex() == amountOfPlayersBeforeRemove - 1 && this.playDirectionClockwise)
@@ -283,13 +283,13 @@ public class GameState : IgameState
     {
         var indexIncrement = gs.playDirectionClockwise ? 1 : -1;
 
-        if ((index + indexIncrement) > gs.players.Count - 1)
+        if ((index + indexIncrement) > (gs.players.Count() - 1))
         {
             return 0;
         }
         if ((index + indexIncrement) < 0)
         {
-            return gs.players.Count - 1;
+            return (gs.players.Count() - 1);
         }
         return index + indexIncrement;
     }
@@ -297,13 +297,13 @@ public class GameState : IgameState
     {
         var indexIncrement = gs.playDirectionClockwise ? -1 : 1;
 
-        if ((index + indexIncrement) > gs.players.Count - 1)
+        if ((index + indexIncrement) > (gs.players.Count() - 1))
         {
             return 0;
         }
         if ((index + indexIncrement) < 0)
         {
-            return gs.players.Count - 1;
+            return (gs.players.Count() - 1);
         }
         return index + indexIncrement;
     }
@@ -468,7 +468,7 @@ public int runReturnNumberOfTurns()
         {
             clonedScoreboard.Add(player.clone());
         }
-        var clonedCurrentPlayer = currentPlayer.clone();
+        var clonedCurrentPlayer = clonedListOfPlayers[this.currentPlayerIndex];
 
         var clonedDeck = this.deck.Clone();
 

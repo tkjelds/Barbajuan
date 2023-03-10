@@ -131,4 +131,23 @@ public class PlayerTests
         Assert.NotEqual(player,actual);
         Assert.Equal(player,player);
     }
+
+    [Fact]
+    public void ListofPlayersIsClonedInCorrectOrder()
+    {
+        // Given
+        var players = new List<Iplayer>(){new Player("Player0"), new Player("Player1"), new Player("Player2"), new Player("Player3")};
+        var actual = new List<Iplayer>();
+        // When
+        foreach (var player in players)
+        {
+            actual.Add(player.clone());
+        }
+        // Then
+        Assert.Equal(4,actual.Count());
+        Assert.Equal("Player0", actual[0].getName());
+        Assert.Equal("Player1", actual[1].getName());
+        Assert.Equal("Player2", actual[2].getName());
+        Assert.Equal("Player3", actual[3].getName());
+    }
 }
