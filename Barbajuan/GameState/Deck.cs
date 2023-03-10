@@ -1,5 +1,5 @@
 [Serializable]
-public class Deck : ICloneable
+public class Deck
 {
     public Stack<Card> drawPile;
     public Stack<Card> discardPile;
@@ -112,8 +112,26 @@ public class Deck : ICloneable
 
     public int deckCount() => this.drawPile.Count + this.discardPile.Count;
 
-    public object Clone()
+    
+
+    public Deck Clone()
     {
-        return MemberwiseClone();
+        var clonedDrawPile = new Stack<Card>();
+        var clonedDiscardPile = new Stack<Card>();
+
+        foreach (var card in this.drawPile)
+        {
+            clonedDrawPile.Push(card.Clone());
+        }
+        //clonedDrawPile.Reverse();
+
+        foreach (var card in this.discardPile)
+        {
+            clonedDiscardPile.Push(card.Clone());
+        }
+
+        //clonedDiscardPile.Reverse();
+        return new Deck(clonedDrawPile,clonedDiscardPile);
     }
+
 }

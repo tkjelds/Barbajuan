@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -16,10 +18,11 @@ internal class Program
         playerPlacements.Add(("bot 2", new List<int>() { 0, 0, 0, 0 }));
         playerPlacements.Add(("bot 3", new List<int>() { 0, 0, 0, 0 }));
         playerPlacements.Add(("bot 4", new List<int>() { 0, 0, 0, 0 }));
+
         for (int i = 0; i < 100; i++)
         { 
             var players = new List<Iplayer>(){
-                new FlatMonteCarloPlayer("bot 1", 10, 1000),
+                new FlatMonteCarloPlayer("bot 1", 250, 100),
                 new StackingMovePlayer("bot 2"),
                 new StackingMovePlayer("bot 3"),
                 new StackingMovePlayer("bot 4")         
@@ -29,6 +32,20 @@ internal class Program
             scoreBoards.Add(scoreBoard);
             Console.WriteLine("Done with game number: " + i);            
         }
+        // Parallel.ForEach(Partitioner.Create(0, 100), range => {
+        // for (var index = range.Item1; index < range.Item2; index++) {
+        //     var players = new List<Iplayer>(){
+        //         new FlatMonteCarloPlayer("bot 1", 10, 1000),
+        //         new StackingMovePlayer("bot 2"),
+        //         new StackingMovePlayer("bot 3"),
+        //         new StackingMovePlayer("bot 4")         
+        //     };
+        //     var gameState = new GameState(players);
+        //     var scoreBoard = gameState.runReturnScoreBoard();
+        //     scoreBoards.Add(scoreBoard);
+        //     Console.WriteLine("Done with game number: " + index);   
+        // }
+        // });
         // Parallel.For(1, 100, number =>
         // {
         //     var players = new List<Iplayer>(){

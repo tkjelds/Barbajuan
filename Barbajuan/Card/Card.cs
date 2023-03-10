@@ -15,4 +15,8 @@ public class Card
         return "Color: " + this.cardColor.ToString() + "  Card type: " + this.cardType.ToString();
     }
 
+    public Card Clone(){
+        return new Card(this.cardColor,this.cardType);
+    }
+
 }

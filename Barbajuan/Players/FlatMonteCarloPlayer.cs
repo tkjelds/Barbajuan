@@ -63,7 +63,6 @@ public class FlatMonteCarloPlayer : Iplayer
 
     public List<Card> action(IgameState gameState)
     {   
-        int totalnumberofgames = 0;
         // Add all our own legal moves to the moveAndValue bag
         // -------------
         ConcurrentDictionary<int,int> moveAndValue = new ConcurrentDictionary<int, int>();
@@ -90,19 +89,19 @@ public class FlatMonteCarloPlayer : Iplayer
         // -------------
         
         // Create a number of determinations
-        var determinations = new List<GameState>();
-        for (int i = 0; i < Determinations; i++)
-        {
-            determinations.Add(createDetermination((GameState) gameState));
-        }
+        // var determinations = new List<GameState>();
+        // for (int i = 0; i < Determinations; i++)
+        // {
+        //     determinations.Add(createDetermination((GameState) gameState));
+        // }
 
         // Simulate each determination a number of times, run in parallel
-        Parallel.ForEach(determinations, d => {
-            // int utilSum = 0;
-            for (int i = 0; i < Iterations; i++)
-            {   
-                totalnumberofgames++;
+        for (var i = 0; i<Determinations; i++)
+        {
+            var d = createDetermination((GameState) gameState);
+            Parallel.For(0,Iterations, x => {
                 var copyOfd = d.DeepClone(d);
+                //var copyOfd = d.Clone();
                 var value = Simulate(copyOfd);
                 // Big if true
                 while (true)
@@ -116,12 +115,56 @@ public class FlatMonteCarloPlayer : Iplayer
                     //Console.WriteLine("Jeg er blevet opdateret lokalt og skal til at blive opdateret i ditionarien");
                     if (moveAndValue.TryUpdate(numberOfMove, updated, existing)) break;
                 }   
-                // var updatedValue = moveAndValue[value.item1] + value.item2; 
-                // moveAndValue.TryUpdate(value);
-                // utilsum += Simulate(copyOfd); 
-                // Update util value for move in dictionary   
-            }
-        });
+
+            });
+            // for (int i = 0; i < Iterations; i++)
+            // {   
+            //     totalnumberofgames++;
+            //     var copyOfd = d.DeepClone(d);
+            //     var value = Simulate(copyOfd);
+            //     // Big if true
+            //     while (true)
+            //     {
+            //         var returnedMove = value.Item1;
+            //         //Console.WriteLine("Jeg skal til at blive fundet");
+            //         var numberOfMove = numberToMove.Find(m => cardsTheSame.Equals(m.Item2,returnedMove)).Item1;
+            //         //Console.WriteLine("Jeg er blevet fundet");
+            //         var existing = moveAndValue[numberOfMove];
+            //         var updated = existing + value.Item2;
+            //         //Console.WriteLine("Jeg er blevet opdateret lokalt og skal til at blive opdateret i ditionarien");
+            //         if (moveAndValue.TryUpdate(numberOfMove, updated, existing)) break;
+            //     }   
+            //     // var updatedValue = moveAndValue[value.item1] + value.item2; 
+            //     // moveAndValue.TryUpdate(value);
+            //     // utilsum += Simulate(copyOfd); 
+            //     // Update util value for move in dictionary   
+            // }
+        }
+        // Parallel.ForEach(determinations, d => {
+        //     // int utilSum = 0;
+        //     for (int i = 0; i < Iterations; i++)
+        //     {   
+        //         totalnumberofgames++;
+        //         var copyOfd = d.DeepClone(d);
+        //         var value = Simulate(copyOfd);
+        //         // Big if true
+        //         while (true)
+        //         {
+        //             var returnedMove = value.Item1;
+        //             //Console.WriteLine("Jeg skal til at blive fundet");
+        //             var numberOfMove = numberToMove.Find(m => cardsTheSame.Equals(m.Item2,returnedMove)).Item1;
+        //             //Console.WriteLine("Jeg er blevet fundet");
+        //             var existing = moveAndValue[numberOfMove];
+        //             var updated = existing + value.Item2;
+        //             //Console.WriteLine("Jeg er blevet opdateret lokalt og skal til at blive opdateret i ditionarien");
+        //             if (moveAndValue.TryUpdate(numberOfMove, updated, existing)) break;
+        //         }   
+        //         // var updatedValue = moveAndValue[value.item1] + value.item2; 
+        //         // moveAndValue.TryUpdate(value);
+        //         // utilsum += Simulate(copyOfd); 
+        //         // Update util value for move in dictionary   
+        //     }
+        // });
         // Console.WriteLine("Number of keys in dict : " + moveAndValue.Count() + "   Number of legal moves : " + legalMoves.Count());
         
         var moveAndValueList = moveAndValue.ToList();
@@ -170,7 +213,6 @@ public class FlatMonteCarloPlayer : Iplayer
                 notGameOver = false;
                 var actionValue = Evaluator.evaluate(determination, Name);
                 result.Item2 = actionValue;
-                return result;
             }
         }
         return result;       
@@ -198,6 +240,7 @@ public class FlatMonteCarloPlayer : Iplayer
 
     public GameState createDetermination(GameState gs) {
         var copyGameState = gs.DeepClone(gs);
+        //var copyGameState = gs.Clone();
         List<(int,Iplayer)> cardsInHandPerPlayer = new List<(int, Iplayer)>();
         // Remove cards from players hand.
         // And add them to the draw pile.
@@ -269,5 +312,25 @@ public class FlatMonteCarloPlayer : Iplayer
             }
         }
         return moves;
+    }
+
+
+    /*
+        Hand = hand;
+        Determinations = determinations;
+        Iterations = iterations;
+        Name = name;
+        Evaluator = evaluator;
+        Picker = picker;
+        Bloody mary, bloody mary, bloody mary*/
+    public Iplayer clone()
+    {
+        //cursed 
+        var clonedHand = new List<Card>();
+        foreach(var card in this.Hand){
+            clonedHand.Add(card.Clone());
+        }
+        var clonedPlayer = new FlatMonteCarloPlayer(clonedHand,this.Determinations,this.Iterations,this.Name,this.Evaluator,this.Picker);
+        return clonedPlayer;
     }
 }

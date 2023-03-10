@@ -4,14 +4,22 @@ using static CardType;
 public class TestPlayer : Iplayer
 {
 
-    List<Card> hand = new List<Card>();
+    String Name;
 
-    public TestPlayer(List<Card> hand)
+    List<Card> Hand = new List<Card>();
+
+    public TestPlayer(List<Card> Hand)
     {
-        this.hand = hand;
+        this.Hand = Hand;
     }
 
     public TestPlayer() { }
+
+    public TestPlayer(string name, List<Card> hand)
+    {
+        Name = name;
+        Hand = hand;
+    }
 
     public List<Card> action(IgameState gameState)
     {
@@ -26,7 +34,7 @@ public class TestPlayer : Iplayer
     public List<List<Card>> getActions(Card topCard)
     {
         var moves = new List<List<Card>>();
-        foreach (var card in new List<Card>(this.hand))
+        foreach (var card in new List<Card>(this.Hand))
         {
             if (card.canBePlayedOn(topCard))
             {
@@ -72,5 +80,15 @@ public class TestPlayer : Iplayer
     public void removeCardFromHand(Card cards)
     {
         throw new NotImplementedException();
+    }
+    public Iplayer clone()
+    {
+        //cursed 
+        var clonedHand = new List<Card>();
+        foreach(var card in this.Hand){
+            clonedHand.Add(card.Clone());
+        }
+        var clonedPlayer = new TestPlayer(this.Name,clonedHand);
+        return clonedPlayer;
     }
 }

@@ -3,14 +3,14 @@ using static CardType;
 [Serializable]
 public class StackingMovePlayer : Iplayer
 {
-    String name;
-    List<Card> hand = new List<Card>();
+    String Name;
+    List<Card> Hand = new List<Card>();
 
-    public StackingMovePlayer(String name) => this.name = name;
-    public StackingMovePlayer(String name, List<Card> hand)
+    public StackingMovePlayer(String Name) => this.Name = Name;
+    public StackingMovePlayer(String Name, List<Card> Hand)
     {
-        this.name = name;
-        this.hand = hand;
+        this.Name = Name;
+        this.Hand = Hand;
     }
 
     public List<Card> action(IgameState gameState)
@@ -37,27 +37,27 @@ public class StackingMovePlayer : Iplayer
 
     public void addCardsToHand(List<Card> cards)
     {
-        this.hand.AddRange(cards);
+        this.Hand.AddRange(cards);
     }
 
     public List<Card> getHand()
     {
-        return hand;
+        return Hand;
     }
 
     public string getName()
     {
-        return name;
+        return Name;
     }
 
     public void removeCardFromHand(Card cards)
     {
-        hand.Remove(cards);
+        Hand.Remove(cards);
     }
     public List<List<Card>> getStackingActions(Card topCard)
     {
         var moves = new List<List<Card>>();
-        foreach (var card in new List<Card>(hand))
+        foreach (var card in new List<Card>(Hand))
         {
             if (card.canBePlayedOn(topCard))
             {
@@ -77,7 +77,7 @@ public class StackingMovePlayer : Iplayer
                 }
                 if (card.cardType != SELECTCOLOR && card.cardType != DRAW4)
                 {
-                    var nextHand = new List<Card>(hand);
+                    var nextHand = new List<Card>(Hand);
                     moves.Add(new List<Card>() { card });
                     nextHand.Remove(card);
                     moves.AddRange(getCardOfSameType(card, nextHand, new List<Card>() { card }));
@@ -87,12 +87,12 @@ public class StackingMovePlayer : Iplayer
         }
         return moves;
     }
-    public List<List<Card>> getCardOfSameType(Card toBePlayedOn, List<Card> hand, List<Card> currentStack)
+    public List<List<Card>> getCardOfSameType(Card toBePlayedOn, List<Card> Hand, List<Card> currentStack)
     {
         var moves = new List<List<Card>>();
-        foreach (var card in new List<Card>(hand))
+        foreach (var card in new List<Card>(Hand))
         {
-            var nextHand = new List<Card>(hand);
+            var nextHand = new List<Card>(Hand);
             if (card.cardType == toBePlayedOn.cardType)
             {
                 var moveStack = new List<Card>(currentStack);
@@ -104,5 +104,15 @@ public class StackingMovePlayer : Iplayer
             }
         }
         return moves;
+    }
+        public Iplayer clone()
+    {
+        //cursed 
+        var clonedHand = new List<Card>();
+        foreach(var card in this.Hand){
+            clonedHand.Add(card.Clone());
+        }
+        var clonedPlayer = new StackingMovePlayer(this.Name,clonedHand);
+        return clonedPlayer;
     }
 }

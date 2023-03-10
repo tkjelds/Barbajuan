@@ -155,7 +155,7 @@ public class GameState : IgameState
     public IgameState apply(List<Card> cards)
     {
         GameState gs = DeepClone<GameState>(this);
-
+        //GameState gs = Clone();
         foreach (var card in cards)
         {
             gs.apply(gs, card);
@@ -442,5 +442,39 @@ public int runReturnNumberOfTurns()
             ms.Position = 0;
             return (T)formatter.Deserialize(ms);
         }
+    }
+
+    /*
+    private Iplayer currentPlayer;
+    private int nextPlayerIndex;
+    private int currentPlayerIndex = 0;
+    private List<Iplayer> players;
+    private Deck deck;
+    private bool playDirectionClockwise = true;
+    private List<Iplayer> scoreBoard;
+    */
+    public GameState Clone(){ // TODO
+
+        var clonedListOfPlayers = new List<Iplayer>();
+
+        foreach (var player in players)
+        {
+            clonedListOfPlayers.Add(player.clone());
+        }
+
+        var clonedScoreboard = new List<Iplayer>();
+
+        foreach (var player in scoreBoard)
+        {
+            clonedScoreboard.Add(player.clone());
+        }
+        var clonedCurrentPlayer = currentPlayer.clone();
+
+        var clonedDeck = this.deck.Clone();
+
+        // List<Iplayer> players, Deck deck, Iplayer currentPlayer, int currentPlayerIndex, int nextPlayerIndex, List<Iplayer> scoreBoard, bool playDirection
+        var clonedGS = new GameState(clonedListOfPlayers,clonedDeck,clonedCurrentPlayer,this.currentPlayerIndex,this.nextPlayerIndex,clonedScoreboard,this.playDirectionClockwise);
+    
+        return clonedGS;
     }
 }

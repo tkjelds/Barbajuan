@@ -6,4 +6,5 @@ public interface Iplayer
     public void addCardsToHand(List<Card> cards);
     public string getName();
 
+    public Iplayer clone();
 }
