@@ -64,4 +64,71 @@ public class PlayerTests
         // Then
         expected.Should().BeEquivalentTo(actual);
     }
+
+    [Fact]
+    public void CloneOfRandomPlayerIsDifferentObject()
+    {
+        // Given
+        var player = new RandomPlayer(new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)}, "carl");
+        var playerHand = player.getHand();
+        // When
+        var actual = player.clone();
+        var actualHand = actual.getHand();
+        // Then
+        Assert.Equal(player.getHand().Count() , actual.getHand().Count());
+        Assert.Equal(player.getName(), actual.getName());
+        playerHand.Should().BeEquivalentTo(actualHand);
+        Assert.NotEqual(player,actual);
+        Assert.Equal(player,player);
+    }
+
+    [Fact]
+    public void CloneOfPlayerIsDifferentObject()
+    {
+        // Given
+        var player = new Player(new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)}, "carl");
+        var playerHand = player.getHand();
+        // When
+        var actual = player.clone();
+        var actualHand = actual.getHand();
+        // Then
+        Assert.Equal(player.getHand().Count() , actual.getHand().Count());
+        Assert.Equal(player.getName(), actual.getName());
+        playerHand.Should().BeEquivalentTo(actualHand);
+        Assert.NotEqual(player,actual);
+        Assert.Equal(player,player);
+    }
+
+    [Fact]
+    public void CloneOfRandomStackingPlayerIsDifferentObject()
+    {
+        // Given
+        var player = new RandomStackingPlayer ( "carl",new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)});
+        var playerHand = player.getHand();
+        // When
+        var actual = player.clone();
+        var actualHand = actual.getHand();
+        // Then
+        Assert.Equal(player.getHand().Count() , actual.getHand().Count());
+        Assert.Equal(player.getName(), actual.getName());
+        playerHand.Should().BeEquivalentTo(actualHand);
+        Assert.NotEqual(player,actual);
+        Assert.Equal(player,player);
+    }
+    [Fact]
+    public void CloneOfMonteCarloPlayerIsDifferentObject()
+    {
+        // Given
+        var player = new FlatMonteCarloPlayer (new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)},10,10,"carl");
+        var playerHand = player.getHand();
+        // When
+        var actual = player.clone();
+        var actualHand = actual.getHand();
+        // Then
+        Assert.Equal(player.getHand().Count() , actual.getHand().Count());
+        Assert.Equal(player.getName(), actual.getName());
+        playerHand.Should().BeEquivalentTo(actualHand);
+        Assert.NotEqual(player,actual);
+        Assert.Equal(player,player);
+    }
 }

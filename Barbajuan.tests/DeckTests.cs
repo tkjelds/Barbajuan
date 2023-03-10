@@ -148,4 +148,32 @@ public class DeckTests
         Assert.Equal(100,deck.discardPile.Count());
         Assert.Equal(topCardOfOriginalDiscardPile,actual);
     }
+
+    [Fact]
+    public void ClonedDeckIsDifferentObject()
+    {
+        // Given
+        var deck = new Deck(generateCards(20), generateCards(20));
+        // When
+        var actual = deck.Clone();
+        // Then
+        // Different REFs for object
+        Assert.NotEqual(deck,actual);
+        // Same of total amount of cards
+        Assert.Equal(deck.deckCount(),actual.deckCount());
+        // Correct Amount of cards in discard 
+        Assert.Equal(deck.discardPile.Count(),actual.discardPile.Count());
+        // Correct amoutn of cards in drawppile
+        Assert.Equal(deck.drawPile.Count(),actual.drawPile.Count());
+    }
+
+    [Fact]
+    public void ClonedDeckIsTheSameOrder()
+    {
+        // Given
+    
+        // When
+    
+        // Then
+    }
 }

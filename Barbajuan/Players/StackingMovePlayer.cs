@@ -105,7 +105,7 @@ public class StackingMovePlayer : Iplayer
         }
         return moves;
     }
-        public Iplayer clone()
+    public Iplayer clone()
     {
         //cursed 
         var clonedHand = new List<Card>();

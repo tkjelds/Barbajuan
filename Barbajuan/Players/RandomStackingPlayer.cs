@@ -1,4 +1,4 @@
-class RandomStackingPlayer : Iplayer
+public class RandomStackingPlayer : Iplayer
 {
 
     string Name;
