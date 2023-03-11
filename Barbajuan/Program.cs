@@ -22,7 +22,7 @@ internal class Program
         for (int i = 0; i < 100; i++)
         { 
             var players = new List<Iplayer>(){
-                new FlatMonteCarloPlayer("bot 1", 10, 1000),
+                new FlatMonteCarloPlayer("bot 1", 10, 10000),
                 new StackingMovePlayer("bot 2"),
                 new StackingMovePlayer("bot 3"),
                 new StackingMovePlayer("bot 4")          
