@@ -16,21 +16,36 @@ internal class Program
         playerPlacements.Add(("bot 2", new List<int>() { 0, 0, 0, 0 }));
         playerPlacements.Add(("bot 3", new List<int>() { 0, 0, 0, 0 }));
         playerPlacements.Add(("bot 4", new List<int>() { 0, 0, 0, 0 }));
-
-        for (int i = 0; i < 100; i++)
-        { 
+        var i = 0;
+        while(true){
             var players = new List<Iplayer>(){
                 
                 new RandomStackingPlayer("bot 1"),
                 new RandomStackingPlayer("bot 2"),
-                new FlatMonteCarloPlayer("bot 3", 10, 10000),
+                new FlatMonteCarloPlayer("bot 3", 250, 10),
                 new RandomStackingPlayer("bot 4")          
             };
             var gameState = new GameState(players);
             var scoreBoard = gameState.runReturnScoreBoard();
             scoreBoards.Add(scoreBoard);
-            Console.WriteLine("Done with game number: " + i);            
+            i++;
+            Console.WriteLine("Done with game number: " + i);  
         }
+        
+        // for (int i = 0; i < 100; i++)
+        // { 
+        //     var players = new List<Iplayer>(){
+                
+        //         new RandomStackingPlayer("bot 1"),
+        //         new RandomStackingPlayer("bot 2"),
+        //         new FlatMonteCarloPlayer("bot 3", 250, 10),
+        //         new RandomStackingPlayer("bot 4")          
+        //     };
+        //     var gameState = new GameState(players);
+        //     var scoreBoard = gameState.runReturnScoreBoard();
+        //     scoreBoards.Add(scoreBoard);
+        //     Console.WriteLine("Done with game number: " + i);            
+        // }
         // Parallel.ForEach(Partitioner.Create(0, 100), range => {
         // for (var index = range.Item1; index < range.Item2; index++) {
         //     var players = new List<Iplayer>(){

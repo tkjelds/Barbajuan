@@ -468,13 +468,32 @@ public int runReturnNumberOfTurns()
         {
             clonedScoreboard.Add(player.clone());
         }
-        var clonedCurrentPlayer = clonedListOfPlayers[this.currentPlayerIndex];
+        
+        
+        var clonedCurrentPlayerIndex = ensureValidIndex(this.currentPlayerIndex);
+        var clonedNextPlayerIndex = ensureValidIndex(this.nextPlayerIndex); 
 
+        var clonedCurrentPlayer = clonedListOfPlayers[clonedCurrentPlayerIndex];
+        
+        // try
+        // {
+        //  var clonedCurrentPlayerx = clonedListOfPlayers[clonedCurrentPlayerIndex];   
+        // }
+        // catch (System.ArgumentOutOfRangeException)
+        // {
+        //     Console.WriteLine("Amount of players : " + clonedListOfPlayers.Count());
+        //     Console.WriteLine("CurrentPlayer index : " + this.currentPlayerIndex);
+        //     throw;
+        // }
         var clonedDeck = this.deck.Clone();
 
         // List<Iplayer> players, Deck deck, Iplayer currentPlayer, int currentPlayerIndex, int nextPlayerIndex, List<Iplayer> scoreBoard, bool playDirection
-        var clonedGS = new GameState(clonedListOfPlayers,clonedDeck,clonedCurrentPlayer,this.currentPlayerIndex,this.nextPlayerIndex,clonedScoreboard,this.playDirectionClockwise);
+        var clonedGS = new GameState(clonedListOfPlayers,clonedDeck,clonedCurrentPlayer,clonedCurrentPlayerIndex,clonedNextPlayerIndex,clonedScoreboard,this.playDirectionClockwise);
     
         return clonedGS;
+    }
+
+    public int ensureValidIndex(int index) {
+        return prevPlayer(nextPlayer(index,this),this);
     }
 }
