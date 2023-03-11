@@ -1,5 +1,3 @@
-using System.Collections.Concurrent;
-
 internal class Program
 {
     private static void Main(string[] args)
@@ -22,10 +20,11 @@ internal class Program
         for (int i = 0; i < 100; i++)
         { 
             var players = new List<Iplayer>(){
-                new FlatMonteCarloPlayer("bot 1", 10, 10000),
-                new StackingMovePlayer("bot 2"),
-                new StackingMovePlayer("bot 3"),
-                new StackingMovePlayer("bot 4")          
+                
+                new RandomStackingPlayer("bot 1"),
+                new RandomStackingPlayer("bot 2"),
+                new FlatMonteCarloPlayer("bot 3", 10, 10000),
+                new RandomStackingPlayer("bot 4")          
             };
             var gameState = new GameState(players);
             var scoreBoard = gameState.runReturnScoreBoard();

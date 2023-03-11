@@ -426,23 +426,23 @@ public int runReturnNumberOfTurns()
         return scoreBoard;
     }
 
-    public static T DeepCloneJson<T>(T self)
-    {
-        var serialized = JsonConvert.SerializeObject(self);
-        return JsonConvert.DeserializeObject<T>(serialized);
-    }
+//     public static T DeepCloneJson<T>(T self)
+//     {
+//         var serialized = JsonConvert.SerializeObject(self);
+//         return JsonConvert.DeserializeObject<T>(serialized);
+//     }
 
-    public T DeepClone<T>(T obj)
-    {
-        using (var ms = new MemoryStream())
-        {
-            var formatter = new BinaryFormatter();
-#pragma warning disable SYSLIB0011
-            formatter.Serialize(ms, obj);
-            ms.Position = 0;
-            return (T)formatter.Deserialize(ms);
-        }
-    }
+//     public T DeepClone<T>(T obj)
+//     {
+//         using (var ms = new MemoryStream())
+//         {
+//             var formatter = new BinaryFormatter();
+// #pragma warning disable SYSLIB0011
+//             formatter.Serialize(ms, obj);
+//             ms.Position = 0;
+//             return (T)formatter.Deserialize(ms);
+//         }
+//     }
 
     /*
     private Iplayer currentPlayer;
