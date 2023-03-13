@@ -1,3 +1,6 @@
+using System.Globalization;
+using CsvHelper;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -17,19 +20,19 @@ internal class Program
         playerPlacements.Add(("bot 3", new List<int>() { 0, 0, 0, 0 }));
         playerPlacements.Add(("bot 4", new List<int>() { 0, 0, 0, 0 }));
         var i = 0;
-        while(true){
+        while(i<100000){
             var players = new List<Iplayer>(){
                 
-                new RandomStackingPlayer("bot 1"),
-                new RandomStackingPlayer("bot 2"),
-                new FlatMonteCarloPlayer("bot 3", 250, 10),
-                new RandomStackingPlayer("bot 4")          
+                new RandomPlayer(new List<Card>(),"bot 1"),
+                new RandomPlayer(new List<Card>(),"bot 2"),
+                new RandomPlayer(new List<Card>(),"bot 3"),
+                new StackingMovePlayer("bot 4")          
             };
             var gameState = new GameState(players);
             var scoreBoard = gameState.runReturnScoreBoard();
             scoreBoards.Add(scoreBoard);
             i++;
-            Console.WriteLine("Done with game number: " + i);  
+            if(i == 100000) {Console.WriteLine("Done with game number: " + i);};  
         }
         
         // for (int i = 0; i < 100; i++)
@@ -78,18 +81,42 @@ internal class Program
 
             for (int placementIndex = 0; placementIndex < scoreboard.Count(); placementIndex++)
             {
+                
                 var entry = playerPlacements.Find(p => p.Item1 == scoreboard[placementIndex].getName());
+                
                 entry.Item2[placementIndex]++;
             }
         }
 
         foreach (var player in playerPlacements)
         {
+            var playername = player.Item1;
             Console.WriteLine(player.Item1);
+            using (var stream = File.Open(@".\Documentation\PlacementExperiment.csv", FileMode.Append))
+                using (var writer = new StreamWriter(stream))
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    // csv.WriteRecords(playername);
+                    csv.WriteField(playername);
+                    csv.NextRecord();
+                }
             for (int placementIndex = 0; placementIndex < player.Item2.Count(); placementIndex++)
             {
                 var placement = placementIndex + 1;
+
+                var placeNumber = placement;
+                var numberOfPlacements = player.Item2[placementIndex];
+
                 Console.WriteLine("Placement : " + placement + "    Amount of times : " + player.Item2[placementIndex]);
+
+
+                using (var stream = File.Open(@".\Documentation\PlacementExperiment.csv", FileMode.Append))
+                using (var writer = new StreamWriter(stream))
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    csv.WriteField(numberOfPlacements);
+                    csv.NextRecord();
+                }
             }
         }
 
