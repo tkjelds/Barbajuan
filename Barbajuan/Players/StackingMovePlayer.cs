@@ -1,6 +1,6 @@
 using static CardColor;
 using static CardType;
-[Serializable]
+
 public class StackingMovePlayer : Iplayer
 {
     String Name;
@@ -18,14 +18,6 @@ public class StackingMovePlayer : Iplayer
 
         var moves = getStackingActions(gameState.getDeck().discardPile.Peek());
 
-        // using (var stream = File.Open(@".\Documentation\AverageNumberOfActionsStackingPlayer.csv", FileMode.Append))
-        // using (var writer = new StreamWriter(stream))
-        // using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-        // {
-        //     if (moves.Count == 0) csv.WriteRecord(0);
-        //     else csv.WriteRecord(moves.Count());
-        //     csv.NextRecord();
-        // }
         if (moves.Count == 0)
         {
             return new List<Card>() { new Card(WILD, DRAW1) };

@@ -6,8 +6,8 @@ public class FlatMonteCarloPlayerTests
     {
         var MonteCarloPlayer = new FlatMonteCarloPlayer();
         var players = new List<Iplayer>(){
-                new Player("bot 1"),
-                new Player("bot 2"),
+                new RandomPlayer("bot 1"),
+                new RandomPlayer("bot 2"),
                 MonteCarloPlayer
         };
         
@@ -39,8 +39,8 @@ public class FlatMonteCarloPlayerTests
         // Given
         var MonteCarloPlayer = new FlatMonteCarloPlayer();
         var players = new List<Iplayer>(){
-                new Player("bot 1"),
-                new Player("bot 2"),
+                new RandomPlayer("bot 1"),
+                new RandomPlayer("bot 2"),
                 MonteCarloPlayer
         };
         

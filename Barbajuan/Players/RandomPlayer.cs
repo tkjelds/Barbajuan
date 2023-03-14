@@ -1,4 +1,4 @@
-[Serializable]
+
 public class RandomPlayer : Iplayer
 {
     public List<Card> Hand = new List<Card>();
@@ -16,7 +16,11 @@ public class RandomPlayer : Iplayer
         Hand = hand;
     }
 
-    public new List<Card> action(IgameState gameState)
+    public RandomPlayer(string name){
+        this.name = name;
+    }
+
+    public List<Card> action(IgameState gameState)
     {
         var moves = this.getActions(gameState.getDeck().discardPile.Peek());
         if (moves.Count == 0)

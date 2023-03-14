@@ -86,7 +86,7 @@ public class PlayerTests
     public void CloneOfPlayerIsDifferentObject()
     {
         // Given
-        var player = new Player(new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)}, "carl");
+        var player = new RandomPlayer(new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)}, "carl");
         var playerHand = player.getHand();
         // When
         var actual = player.clone();
@@ -136,7 +136,7 @@ public class PlayerTests
     public void ListofPlayersIsClonedInCorrectOrder()
     {
         // Given
-        var players = new List<Iplayer>(){new Player("Player0"), new Player("Player1"), new Player("Player2"), new Player("Player3")};
+        var players = new List<Iplayer>(){new RandomPlayer("Player0"), new RandomPlayer("Player1"), new RandomPlayer("Player2"), new RandomPlayer("Player3")};
         var actual = new List<Iplayer>();
         // When
         foreach (var player in players)

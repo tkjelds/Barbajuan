@@ -1,6 +1,6 @@
 using static CardColor;
 using static CardType;
-[Serializable]
+
 public class TestPlayer : Iplayer
 {
 

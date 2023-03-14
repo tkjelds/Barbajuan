@@ -23,10 +23,10 @@ internal class Program
         while(i<1000){
             var players = new List<Iplayer>(){
                 
-                new FlatMonteCarloPlayer("bot 1", 100, 100),
-                new RandomStackingPlayer("bot 2"),
-                new RandomStackingPlayer("bot 3"),
-                new RandomStackingPlayer("bot 4")          
+                new RandomPlayer("bot 1"),
+                new RandomPlayer("bot 2"),
+                new RandomPlayer("bot 3"),
+                new RandomPlayer("bot 4")          
             };
             var gameState = new GameState(players);
             var scoreBoard = gameState.runReturnScoreBoard();

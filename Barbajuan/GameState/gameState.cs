@@ -1,6 +1,3 @@
-using System.Runtime.Serialization.Formatters.Binary;
-using Newtonsoft.Json;
-[Serializable]
 public class GameState : IgameState
 {
     private Iplayer currentPlayer;
@@ -152,29 +149,13 @@ public class GameState : IgameState
         return gs;
     }
 
+
+// TODO Rename to applyWithClone ELLER NOGET!
     public IgameState apply(List<Card> cards)
     {
-        //GameState gs = DeepClone<GameState>(this);
         GameState gs = Clone();
-        foreach (var card in cards)
-        {
-            gs.apply(gs, card);
-        }
-        if (gs.currentPlayer.getHand().Count() == 0)
-        {
-            if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs); }
-            gs.playerKnockOut(gs.currentPlayer);
-            return gs;
-        }
 
-
-        if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { gs.nextPlayerIndex = gs.nextPlayer(gs.nextPlayerIndex, gs); }
-        if (gs.players.Count() > 1)
-        {
-            gs.currentPlayer = gs.players[prevPlayer(nextPlayer(nextPlayerIndex,gs),gs)];
-            gs.currentPlayerIndex = gs.nextPlayerIndex;
-            gs.nextPlayerIndex = gs.nextPlayer();
-        }
+        gs.applyNoClone(cards);
 
         return gs;
     }
@@ -207,7 +188,6 @@ public class GameState : IgameState
 
     public void playerKnockOut(Iplayer player)
     {
-        //Console.WriteLine(" i have been removed from the game, name: " + player.getName());
         var amountOfPlayersBeforeRemove = players.Count();
         this.players.Remove(player);
         this.scoreBoard.Add(player);
@@ -342,11 +322,9 @@ public class GameState : IgameState
                 Console.WriteLine("Current Play: " + card.cardColor.ToString() + "   " + card.cardType.ToString());
             }
             Console.WriteLine();
-            // Console.WriteLine("Amount of cards in hand: " + currentPlayer.hand.Count());
-            // Console.WriteLine("Current top card of discard pile: " + newGameState.getDeck().discardPile.Peek().ToString());
-            // Console.WriteLine("");
+            
             Console.WriteLine("Number of plays: " + counter);
-            // Console.WriteLine("");
+
             update(newGameState);
             if (IsGameOver())
             {
@@ -395,54 +373,20 @@ public int runReturnNumberOfTurns()
         while (notGameOver)
         {
             counter++;
-            // TODO
-            //Console.WriteLine("Current player: " + this.currentPlayer.getName());
+            
             var action = this.currentPlayer.action(this);
             var newGameState = this.applyNoClone(action);
-            // foreach (var card in action)
-            // {
-            //     Console.WriteLine("Current Play: " + card.cardColor.ToString() + "   " + card.cardType.ToString());
-            // }
-            // Console.WriteLine();
-            // Console.WriteLine("Amount of cards in hand: " + currentPlayer.hand.Count());
-            // Console.WriteLine("Current top card of discard pile: " + newGameState.getDeck().discardPile.Peek().ToString());
-            // Console.WriteLine("");
-            // Console.WriteLine("Number of plays: " + counter);
-            // Console.WriteLine("");
-            //update(newGameState);
+
             if (IsGameOver())
             {
                 scoreBoard.Add(players[0]);
                 notGameOver = false;
-                // Console.WriteLine("Loser: " + newGameState.GetPlayers()[nextPlayer(getNextPlayerIndex(), (GameState)newGameState)].getName());
             }
 
         }
 
-        // for (int playerIndex = 0; playerIndex < scoreBoard.Count(); playerIndex++)
-        // {
-        //     Console.WriteLine("Placement :" + (playerIndex + 1) + "   Name :" + scoreBoard[playerIndex].getName());
-        // }
         return scoreBoard;
     }
-
-//     public static T DeepCloneJson<T>(T self)
-//     {
-//         var serialized = JsonConvert.SerializeObject(self);
-//         return JsonConvert.DeserializeObject<T>(serialized);
-//     }
-
-//     public T DeepClone<T>(T obj)
-//     {
-//         using (var ms = new MemoryStream())
-//         {
-//             var formatter = new BinaryFormatter();
-// #pragma warning disable SYSLIB0011
-//             formatter.Serialize(ms, obj);
-//             ms.Position = 0;
-//             return (T)formatter.Deserialize(ms);
-//         }
-//     }
 
     /*
     private Iplayer currentPlayer;
@@ -475,16 +419,6 @@ public int runReturnNumberOfTurns()
 
         var clonedCurrentPlayer = clonedListOfPlayers[clonedCurrentPlayerIndex];
         
-        // try
-        // {
-        //  var clonedCurrentPlayerx = clonedListOfPlayers[clonedCurrentPlayerIndex];   
-        // }
-        // catch (System.ArgumentOutOfRangeException)
-        // {
-        //     Console.WriteLine("Amount of players : " + clonedListOfPlayers.Count());
-        //     Console.WriteLine("CurrentPlayer index : " + this.currentPlayerIndex);
-        //     throw;
-        // }
         var clonedDeck = this.deck.Clone();
 
         // List<Iplayer> players, Deck deck, Iplayer currentPlayer, int currentPlayerIndex, int nextPlayerIndex, List<Iplayer> scoreBoard, bool playDirection

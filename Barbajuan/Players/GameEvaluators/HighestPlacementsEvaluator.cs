@@ -1,4 +1,4 @@
-[Serializable]
+
 class HighestPlacementsEvaluator : IgameEvaluator
 {
     public int evaluate(GameState gs, string playerName)

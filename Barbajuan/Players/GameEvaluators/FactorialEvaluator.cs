@@ -1,4 +1,4 @@
-[Serializable]
+
 public class FactorialEvaluator : IgameEvaluator
 {
     public int evaluate(GameState gs, string playerName)

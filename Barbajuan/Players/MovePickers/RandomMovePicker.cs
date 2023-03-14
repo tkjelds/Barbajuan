@@ -1,5 +1,4 @@
 // Return random stacking move from current gamestate
-[Serializable]
 public class RandomMovePicker : ImovePicker
 {
     public List<Card> pick(GameState gameState)

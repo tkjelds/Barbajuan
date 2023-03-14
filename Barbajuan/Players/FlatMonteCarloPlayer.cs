@@ -14,7 +14,6 @@ MonteCarloNode   Parent
 
 using System.Collections.Concurrent;
 
-[Serializable]
 public class FlatMonteCarloPlayer : Iplayer
 {
 
@@ -66,7 +65,7 @@ public class FlatMonteCarloPlayer : Iplayer
         // Add all our own legal moves to the moveAndValue bag
         // -------------
         ConcurrentDictionary<int,int> moveAndValue = new ConcurrentDictionary<int, int>();
-        ListOfCardsTheSame cardsTheSame = new ListOfCardsTheSame();
+        CardsComparer cardsTheSame = new CardsComparer();
         var legalMoves = getStackingActions(gameState.getDeck().discardPile.Peek());
         if (legalMoves.Count == 0) return new List<Card>() { new Card(WILD, DRAW1) };
         if (legalMoves.Count == 1) return legalMoves[0];
@@ -90,10 +89,6 @@ public class FlatMonteCarloPlayer : Iplayer
         
         // Create a number of determinations
         // var determinations = new List<GameState>();
-        // for (int i = 0; i < Determinations; i++)
-        // {
-        //     determinations.Add(createDetermination((GameState) gameState));
-        // }
 
         // Simulate each determination a number of times, run in parallel
         for (var i = 0; i<Determinations; i++)
@@ -117,96 +112,34 @@ public class FlatMonteCarloPlayer : Iplayer
                 }   
 
             });
-            // for (int j = 0; j < Iterations; j++)
-            // {   
-            //     var copyOfd = d.Clone();
-            //     var value = Simulate(copyOfd);
-            //     // Big if true
-            //     while (true)
-            //     {
-            //         var returnedMove = value.Item1;
-            //         //Console.WriteLine("Jeg skal til at blive fundet");
-            //         var numberOfMove = numberToMove.Find(m => cardsTheSame.Equals(m.Item2,returnedMove)).Item1;
-            //         //Console.WriteLine("Jeg er blevet fundet");
-            //         var existing = moveAndValue[numberOfMove];
-            //         var updated = existing + value.Item2;
-            //         //Console.WriteLine("Jeg er blevet opdateret lokalt og skal til at blive opdateret i ditionarien");
-            //         if (moveAndValue.TryUpdate(numberOfMove, updated, existing)) break;
-            //     }   
-            //     // var updatedValue = moveAndValue[value.item1] + value.item2; 
-            //     // moveAndValue.TryUpdate(value);
-            //     // utilsum += Simulate(copyOfd); 
-            //     // Update util value for move in dictionary   
-            // }
+
         }
-        // Parallel.ForEach(determinations, d => {
-        //     // int utilSum = 0;
-        //     for (int i = 0; i < Iterations; i++)
-        //     {   
-        //         totalnumberofgames++;
-        //         var copyOfd = d.DeepClone(d);
-        //         var value = Simulate(copyOfd);
-        //         // Big if true
-        //         while (true)
-        //         {
-        //             var returnedMove = value.Item1;
-        //             //Console.WriteLine("Jeg skal til at blive fundet");
-        //             var numberOfMove = numberToMove.Find(m => cardsTheSame.Equals(m.Item2,returnedMove)).Item1;
-        //             //Console.WriteLine("Jeg er blevet fundet");
-        //             var existing = moveAndValue[numberOfMove];
-        //             var updated = existing + value.Item2;
-        //             //Console.WriteLine("Jeg er blevet opdateret lokalt og skal til at blive opdateret i ditionarien");
-        //             if (moveAndValue.TryUpdate(numberOfMove, updated, existing)) break;
-        //         }   
-        //         // var updatedValue = moveAndValue[value.item1] + value.item2; 
-        //         // moveAndValue.TryUpdate(value);
-        //         // utilsum += Simulate(copyOfd); 
-        //         // Update util value for move in dictionary   
-        //     }
-        // });
-        // Console.WriteLine("Number of keys in dict : " + moveAndValue.Count() + "   Number of legal moves : " + legalMoves.Count());
-        
+               
         var moveAndValueList = moveAndValue.ToList();
-        // Console.WriteLine("turn over"); 
-        // foreach (var mv in moveAndValueList)
-        // {
-        //     var move = numberToMove[mv.Key];
-        //     Console.WriteLine("Move : ");
-        //     foreach (var card in move.Item2)
-        //     {
-        //         Console.Write("  " + card.ToString() +  "  ");
-        //     }
-        //     Console.WriteLine("Number of wins : " + mv.Value);
-        // }
+
         moveAndValueList.Sort((x,y) => x.Value.CompareTo(y.Value));
 
         //Console.WriteLine("Total number of tested games (I think): " + totalnumberofgames);
         var bestMove = moveAndValueList.Last().Key;
         var chosenMove = numberToMove.Find(x => x.Item1 == bestMove).Item2;
-        //Console.WriteLine("Chosen move is : ");
-        // foreach (var card  in chosenMove)
-        // {
-        //     Console.Write("  " + card.ToString() +  "  ");
-        // }
+
         return chosenMove;
     }
 
     private (List<Card>, int) Simulate(GameState determination)
     {
         var pickedAction = Picker.pick(determination);
-        // Console.Write("Picked action : ");
-        // foreach (var card in pickedAction)
-        // {
-        //     Console.Write("   " + card.ToString() + "   ");
-        // }
-        // Console.WriteLine();
+
         var result = (pickedAction, 0);
+
         determination.applyNoClone(pickedAction);
+
         if (determination.IsGameOver()  || (determination.GetPlayers().Find(p => p.getName() == Name) == null) )
         {
             result.Item2 = Evaluator.evaluate(determination,Name);
             return result;
         }
+
         var notGameOver = true;
         while (notGameOver) // TODO change to when we are knocked out
         {
@@ -243,9 +176,10 @@ public class FlatMonteCarloPlayer : Iplayer
     }
 
     public GameState createDetermination(GameState gs) {
-        //var copyGameState = gs.DeepClone(gs);
+        
         var copyGameState = gs.Clone();
         List<(int,Iplayer)> cardsInHandPerPlayer = new List<(int, Iplayer)>();
+
         // Remove cards from players hand.
         // And add them to the draw pile.
         foreach (var p in copyGameState.GetPlayers()) {
@@ -258,7 +192,7 @@ public class FlatMonteCarloPlayer : Iplayer
                 }
             }
         }
-        // SHuffle Deck (Not discard)
+        // Shuffle Deck (Not discard)
         copyGameState.getDeck().ShuffleDrawPile();
         // Give Cards to players again
         foreach (var k in cardsInHandPerPlayer) {

@@ -1,4 +1,4 @@
-[Serializable]
+
 // Returns 1 if firstplace, returns 0 if not
 public class NaiveGameEvaluator : IgameEvaluator
 {

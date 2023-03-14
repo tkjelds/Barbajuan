@@ -1,4 +1,4 @@
-[Serializable]
+
 public class NaiveMovePicker : ImovePicker
 {
     public List<Card> pick(GameState gameState)
