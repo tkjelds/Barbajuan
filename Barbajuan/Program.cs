@@ -20,19 +20,20 @@ internal class Program
         playerPlacements.Add(("bot 3", new List<int>() { 0, 0, 0, 0 }));
         playerPlacements.Add(("bot 4", new List<int>() { 0, 0, 0, 0 }));
         var i = 0;
-        while(i<100000){
+        while(i<1000){
             var players = new List<Iplayer>(){
                 
-                new RandomPlayer(new List<Card>(),"bot 1"),
-                new RandomPlayer(new List<Card>(),"bot 2"),
-                new RandomPlayer(new List<Card>(),"bot 3"),
-                new StackingMovePlayer("bot 4")          
+                new FlatMonteCarloPlayer("bot 1", 100, 100),
+                new RandomStackingPlayer("bot 2"),
+                new RandomStackingPlayer("bot 3"),
+                new RandomStackingPlayer("bot 4")          
             };
             var gameState = new GameState(players);
             var scoreBoard = gameState.runReturnScoreBoard();
             scoreBoards.Add(scoreBoard);
             i++;
-            if(i == 100000) {Console.WriteLine("Done with game number: " + i);};  
+            if(i == 1000) {Console.WriteLine("Done with game number: " + i);};  
+            Console.WriteLine("Done with game number: " + i);
         }
         
         // for (int i = 0; i < 100; i++)
@@ -92,7 +93,7 @@ internal class Program
         {
             var playername = player.Item1;
             Console.WriteLine(player.Item1);
-            using (var stream = File.Open(@".\Documentation\PlacementExperiment.csv", FileMode.Append))
+            using (var stream = File.Open(@".\Documentation\FlatMonteCarloExperiments", FileMode.Append))
                 using (var writer = new StreamWriter(stream))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
@@ -110,7 +111,7 @@ internal class Program
                 Console.WriteLine("Placement : " + placement + "    Amount of times : " + player.Item2[placementIndex]);
 
 
-                using (var stream = File.Open(@".\Documentation\PlacementExperiment.csv", FileMode.Append))
+                using (var stream = File.Open(@".\Documentation\FlatMonteCarloExperiments", FileMode.Append))
                 using (var writer = new StreamWriter(stream))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {

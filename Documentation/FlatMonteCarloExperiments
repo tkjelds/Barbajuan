@@ -1,0 +1,66 @@
+FlatMonteCarloPlayer versus 3 RandomStackingPlayer. 1000 games, 10x1000 monte carlo
+
+bot 1
+368
+281
+227
+124
+bot 2
+199
+242
+255
+304
+bot 3
+222
+217
+268
+293
+bot 4
+211
+260
+250
+279
+
+FlatMonteCarloPlayer versus 3 RandomStackingPlayer. 1000 games, 20x500 monte carlo
+bot 1
+394
+280
+209
+117
+bot 2
+204
+267
+253
+276
+bot 3
+210
+206
+276
+308
+bot 4
+192
+247
+262
+299
+
+FlatMonteCarloPlayer versus 3 RandomStackingPlayer. 1000 games, 100x100 monte carlo
+bot 1
+400
+278
+223
+99
+bot 2
+197
+247
+254
+302
+bot 3
+203
+233
+274
+290
+bot 4
+200
+242
+249
+309
