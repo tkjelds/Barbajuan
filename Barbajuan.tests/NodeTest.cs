@@ -4,13 +4,13 @@ public class NodeTest
     public void UpdateNodeUpdatesAllParents()
     {
         // Given
-        var rootNode = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,1},0);
-        var firstGenChildNode1 = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,1},1);
-        var firstGenChildNode2 = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,1},1);
-        var firstGenChildNode3 = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,1},1);
-        var secondGenChildNode1 = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,1},0);
-        var secondGenChildNode2 = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,1},0);
-        var thirdGenChildNode1 = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,1},1);
+        var rootNode = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,1},0);
+        var firstGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,1},1);
+        var firstGenChildNode2 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,1},1);
+        var firstGenChildNode3 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,1},1);
+        var secondGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,1},0);
+        var secondGenChildNode2 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,1},0);
+        var thirdGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,1},1);
         rootNode.addChild(firstGenChildNode1);
         rootNode.addChild(firstGenChildNode2);
         rootNode.addChild(firstGenChildNode3);
@@ -30,8 +30,8 @@ public class NodeTest
     public void UpdateUpdatesRootNodeOneGeneration()
     {
         // Given
-        var rootNode = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,2},1);
-        var firstGenChildNode1 = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,2},1);
+        var rootNode = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,2},1);
+        var firstGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,2},1);
         rootNode.addChild(firstGenChildNode1);
         // When
         firstGenChildNode1.update(10,0);
@@ -44,9 +44,9 @@ public class NodeTest
     public void UpdateUpdatesRootNodeTwoGenerations()
     {
         // Given
-        var rootNode = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,2},1);
-        var firstGenChildNode1 = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,2},1);
-        var secondGenChildNode = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,2},1);
+        var rootNode = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,2},1);
+        var firstGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,2},1);
+        var secondGenChildNode = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,2},1);
         rootNode.addChild(firstGenChildNode1);
         firstGenChildNode1.addChild(secondGenChildNode);
         // When
@@ -66,8 +66,8 @@ public class NodeTest
     public void IsTerminalNode()
     {
         // Given
-        var rootNode = new Node(null,new List<Node>(),null,new List<Card>(),2,new List<double>(){1,2},1);
-        var firstGenChildNode1 = new Node(null,new List<Node>(),null,new List<Card>(),2,new List<double>(){1,2},1);
+        var rootNode = new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
+        var firstGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
         // When
         rootNode.addChild(firstGenChildNode1);
         // Then
@@ -78,8 +78,8 @@ public class NodeTest
     public void addChildNode()
     {
         // Given
-        var rootNode =new Node(null,new List<Node>(),null,new List<Card>(),2,new List<double>(){1,2},1);
-        var firstGenChildNode1 =new Node(null,new List<Node>(),null,new List<Card>(),2,new List<double>(){1,2},1);
+        var rootNode =new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
+        var firstGenChildNode1 =new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
         // When
         rootNode.addChild(firstGenChildNode1);
         // Then
@@ -92,8 +92,8 @@ public class NodeTest
     {
         // Given
         // Node? parent, List<Node> children, GameState? gameState, List<Card> action, double visits, double value
-        var rootNode1 = new Node(null,new List<Node>(),null,new List<Card>(),2,new List<double>(){1,2},1);
-        var Node2 = new Node(null,new List<Node>(),null,new List<Card>(),2,new List<double>(){1,2},1);
+        var rootNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
+        var Node2 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
 
         rootNode1.addChild(Node2);
         

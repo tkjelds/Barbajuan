@@ -8,6 +8,8 @@ public class GameState : IgameState
     private bool playDirectionClockwise = true;
     private List<Iplayer> scoreBoard;
 
+    public GameState(){}
+    
     public GameState(List<Iplayer> players)
     {
         this.players = players;

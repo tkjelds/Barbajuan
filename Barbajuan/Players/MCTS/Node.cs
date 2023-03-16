@@ -3,7 +3,7 @@ public class Node
     Node? Parent = null;
     List<Node> Children = new List<Node>();
 
-    GameState? GameState;
+    GameState GameState;
 
     List<Card> Action = new List<Card>();
 
@@ -13,7 +13,7 @@ public class Node
 
     int PlayerIndex = 0;
 
-    public Node(Node? parent, List<Node> children, GameState? gameState, List<Card> action, double visits, List<double> value, int playerIndex)
+    public Node(Node? parent, List<Node> children, GameState gameState, List<Card> action, double visits, List<double> value, int playerIndex)
     {
         Parent = parent;
         Children = children;
@@ -88,7 +88,7 @@ public class Node
         {
             var clonedGameState = GameState.Clone();
             clonedGameState.applyNoClone(move);
-            var expandedNode = new Node(null,new List<Node>(),clonedGameState,move,1,new List<double>(),clonedGameState.getCurrentPlayerIndex());
+            var expandedNode = new Node(null,new List<Node>(),clonedGameState,move,1,createEmptyValueList(),clonedGameState.getCurrentPlayerIndex());
             this.addChild(expandedNode);
         }
     }
@@ -143,5 +143,15 @@ public class Node
             }
         }
         return moves;
+    }
+
+    public List<double> createEmptyValueList(){
+        var playerCount = GameState.GetPlayers().Count() + GameState.getScoreBoard().Count();
+        List<Double> valueList = new List<double>();
+        for (int i = 0; i < playerCount; i++)
+        {
+            valueList.Add(0);
+        }
+        return valueList;
     }
 }
