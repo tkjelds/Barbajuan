@@ -30,4 +30,9 @@ class ProbalisticPicker : ImovePicker
         }
         return sum;
     }
+
+    public List<List<Card>> getLegalMoves(Card topCard, List<Card> hand)
+    {
+        return MoveProbability[0].Item1.getLegalMoves(topCard,hand);
+    }
 }

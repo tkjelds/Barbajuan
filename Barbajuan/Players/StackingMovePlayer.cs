@@ -107,4 +107,9 @@ public class StackingMovePlayer : Iplayer
         var clonedPlayer = new StackingMovePlayer(this.Name,clonedHand);
         return clonedPlayer;
     }
+
+    public List<List<Card>> getLegalMoves(Card topCard)
+    {
+        return getStackingActions(topCard);
+    }
 }

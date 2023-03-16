@@ -67,4 +67,8 @@ class StackingMovePicker : ImovePicker
         }
         return moves;
     }
+    public List<List<Card>> getLegalMoves(Card topCard, List<Card> hand)
+    {
+        return getStackingActions(topCard,hand);
+    }
 }

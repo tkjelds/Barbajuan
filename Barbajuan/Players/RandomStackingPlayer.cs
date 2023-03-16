@@ -115,4 +115,9 @@ public class RandomStackingPlayer : Iplayer
         var clonedPlayer = new RandomStackingPlayer(this.Name,clonedHand);
         return clonedPlayer;
     }
+
+    public List<List<Card>> getLegalMoves(Card topCard)
+    {
+        return getStackingActions(topCard);
+    }
 }

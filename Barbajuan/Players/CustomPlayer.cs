@@ -51,4 +51,9 @@ class CustomPlayer : Iplayer
 
         return new CustomPlayer(clonedHand, this.Name,this.MovePicker);
     }
+
+    List<List<Card>> Iplayer.getLegalMoves(Card topCard)
+    {
+        return MovePicker.getLegalMoves(topCard,Hand);
+    }
 }

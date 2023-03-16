@@ -91,4 +91,9 @@ public class TestPlayer : Iplayer
         var clonedPlayer = new TestPlayer(this.Name,clonedHand);
         return clonedPlayer;
     }
+
+    public List<List<Card>> getLegalMoves(Card topCard)
+    {
+        return getActions(topCard);
+    }
 }

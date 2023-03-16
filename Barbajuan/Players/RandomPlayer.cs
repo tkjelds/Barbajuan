@@ -148,4 +148,9 @@ public class RandomPlayer : Iplayer
         var clonedPlayer = new RandomPlayer(clonedHand,this.name);
         return clonedPlayer;
     }
+
+    public List<List<Card>> getLegalMoves(Card topCard)
+    {
+        return getActions(topCard);
+    }
 }

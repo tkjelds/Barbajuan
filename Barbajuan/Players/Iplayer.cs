@@ -7,4 +7,5 @@ public interface Iplayer
     public string getName();
 
     public Iplayer clone();
+    List<List<Card>> getLegalMoves(Card topCard);
 }

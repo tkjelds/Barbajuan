@@ -59,4 +59,9 @@ public class MCTS_Player : Iplayer
         var clonedPlayer = new FlatMonteCarloPlayer(clonedHand,this.Determinations,this.Iterations,this.Name,this.Evaluator,this.Picker);
         return clonedPlayer;
     }
+
+    public List<List<Card>> getLegalMoves(Card topCard)
+    {
+        throw new NotImplementedException();
+    }
 }
