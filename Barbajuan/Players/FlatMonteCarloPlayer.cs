@@ -41,6 +41,14 @@ public class FlatMonteCarloPlayer : Iplayer
         Name = name;
     }
 
+    public FlatMonteCarloPlayer( string name, int determinations, int iterations, ImovePicker movepicker, IgameEvaluator evaluator ){
+        Determinations = determinations;
+        Iterations = iterations;
+        Name = name;
+        this.Picker = movepicker;
+        this.Evaluator = evaluator;
+    }
+
 
     public FlatMonteCarloPlayer(List<Card> hand, int determinations, int iterations, string name)
     {
@@ -61,40 +69,34 @@ public class FlatMonteCarloPlayer : Iplayer
     }
 
     public List<Card> action(IgameState gameState)
-    {   
+    {
         // Add all our own legal moves to the moveAndValue bag
         // -------------
-        ConcurrentDictionary<int,int> moveAndValue = new ConcurrentDictionary<int, int>();
+        ConcurrentDictionary<int, int> moveAndValue = new ConcurrentDictionary<int, int>();
         CardsComparer cardsTheSame = new CardsComparer();
         var legalMoves = getStackingActions(gameState.getDeck().discardPile.Peek());
         if (legalMoves.Count == 0) return new List<Card>() { new Card(WILD, DRAW1) };
         if (legalMoves.Count == 1) return legalMoves[0];
         legalMoves.Distinct();
-        // Console.WriteLine("Legal moves : ");
-        // foreach(var move in legalMoves){
-        //     Console.Write("Move : ");
-        //     foreach(var card in move){
-        //         Console.Write(card.ToString() + "  ");
-        //     }
-        //     Console.WriteLine();
-        // }
-        moveAndValue = new ConcurrentDictionary<int, int>(Determinations,legalMoves.Count());
-        var  numberToMove = new List<(int,List<Card>)>();    
+
+        moveAndValue = new ConcurrentDictionary<int, int>(Determinations, legalMoves.Count());
+        var numberToMove = new List<(int, List<Card>)>();
         for (int i = 0; i < legalMoves.Count(); i++)
         {
-            numberToMove.Add((i,legalMoves[i]));
-            moveAndValue.TryAdd(i,0);
+            numberToMove.Add((i, legalMoves[i]));
+            moveAndValue.TryAdd(i, 0);
         }
         // -------------
-        
+
         // Create a number of determinations
         // var determinations = new List<GameState>();
 
         // Simulate each determination a number of times, run in parallel
-        for (var i = 0; i<Determinations; i++)
+        for (var i = 0; i < Determinations; i++)
         {
-            var d = createDetermination((GameState) gameState);
-            Parallel.For(0,Iterations, x => {
+            var d = createDetermination((GameState)gameState);
+            Parallel.For(0, Iterations, x =>
+            {
                 //var copyOfd = d.DeepClone(d);
                 var copyOfd = d.Clone();
                 var value = Simulate(copyOfd);
@@ -102,28 +104,42 @@ public class FlatMonteCarloPlayer : Iplayer
                 while (true)
                 {
                     var returnedMove = value.Item1;
-                    //Console.WriteLine("Jeg skal til at blive fundet");
-                    var numberOfMove = numberToMove.Find(m => cardsTheSame.Equals(m.Item2,returnedMove)).Item1;
-                    //Console.WriteLine("Jeg er blevet fundet");
+                    var numberOfMove = numberToMove.Find(m => cardsTheSame.Equals(m.Item2, returnedMove)).Item1;
                     var existing = moveAndValue[numberOfMove];
                     var updated = existing + value.Item2;
-                    //Console.WriteLine("Jeg er blevet opdateret lokalt og skal til at blive opdateret i ditionarien");
                     if (moveAndValue.TryUpdate(numberOfMove, updated, existing)) break;
-                }   
+                }
 
             });
 
         }
-               
+
         var moveAndValueList = moveAndValue.ToList();
 
-        moveAndValueList.Sort((x,y) => x.Value.CompareTo(y.Value));
+        moveAndValueList.Sort((x, y) => x.Value.CompareTo(y.Value));
 
         //Console.WriteLine("Total number of tested games (I think): " + totalnumberofgames);
         var bestMove = moveAndValueList.Last().Key;
         var chosenMove = numberToMove.Find(x => x.Item1 == bestMove).Item2;
-
         return chosenMove;
+    }
+
+    private static void PrintMoveAndValue(List<(int, List<Card>)> numberToMove, List<KeyValuePair<int, int>> moveAndValueList)
+    {
+        Console.WriteLine("New Move");
+        foreach (var MAV in moveAndValueList)
+        {
+            var move = numberToMove.Find(x => x.Item1 == MAV.Key).Item2;
+            Console.Write("Move : ");
+
+            foreach (var card in move)
+            {
+                Console.Write("  " + card.ToString());
+            }
+            Console.Write(" | Value : " + MAV.Value);
+            Console.WriteLine();
+        }
+        Console.WriteLine("Turn over");
     }
 
     private (List<Card>, int) Simulate(GameState determination)
