@@ -24,6 +24,10 @@ public class Node
         PlayerIndex = playerIndex;
     }
 
+    public bool isLeaf(){
+        return Children.Count() == 0;
+    }
+    
     public List<Double> getvalue(){
         return Value;
     }
