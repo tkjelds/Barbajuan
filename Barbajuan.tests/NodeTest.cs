@@ -26,41 +26,41 @@ public class NodeTest
         Assert.Equal(2,rootNode.getVisits());
     }
 
-    // [Fact]
-    // public void UpdateUpdatesRootNodeOneGeneration()
-    // {
-    //     // Given
-    //     var rootNode = new Node(null,new List<Node>(),null,new List<Card>(),1,1);
-    //     var firstGenChildNode1 = new Node(null, new List<Node>(),null,new List<Card>(), 1, 1);
-    //     rootNode.addChild(firstGenChildNode1);
-    //     // When
-    //     firstGenChildNode1.update(10);
-    //     // Then
-    //     Assert.Equal(2,rootNode.getVisits());
-    //     Assert.Equal(11,rootNode.getvalue());
-    // }
+    [Fact]
+    public void UpdateUpdatesRootNodeOneGeneration()
+    {
+        // Given
+        var rootNode = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,2},1);
+        var firstGenChildNode1 = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,2},1);
+        rootNode.addChild(firstGenChildNode1);
+        // When
+        firstGenChildNode1.update(10,0);
+        // Then
+        Assert.Equal(2,rootNode.getVisits());
+        Assert.Equal(11,rootNode.getvalue()[0]);
+    }
 
-    // [Fact]
-    // public void UpdateUpdatesRootNodeTwoGenerations()
-    // {
-    //     // Given
-    //     var rootNode = new Node(null,new List<Node>(),null,new List<Card>(),1,1);
-    //     var firstGenChildNode1 = new Node(null, new List<Node>(),null,new List<Card>(), 1, 1);
-    //     var secondGenChildNode = new Node(null, new List<Node>(),null,new List<Card>(), 1, 1);
-    //     rootNode.addChild(firstGenChildNode1);
-    //     firstGenChildNode1.addChild(secondGenChildNode);
-    //     // When
-    //     secondGenChildNode.update(10);
-    //     // Then
-    //     Assert.Equal(1,rootNode.getChildren().Count);
-    //     Assert.True(rootNode.isRoot());
-    //     Assert.Null(rootNode.getParent());
-    //     Assert.NotNull(firstGenChildNode1.getParent());
-    //     Assert.NotNull(secondGenChildNode.getParent());
-    //     //Assert.NotNull(secondGenChildNode.getParent().getParent().getParent());
-    //     Assert.Equal(2,rootNode.getVisits());
-    //     Assert.Equal(11,rootNode.getvalue());
-    // }
+    [Fact]
+    public void UpdateUpdatesRootNodeTwoGenerations()
+    {
+        // Given
+        var rootNode = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,2},1);
+        var firstGenChildNode1 = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,2},1);
+        var secondGenChildNode = new Node(null,new List<Node>(),null,new List<Card>(),1,new List<double>(){1,2},1);
+        rootNode.addChild(firstGenChildNode1);
+        firstGenChildNode1.addChild(secondGenChildNode);
+        // When
+        secondGenChildNode.update(10,0);
+        // Then
+        Assert.Equal(1,rootNode.getChildren().Count);
+        Assert.True(rootNode.isRoot());
+        Assert.Null(rootNode.getParent());
+        Assert.NotNull(firstGenChildNode1.getParent());
+        Assert.NotNull(secondGenChildNode.getParent());
+        //Assert.NotNull(secondGenChildNode.getParent().getParent().getParent());
+        Assert.Equal(2,rootNode.getVisits());
+        Assert.Equal(11,rootNode.getvalue()[0]);
+    }
     
     [Fact]
     public void IsTerminalNode()

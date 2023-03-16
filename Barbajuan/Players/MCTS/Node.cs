@@ -74,7 +74,7 @@ public class Node
     }
 
     public void update(double value, int playerIndex){
-        this.Value[PlayerIndex] = this.Value[playerIndex] + value;
+        this.Value[playerIndex] = this.Value[playerIndex] + value;
         this.Visits = this.Visits + 1;
         if(isRoot()) return;
         Parent.update(value,playerIndex);
