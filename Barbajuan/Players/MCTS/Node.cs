@@ -9,9 +9,11 @@ public class Node
 
     double Visits = 0;
 
-    double Value = 0;
+    List<Double> Value = new List<double>();
 
-    public Node(Node? parent, List<Node> children, GameState? gameState, List<Card> action, double visits, double value)
+    int PlayerIndex = 0;
+
+    public Node(Node? parent, List<Node> children, GameState? gameState, List<Card> action, double visits, List<double> value, int playerIndex)
     {
         Parent = parent;
         Children = children;
@@ -19,10 +21,19 @@ public class Node
         Action = action;
         Visits = visits;
         Value = value;
+        PlayerIndex = playerIndex;
     }
 
-    public double getvalue(){
+    public List<Double> getvalue(){
         return Value;
+    }
+
+    public double getPlayerValue(int playerIndex){
+        return Value[playerIndex];
+    }
+
+    public double getNodePlayerValue(){
+        return Value[PlayerIndex];
     }
 
     public double getVisits(){
@@ -56,16 +67,16 @@ public class Node
 
     public double getUCT(){
         if (Parent == null) return 0;
-        double firstTerm = Value/Visits;
+        double firstTerm = Value[PlayerIndex]/Visits;
         double secondTerm = Math.Sqrt( Math.Log(Parent.Visits) / Visits );
         double constant = Math.Sqrt(2.0);
         return firstTerm + (constant * secondTerm);
     }
 
-    public void update(double value){
-        this.Value = this.Value + value;
+    public void update(double value, int playerIndex){
+        this.Value[PlayerIndex] = this.Value[playerIndex] + value;
         this.Visits = this.Visits + 1;
         if(isRoot()) return;
-        Parent.update(value);
+        Parent.update(value,playerIndex);
     }
 }
