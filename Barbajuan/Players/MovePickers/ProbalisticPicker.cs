@@ -33,6 +33,16 @@ class ProbalisticPicker : ImovePicker
 
     public List<List<Card>> getLegalMoves(Card topCard, List<Card> hand)
     {
+        var rng = new Random();
+        var pick = rng.Next(SumProbability());
+        var firstBoundary = 0;
+        var secondBoundary = 0;
+        foreach (var moveProb in MoveProbability)
+        {
+            secondBoundary += moveProb.Item2-1;
+            if(moveProb.Item2 >= firstBoundary && moveProb.Item2 <= secondBoundary) return moveProb.Item1.getLegalMoves(topCard,hand);
+            firstBoundary = secondBoundary;
+        }
         return MoveProbability[0].Item1.getLegalMoves(topCard,hand);
     }
 }
