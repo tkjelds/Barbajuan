@@ -3,7 +3,7 @@ public class Node
     Node? Parent = null;
     List<Node> Children = new List<Node>();
 
-    GameState GameState;
+    GameState GameState {get;}
 
     List<Card> Action = new List<Card>();
 
@@ -24,10 +24,18 @@ public class Node
         PlayerIndex = playerIndex;
     }
 
+    public int getPlayerIndex(){
+        return PlayerIndex;
+    }
+
     public bool isLeaf(){
         return Children.Count() == 0;
     }
     
+    public GameState getGameState(){
+        return this.GameState;
+    }
+
     public List<Double> getvalue(){
         return Value;
     }
@@ -43,6 +51,7 @@ public class Node
     public double getVisits(){
         return Visits;
     }
+
     
     public void addChild(Node node){
         setParent(node);
@@ -58,7 +67,9 @@ public class Node
     }
 
     public bool isTerminal(){
-        return GameState.IsGameOver();
+        if(Parent is null) return false;
+        if(Parent.getGameState().GetPlayers().Count > this.GameState.GetPlayers().Count) return true;
+        return false;
     }
 
     public List<Node> getChildren(){
@@ -69,6 +80,10 @@ public class Node
         return Parent;
     }
 
+    public List<Card> getAction(){
+        return Action;
+    }
+
     public double getUCT(){
         if (Parent == null) return 0;
         double firstTerm = Value[PlayerIndex]/Visits;
@@ -77,17 +92,32 @@ public class Node
         return firstTerm + (constant * secondTerm);
     }
 
-    public void update(double value, int playerIndex){
+    public void backPropagate(double value, int playerIndex){
         this.Value[playerIndex] = this.Value[playerIndex] + value;
         this.Visits = this.Visits + 1;
         if(isRoot()) return;
-        Parent.update(value,playerIndex);
+        Parent.backPropagate(value,playerIndex);
     }
 
     public void expand(){
+        var topCard = GameState.getDeck().getTopCard();
+        var hand = GameState.getCurrentPlayer().getHand();
+        var randomMovePicker = new RandomMovePicker();
+        var legalMoves = randomMovePicker.getLegalMoves(topCard,hand);
+        // Console.WriteLine("Number of legalmoves : " + legalMoves.Count());
+        foreach (var move in legalMoves)
+        {
+            var clonedGameState = GameState.Clone();
+            clonedGameState.applyNoClone(move);
+            var expandedNode = new Node(null,new List<Node>(),clonedGameState,move,0,createEmptyValueList(),clonedGameState.getCurrentPlayerIndex());
+            this.addChild(expandedNode);
+        }
+    }
+
+    public void expand(ImovePicker picker){
         var topCard = GameState.getDeck().drawPile.Peek();
         var hand = GameState.getCurrentPlayer().getHand();
-        var legalMoves = getStackingActions(topCard,hand);
+        var legalMoves = picker.getLegalMoves(topCard,hand);
         foreach (var move in legalMoves)
         {
             var clonedGameState = GameState.Clone();
@@ -97,7 +127,7 @@ public class Node
         }
     }
 
-        public List<List<Card>> getStackingActions(Card topCard, List<Card> hand)
+    public List<List<Card>> getStackingActions(Card topCard, List<Card> hand)
     {
         var moves = new List<List<Card>>();
         foreach (var card in new List<Card>(hand))
@@ -150,12 +180,12 @@ public class Node
     }
 
     public List<double> createEmptyValueList(){
-        var playerCount = GameState.GetPlayers().Count() + GameState.getScoreBoard().Count();
         List<Double> valueList = new List<double>();
-        for (int i = 0; i < playerCount; i++)
+        for (int i = 0; i < GameState.GetPlayers().Count(); i++)
         {
             valueList.Add(0);
         }
         return valueList;
     }
+
 }

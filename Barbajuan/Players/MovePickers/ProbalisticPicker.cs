@@ -43,6 +43,8 @@ class ProbalisticPicker : ImovePicker
             if(moveProb.Item2 >= firstBoundary && moveProb.Item2 <= secondBoundary) return moveProb.Item1.getLegalMoves(topCard,hand);
             firstBoundary = secondBoundary;
         }
-        return MoveProbability[0].Item1.getLegalMoves(topCard,hand);
+        var legalMoves = MoveProbability[0].Item1.getLegalMoves(topCard,hand);
+        if(legalMoves.Count == 0) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} }; 
+        return legalMoves;
     }
 }

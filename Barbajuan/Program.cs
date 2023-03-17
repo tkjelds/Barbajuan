@@ -26,10 +26,10 @@ internal class Program
             new (new RandomMovePicker(), 1)
         };
 
-        while(i<100){
+        while(i<10){
             var players = new List<Iplayer>(){
                 //new FlatMonteCarloPlayer("bot 1", 10,100),
-                new FlatMonteCarloPlayer("bot 1",10,100,new ProbalisticPicker(probMovePickerList),new FactorialEvaluator()),
+                new MCTS_Player("bot 1", 100, 100),
                 new StackingMovePlayer("bot 2"),
                 new StackingMovePlayer("bot 3"),
                 new StackingMovePlayer("bot 4")          
@@ -38,7 +38,7 @@ internal class Program
             var scoreBoard = gameState.runReturnScoreBoard();
             scoreBoards.Add(scoreBoard);
             i++;
-            if(i == 10000000) {Console.WriteLine("Done with game number: " + i);};  
+            if(i == 101) {Console.WriteLine("Done with game number: " + i);};  
             Console.WriteLine("Done with game number: " + i);
         }
         

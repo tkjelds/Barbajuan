@@ -19,7 +19,7 @@ public class NodeTest
         secondGenChildNode1.addChild(thirdGenChildNode1);
         
         // When
-        thirdGenChildNode1.update(10,0);
+        thirdGenChildNode1.backPropagate(10,0);
     
         // Then
         Assert.Equal(11,rootNode.getPlayerValue(0));
@@ -34,7 +34,7 @@ public class NodeTest
         var firstGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,2},1);
         rootNode.addChild(firstGenChildNode1);
         // When
-        firstGenChildNode1.update(10,0);
+        firstGenChildNode1.backPropagate(10,0);
         // Then
         Assert.Equal(2,rootNode.getVisits());
         Assert.Equal(11,rootNode.getvalue()[0]);
@@ -50,7 +50,7 @@ public class NodeTest
         rootNode.addChild(firstGenChildNode1);
         firstGenChildNode1.addChild(secondGenChildNode);
         // When
-        secondGenChildNode.update(10,0);
+        secondGenChildNode.backPropagate(10,0);
         // Then
         Assert.Equal(1,rootNode.getChildren().Count);
         Assert.True(rootNode.isRoot());
