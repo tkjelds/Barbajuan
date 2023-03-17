@@ -85,11 +85,12 @@ public class Node
     }
 
     public double getUCT(){
-        if (Parent == null) return 0;
-        double firstTerm = Value[PlayerIndex]/Visits;
-        double secondTerm = Math.Sqrt( Math.Log(Parent.Visits) / Visits );
+        double epsilon = 1e-6;
+        var rng = new Random();
+        double firstTerm = Value[PlayerIndex]/(Visits+epsilon);
+        double secondTerm = Math.Sqrt( Math.Log(Parent.Visits+1.0) / (Visits+epsilon) );
         double constant = Math.Sqrt(2.0);
-        return firstTerm + (constant * secondTerm);
+        return firstTerm + (constant * secondTerm) + ( rng.NextDouble() + epsilon) ;
     }
 
     public void backPropagate(double value, int playerIndex){
@@ -109,7 +110,7 @@ public class Node
         {
             var clonedGameState = GameState.Clone();
             clonedGameState.applyNoClone(move);
-            var expandedNode = new Node(null,new List<Node>(),clonedGameState,move,0,createEmptyValueList(),clonedGameState.getCurrentPlayerIndex());
+            var expandedNode = new Node(null,new List<Node>(),clonedGameState,move,0.0,createEmptyValueList(),GameState.getCurrentPlayerIndex());
             this.addChild(expandedNode);
         }
     }
@@ -122,7 +123,7 @@ public class Node
         {
             var clonedGameState = GameState.Clone();
             clonedGameState.applyNoClone(move);
-            var expandedNode = new Node(null,new List<Node>(),clonedGameState,move,1,createEmptyValueList(),clonedGameState.getCurrentPlayerIndex());
+            var expandedNode = new Node(null,new List<Node>(),clonedGameState,move,0,createEmptyValueList(),clonedGameState.getCurrentPlayerIndex());
             this.addChild(expandedNode);
         }
     }

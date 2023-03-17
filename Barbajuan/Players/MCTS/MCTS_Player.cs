@@ -34,6 +34,10 @@ public class MCTS_Player : Iplayer
 
     public List<Card> action(IgameState gameState)
     {
+        var legalMoves = getStackingActions(gameState.getDeck().discardPile.Peek());
+        if (legalMoves.Count == 0) return new List<Card>() { new Card(WILD, DRAW1) };
+        if (legalMoves.Count == 1) return legalMoves[0];
+
         var moveRobustness = new ConcurrentBag<(List<Card>,int)>();
         var stackingMoves = new StackingMovePicker();
         Parallel.For(0,Determinations, _ =>{
@@ -46,47 +50,68 @@ public class MCTS_Player : Iplayer
         });
         var moveRobustList = moveRobustness.ToList();
         var resultList = new List<(List<Card>,int)>();
+        CardsComparer cardsTheSame = new CardsComparer();
         foreach (var moveRobust in moveRobustList)
         {
             // Check if entry exists
-            var exists = resultList.Exists(mr => mr.Item1 == moveRobust.Item1);
+            var exists = resultList.Exists(mr =>  cardsTheSame.Equals(mr.Item1,moveRobust.Item1));
             if(!exists) resultList.Add(moveRobust);
             else {
-                var moveIndex = resultList.FindIndex(mr => mr.Item1 == moveRobust.Item1);
+                var moveIndex = resultList.FindIndex(mr => cardsTheSame.Equals(mr.Item1,moveRobust.Item1));
                 var moveValue = resultList[moveIndex].Item2;
                 var newMoveValue = moveValue + moveRobust.Item2;
                 resultList[moveIndex] = (moveRobust.Item1,newMoveValue);
             }
         }
-        moveRobustness.OrderByDescending(mr => mr.Item2);
-        return moveRobustness.First().Item1;
+        // Console.WriteLine("New turn");
+        // foreach (var mr in resultList)
+        // {
+        //     Console.Write("Move : ");
+        //     foreach (var card in mr.Item1)
+        //     {
+        //         Console.Write(card.ToString() + " ");
+        //     }
+        //     Console.Write("Value : " + mr.Item2);
+        //     Console.WriteLine();
+        // }
+        resultList.Sort((x,y) => x.Item2.CompareTo(y.Item2));
+        return resultList.Last().Item1;
     }
 
 
 
     // Returns the first gen children of rootNode, along with the number of simulations gone through them
     public List<(List<Card>,int)> MCTS(Node node){
+        //Console.WriteLine("start MCTS");
         for (int i = 0; i < Iterations; i++)
         {
+            var currentNode = node;
+            while(!currentNode.isLeaf()){
+                currentNode = select(currentNode);
+            }
             // Select
-            var selected = selection(node);
+            //var selected = selection(node);
             // Expand
             // Check to see if terminal
-            if (selected.isTerminal()) selected.backPropagate(1,selected.getPlayerIndex());
+            if (currentNode.isTerminal()) currentNode.backPropagate(1,currentNode.getPlayerIndex());
             else {
-                selected.expand();
+                currentNode.expand();
                 // Select a child from selected.
-                var selectedChild = selected.getChildren()[0];
+                var selectedChild = select(currentNode);
                 // Simulate
                 var childRolloutWinner = rollout(selectedChild);
                 // Backpropogate 
                 selectedChild.backPropagate(1.0,childRolloutWinner);
+                
             } 
         }
         var children = node.getChildren();
         var result = new List<(List<Card>,int)>();
+        
+        //Console.WriteLine("new MCTS");
         foreach (var child in children)
         {
+            //Console.WriteLine(child.getVisits());
             result.Add((child.getAction(),(int)child.getVisits()));
         }
         return result;
@@ -113,20 +138,42 @@ public class MCTS_Player : Iplayer
     }
     
 
-    public Node selection(Node node) 
-    {
-        if(node.isLeaf()) return node;
-        Node selected = null;
-        var highestUCT = double.MinValue;
-        foreach (var n in node.getChildren()) {
-            if(highestUCT < n.getUCT()) {
-                highestUCT = n.getUCT();
-                selected = n;
-                }
-        }
-        return selection(selected);
-    }
+//     public Node selection(Node node) 
+//     {
+//         if(node.isLeaf()) return node;
+//         var rng = new Random();
+//         Node? selected = null;
+//         var highestUCT = double.MinValue;
+//         foreach (var n in node.getChildren()) {
+//             double uctValue = n.getUCT() + (rng.NextDouble() * 1e-6);
+            
+//             if(highestUCT < uctValue) {
+//                 highestUCT = uctValue;
+//                 selected = n;
+//                 }
+//         }
+//         return selection(selected);
+//     }
     
+    public Node select(Node node){    
+        Node? selected = null;
+        double bestValue = double.MinValue;
+        foreach (var child in node.getChildren())
+        {   
+            double uctValue = child.getUCT();
+            //Console.WriteLine("Child value : " + uctValue);
+            //Console.WriteLine("Child : " + child.getAction().ToString());
+            if(uctValue > bestValue){
+                selected = child;
+                bestValue = uctValue;                           
+            }
+        }
+        // Console.WriteLine("Selected Child value : " + selected.getUCT());
+        // Console.WriteLine("Selected Child : " + selected.getAction().ToString());
+        // Console.WriteLine("DONE");
+        return selected;
+    }
+
     // RollOut // SIMULATION returns playerindex in gamestate on which player won
 
     public int rollout(Node node) 
@@ -204,6 +251,56 @@ public class MCTS_Player : Iplayer
     {
         throw new NotImplementedException();
     }
+public List<List<Card>> getStackingActions(Card topCard)
+    {
+        var moves = new List<List<Card>>();
+        foreach (var card in new List<Card>(Hand))
+        {
+            if (card.canBePlayedOn(topCard))
+            {
+                if (card.cardType == DRAW4)
+                {
+                    moves.Add(new List<Card>() { new Card(GREEN, DRAW4) });
+                    moves.Add(new List<Card>() { new Card(BLUE, DRAW4) });
+                    moves.Add(new List<Card>() { new Card(YELLOW, DRAW4) });
+                    moves.Add(new List<Card>() { new Card(RED, DRAW4) });
+                }
+                if (card.cardType == SELECTCOLOR)
+                {
+                    moves.Add(new List<Card>() { new Card(GREEN, SELECTCOLOR) });
+                    moves.Add(new List<Card>() { new Card(BLUE, SELECTCOLOR) });
+                    moves.Add(new List<Card>() { new Card(YELLOW, SELECTCOLOR) });
+                    moves.Add(new List<Card>() { new Card(RED, SELECTCOLOR) });
+                }
+                if (card.cardType != SELECTCOLOR && card.cardType != DRAW4)
+                {
+                    var nextHand = new List<Card>(Hand);
+                    moves.Add(new List<Card>() { card });
+                    nextHand.Remove(card);
+                    moves.AddRange(getCardOfSameType(card, nextHand, new List<Card>() { card }));
+                }
 
+            }
+        }
+        return moves;
+    }
+    public List<List<Card>> getCardOfSameType(Card toBePlayedOn, List<Card> hand, List<Card> currentStack)
+    {
+        var moves = new List<List<Card>>();
+        foreach (var card in new List<Card>(hand))
+        {
+            var nextHand = new List<Card>(hand);
+            if (card.cardType == toBePlayedOn.cardType)
+            {
+                var moveStack = new List<Card>(currentStack);
+                moveStack.Add(card);
+                moves.Add(moveStack);
+                nextHand.Remove(card);
+                moves.AddRange(getCardOfSameType(card, nextHand, moveStack));
+
+            }
+        }
+        return moves;
+    }
 
 }
