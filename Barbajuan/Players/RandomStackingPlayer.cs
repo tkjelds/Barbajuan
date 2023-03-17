@@ -118,6 +118,9 @@ public class RandomStackingPlayer : Iplayer
 
     public List<List<Card>> getLegalMoves(Card topCard)
     {
-        return getStackingActions(topCard);
+        var legalMoves = getStackingActions(topCard);
+        if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
+        legalMoves.Distinct();
+        return legalMoves;
     }
 }

@@ -15,4 +15,6 @@ public interface IgameState
     public int getNextPlayerIndex();
 
     public List<Iplayer> getScoreBoard();
+
+    public GameState Clone();
 }

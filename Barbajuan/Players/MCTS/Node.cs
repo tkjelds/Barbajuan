@@ -110,13 +110,13 @@ public class Node
         {
             var clonedGameState = GameState.Clone();
             clonedGameState.applyNoClone(move);
-            var expandedNode = new Node(null,new List<Node>(),clonedGameState,move,0.0,createEmptyValueList(),GameState.getCurrentPlayerIndex());
+            var expandedNode = new Node(null,new List<Node>(),clonedGameState,move,0.0,createEmptyValueList(),clonedGameState.getCurrentPlayerIndex());
             this.addChild(expandedNode);
         }
     }
 
     public void expand(ImovePicker picker){
-        var topCard = GameState.getDeck().drawPile.Peek();
+        var topCard = GameState.getDeck().getTopCard();
         var hand = GameState.getCurrentPlayer().getHand();
         var legalMoves = picker.getLegalMoves(topCard,hand);
         foreach (var move in legalMoves)

@@ -45,6 +45,7 @@ class ProbalisticPicker : ImovePicker
         }
         var legalMoves = MoveProbability[0].Item1.getLegalMoves(topCard,hand);
         if(legalMoves.Count == 0) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} }; 
+        legalMoves.Distinct();
         return legalMoves;
     }
 }

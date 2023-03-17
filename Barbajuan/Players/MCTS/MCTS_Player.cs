@@ -11,7 +11,7 @@ public class MCTS_Player : Iplayer
 
     string Name = new Random().Next(int.MaxValue).ToString();
     
-    ImovePicker Picker = new RandomMovePicker();
+    ImovePicker Picker = new StackingMovePicker();
 
 
 
@@ -34,14 +34,26 @@ public class MCTS_Player : Iplayer
 
     public List<Card> action(IgameState gameState)
     {
+        
         var legalMoves = getStackingActions(gameState.getDeck().discardPile.Peek());
         if (legalMoves.Count == 0) return new List<Card>() { new Card(WILD, DRAW1) };
         if (legalMoves.Count == 1) return legalMoves[0];
-
+        // Console.WriteLine("New turn: ");
+        
+        //     foreach (var move in legalMoves)
+        //     {
+        //         Console.Write("Move : ");
+        //         foreach (var card in move)
+        //         {
+        //             Console.Write(card.ToString() + " ");
+        //         }
+        //         Console.WriteLine();
+        //     }
         var moveRobustness = new ConcurrentBag<(List<Card>,int)>();
         var stackingMoves = new StackingMovePicker();
         Parallel.For(0,Determinations, _ =>{
-            var detRoot = createRootDetermination(new Node(null,new List<Node>(),(GameState)gameState,new List<Card>(),0,createEmptyValueList((GameState)gameState),gameState.getCurrentPlayerIndex()));
+            var clonedGameState = gameState.Clone();
+            var detRoot = createRootDetermination(clonedGameState);
             var result = MCTS(detRoot);
             foreach (var moveRobust in result)
             { 
@@ -63,7 +75,7 @@ public class MCTS_Player : Iplayer
                 resultList[moveIndex] = (moveRobust.Item1,newMoveValue);
             }
         }
-        // Console.WriteLine("New turn");
+        // Console.WriteLine("After MCTS");
         // foreach (var mr in resultList)
         // {
         //     Console.Write("Move : ");
@@ -93,7 +105,7 @@ public class MCTS_Player : Iplayer
             //var selected = selection(node);
             // Expand
             // Check to see if terminal
-            if (currentNode.isTerminal()) currentNode.backPropagate(1,currentNode.getPlayerIndex());
+            if (currentNode.isTerminal()) currentNode.backPropagate(1,currentNode.getParent().getPlayerIndex());
             else {
                 currentNode.expand();
                 // Select a child from selected.
@@ -107,7 +119,7 @@ public class MCTS_Player : Iplayer
         }
         var children = node.getChildren();
         var result = new List<(List<Card>,int)>();
-        
+        var amountOfValues = node.getvalue().Count;
         //Console.WriteLine("new MCTS");
         foreach (var child in children)
         {
@@ -136,41 +148,18 @@ public class MCTS_Player : Iplayer
     {
         Hand.Remove(cards);
     }
-    
-
-//     public Node selection(Node node) 
-//     {
-//         if(node.isLeaf()) return node;
-//         var rng = new Random();
-//         Node? selected = null;
-//         var highestUCT = double.MinValue;
-//         foreach (var n in node.getChildren()) {
-//             double uctValue = n.getUCT() + (rng.NextDouble() * 1e-6);
-            
-//             if(highestUCT < uctValue) {
-//                 highestUCT = uctValue;
-//                 selected = n;
-//                 }
-//         }
-//         return selection(selected);
-//     }
-    
+     
     public Node select(Node node){    
         Node? selected = null;
         double bestValue = double.MinValue;
         foreach (var child in node.getChildren())
         {   
             double uctValue = child.getUCT();
-            //Console.WriteLine("Child value : " + uctValue);
-            //Console.WriteLine("Child : " + child.getAction().ToString());
             if(uctValue > bestValue){
                 selected = child;
                 bestValue = uctValue;                           
             }
         }
-        // Console.WriteLine("Selected Child value : " + selected.getUCT());
-        // Console.WriteLine("Selected Child : " + selected.getAction().ToString());
-        // Console.WriteLine("DONE");
         return selected;
     }
 
@@ -179,7 +168,9 @@ public class MCTS_Player : Iplayer
     public int rollout(Node node) 
     {
         
-        if(node.isTerminal()) return node.getGameState().getCurrentPlayerIndex();
+        if(node.isTerminal()) {
+            return node.getParent().getPlayerIndex();        
+        } 
 
         var gs = node.getGameState().Clone();
 
@@ -195,10 +186,9 @@ public class MCTS_Player : Iplayer
     }
 
 
-    public Node createRootDetermination(Node node)
+    public Node createRootDetermination(GameState gameState)
     {
-
-        var copyGameState = node.getGameState().Clone();
+        var copyGameState = gameState.Clone();
         List<(int,Iplayer)> cardsInHandPerPlayer = new List<(int, Iplayer)>();
 
         // Remove cards from players hand.
@@ -219,7 +209,7 @@ public class MCTS_Player : Iplayer
         foreach (var k in cardsInHandPerPlayer) {
             k.Item2.addCardsToHand(copyGameState.getDeck().draw((k.Item1)));
         }
-        return new Node(null, new List<Node>(), copyGameState, new List<Card>(), 0, node.createEmptyValueList(), copyGameState.getCurrentPlayerIndex());    
+        return new Node(null, new List<Node>(), copyGameState, new List<Card>(), 0, createEmptyValueList(copyGameState), copyGameState.getCurrentPlayerIndex());    
     }
 
 
@@ -249,9 +239,9 @@ public class MCTS_Player : Iplayer
     
     public List<List<Card>> getLegalMoves(Card topCard)
     {
-        throw new NotImplementedException();
+        return getStackingActions(topCard);
     }
-public List<List<Card>> getStackingActions(Card topCard)
+    public List<List<Card>> getStackingActions(Card topCard)
     {
         var moves = new List<List<Card>>();
         foreach (var card in new List<Card>(Hand))

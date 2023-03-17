@@ -151,6 +151,9 @@ public class RandomPlayer : Iplayer
 
     public List<List<Card>> getLegalMoves(Card topCard)
     {
-        return getActions(topCard);
+        var legalMoves = getActions(topCard);
+        if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
+        legalMoves.Distinct();
+        return legalMoves;
     }
 }
