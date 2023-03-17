@@ -2,7 +2,7 @@ class StackingMovePicker : ImovePicker
 {
     public List<Card> pick(GameState gameState)
     {
-        var moves = getStackingActions(gameState.getDeck().drawPile.Peek(),gameState.getCurrentPlayer().getHand());
+        var moves = getStackingActions(gameState.getDeck().getTopCard(),gameState.getCurrentPlayer().getHand());
 
         if (moves.Count == 0)
         {

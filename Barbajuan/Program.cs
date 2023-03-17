@@ -28,8 +28,8 @@ internal class Program
 
         while(i<10){
             var players = new List<Iplayer>(){
-                //new FlatMonteCarloPlayer("bot 1", 10,100),
-                new MCTS_Player("bot 1", 1000, 100),
+                //new FlatMonteCarloPlayer1bot 1", 10,100),
+                new MCTS_Player("bot 1", 100, 1000),
                 new StackingMovePlayer("bot 2"),
                 new StackingMovePlayer("bot 3"),
                 new StackingMovePlayer("bot 4")          
