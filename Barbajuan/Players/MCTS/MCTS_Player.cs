@@ -31,8 +31,68 @@ public class MCTS_Player : Iplayer
         Determinations = determinations;
         Iterations = iterations; 
     }
-
     public List<Card> action(IgameState gameState)
+    {
+        
+        var legalMoves = getStackingActions(gameState.getDeck().discardPile.Peek());
+        if (legalMoves.Count == 0) return new List<Card>() { new Card(WILD, DRAW1) };
+        if (legalMoves.Count == 1) return legalMoves[0];
+        // Console.WriteLine("New turn: ");
+        
+        //     foreach (var move in legalMoves)
+        //     {
+        //         Console.Write("Move : ");
+        //         foreach (var card in move)
+        //         {
+        //             Console.Write(card.ToString() + " ");
+        //         }
+        //         Console.WriteLine();
+        //     }
+        var moveRobustness = new ConcurrentBag<(List<Card>,int,int)>();
+        var stackingMoves = new StackingMovePicker();
+        Parallel.For(0,Determinations, _ =>{
+            var clonedGameState = gameState.Clone();
+            var detRoot = createRootDetermination(clonedGameState);
+            var result = MCTSReturnsMoveAndVisitsAndWins(detRoot);
+            foreach (var moveRobust in result)
+            { 
+                moveRobustness.Add(moveRobust);
+            }              
+        });
+        var moveRobustList = moveRobustness.ToList();
+        var resultList = new List<(List<Card>,int,int)>();
+        CardsComparer cardsTheSame = new CardsComparer();
+        foreach (var moveRobust in moveRobustList)
+        {
+            // Check if entry exists
+            var exists = resultList.Exists(mr =>  cardsTheSame.Equals(mr.Item1,moveRobust.Item1));
+            if(!exists) resultList.Add(moveRobust);
+            else {
+                var moveIndex = resultList.FindIndex(mr => cardsTheSame.Equals(mr.Item1,moveRobust.Item1));
+                var moveValue = resultList[moveIndex].Item2;
+                var movewins = resultList[moveIndex].Item3;
+                var newWinsValue = movewins + moveRobust.Item3;
+                var newMoveValue = moveValue + moveRobust.Item2;
+                resultList[moveIndex] = (moveRobust.Item1,newMoveValue,newWinsValue);
+            }
+        }
+        // Console.WriteLine("After MCTS");
+        // foreach (var mr in resultList)
+        // {
+        //     Console.Write("Move : ");
+        //     foreach (var card in mr.Item1)
+        //     {
+        //         Console.Write(card.ToString() + " ");
+        //     }
+        //     Console.Write("Visits : " + mr.Item2);
+        //     Console.Write(" Wins : " + mr.Item3);
+
+        //     Console.WriteLine();
+        // }
+        resultList.Sort((x,y) => x.Item2.CompareTo(y.Item2));
+        return resultList.Last().Item1;
+    }
+    public List<Card> actionx(IgameState gameState)
     {
         
         var legalMoves = getStackingActions(gameState.getDeck().discardPile.Peek());
@@ -83,7 +143,8 @@ public class MCTS_Player : Iplayer
         //     {
         //         Console.Write(card.ToString() + " ");
         //     }
-        //     Console.Write("Value : " + mr.Item2);
+        //     Console.Write("Visits : " + mr.Item2);
+
         //     Console.WriteLine();
         // }
         resultList.Sort((x,y) => x.Item2.CompareTo(y.Item2));
@@ -129,6 +190,41 @@ public class MCTS_Player : Iplayer
         return result;
     }
     
+    public List<(List<Card>,int,int)> MCTSReturnsMoveAndVisitsAndWins(Node node){
+        //Console.WriteLine("start MCTS");
+        for (int i = 0; i < Iterations; i++)
+        {
+            var currentNode = node;
+            while(!currentNode.isLeaf()){
+                currentNode = select(currentNode);
+            }
+            // Select
+            //var selected = selection(node);
+            // Expand
+            // Check to see if terminal
+            if (currentNode.isTerminal()) currentNode.backPropagate(1,currentNode.getParent().getPlayerIndex());
+            else {
+                currentNode.expand();
+                // Select a child from selected.
+                var selectedChild = select(currentNode);
+                // Simulate
+                var childRolloutWinner = rollout(selectedChild);
+                // Backpropogate 
+                selectedChild.backPropagate(1.0,childRolloutWinner);
+                
+            } 
+        }
+        var children = node.getChildren();
+        var result = new List<(List<Card>,int,int)>();
+        var amountOfValues = node.getvalue().Count;
+        //Console.WriteLine("new MCTS");
+        foreach (var child in children)
+        {
+            //Console.WriteLine(child.getVisits());
+            result.Add((child.getAction(),(int)child.getVisits(),(int)child.getPlayerValue(0)));
+        }
+        return result;
+    }
     public void addCardsToHand(List<Card> cards)
     {
         Hand.AddRange(cards);

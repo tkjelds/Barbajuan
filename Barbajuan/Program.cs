@@ -26,10 +26,10 @@ internal class Program
             new (new RandomMovePicker(), 1)
         };
 
-        while(i<10){
+        while(i<100){
             var players = new List<Iplayer>(){
                 //new FlatMonteCarloPlayer1bot 1", 10,100),
-                new MCTS_Player("bot 1", 100, 1000),
+                new MCTS_Player("bot 1", 100, 100),
                 new StackingMovePlayer("bot 2"),
                 new StackingMovePlayer("bot 3"),
                 new StackingMovePlayer("bot 4")          
