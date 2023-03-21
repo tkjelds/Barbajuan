@@ -38,7 +38,7 @@ internal class Program
             var scoreBoard = gameState.runReturnScoreBoard();
             scoreBoards.Add(scoreBoard);
             i++;
-            if(i == 101) {Console.WriteLine("Done with game number: " + i);};  
+            if(i % 10 == 0 ) {Console.WriteLine("Done with game number: " + i);};  
             Console.WriteLine("Done with game number: " + i);
         }
         

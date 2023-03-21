@@ -50,10 +50,22 @@ public class MCTS_Player : Iplayer
         //     }
         var moveRobustness = new ConcurrentBag<(List<Card>,int,int)>();
         var stackingMoves = new StackingMovePicker();
+        //var clonedGameState = gameState.Clone();
+        // for (int i = 0; i < Determinations; i++)
+        // {
+        //     //var clonedGameState = gameState.Clone();
+        //     var determinationRoot = createRootDetermination(clonedGameState);
+        //     var result = MCTS(determinationRoot);
+        //     foreach (var moveRobust in result)
+        //     { 
+        //         moveRobustness.Add(moveRobust);
+        //     }
+        //     //Console.WriteLine(i);
+        // }
         Parallel.For(0,Determinations, _ =>{
             var clonedGameState = gameState.Clone();
-            var detRoot = createRootDetermination(clonedGameState);
-            var result = MCTSReturnsMoveAndVisitsAndWins(detRoot);
+            var determinationRoot = createRootDetermination(clonedGameState);
+            var result = MCTS(determinationRoot);
             foreach (var moveRobust in result)
             { 
                 moveRobustness.Add(moveRobust);
@@ -90,8 +102,11 @@ public class MCTS_Player : Iplayer
         //     Console.WriteLine();
         // }
         resultList.Sort((x,y) => x.Item2.CompareTo(y.Item2));
-        return resultList.Last().Item1;
+        var bestMove = resultList.Last().Item1;
+        //Console.WriteLine();
+        return bestMove;
     }
+    /*
     public List<Card> actionx(IgameState gameState)
     {
         
@@ -150,9 +165,9 @@ public class MCTS_Player : Iplayer
         resultList.Sort((x,y) => x.Item2.CompareTo(y.Item2));
         return resultList.Last().Item1;
     }
+*/
 
-
-
+ /*
     // Returns the first gen children of rootNode, along with the number of simulations gone through them
     public List<(List<Card>,int)> MCTS(Node node){
         //Console.WriteLine("start MCTS");
@@ -188,9 +203,9 @@ public class MCTS_Player : Iplayer
             result.Add((child.getAction(),(int)child.getVisits()));
         }
         return result;
-    }
+    }*/
     
-    public List<(List<Card>,int,int)> MCTSReturnsMoveAndVisitsAndWins(Node node){
+    public List<(List<Card>,int,int)> MCTS(Node node){
         //Console.WriteLine("start MCTS");
         for (int i = 0; i < Iterations; i++)
         {
@@ -202,7 +217,7 @@ public class MCTS_Player : Iplayer
             //var selected = selection(node);
             // Expand
             // Check to see if terminal
-            if (currentNode.isTerminal()) currentNode.backPropagate(1,currentNode.getParent().getPlayerIndex());
+            if (currentNode.isTerminal()) currentNode.backPropagate(1,currentNode.getPlayerIndex()); // change to not use parent index
             else {
                 currentNode.expand();
                 // Select a child from selected.
@@ -265,7 +280,7 @@ public class MCTS_Player : Iplayer
     {
         
         if(node.isTerminal()) {
-            return node.getParent().getPlayerIndex();        
+            return node.getPlayerIndex(); // Change to not use parent Value       
         } 
 
         var gs = node.getGameState().Clone();
@@ -305,7 +320,7 @@ public class MCTS_Player : Iplayer
         foreach (var k in cardsInHandPerPlayer) {
             k.Item2.addCardsToHand(copyGameState.getDeck().draw((k.Item1)));
         }
-        return new Node(null, new List<Node>(), copyGameState, new List<Card>(), 0, createEmptyValueList(copyGameState), copyGameState.getCurrentPlayerIndex());    
+        return new Node(null, new List<Node>(), copyGameState, new List<Card>(), 0, createEmptyValueList(copyGameState), -1);  // change to not use index (Root should not have index)  
     }
 
 

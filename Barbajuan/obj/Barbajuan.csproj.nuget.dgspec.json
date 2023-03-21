@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj": {}
+    "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj": {}
   },
   "projects": {
-    "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj": {
+    "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj",
+        "projectUniqueName": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
         "projectName": "Barbajuan",
-        "projectPath": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj",
-        "packagesPath": "/Users/torekjelds/.nuget/packages/",
-        "outputPath": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/",
+        "projectPath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
+        "packagesPath": "C:\\Users\\tkjel\\.nuget\\packages\\",
+        "outputPath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/torekjelds/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\tkjel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -63,7 +70,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

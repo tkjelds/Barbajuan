@@ -87,7 +87,7 @@ public class Node
     public double getUCT(){
         double epsilon = 1e-6;
         var rng = new Random();
-        double firstTerm =  Value[Parent.getPlayerIndex()]/(Visits+epsilon);
+        double firstTerm =  Value[PlayerIndex]/(Visits+epsilon); // Change to not use parent playerindex (Done)
         double secondTerm = Math.Sqrt( Math.Log(Parent.Visits+1.0) / (Visits+epsilon) );
         double constant = Math.Sqrt(2.0);
         return firstTerm + (constant * secondTerm) + ( rng.NextDouble() + epsilon) ;
@@ -110,7 +110,7 @@ public class Node
         {
             var clonedGameState = GameState.Clone();
             clonedGameState.applyNoClone(move);
-            var expandedNode = new Node(null,new List<Node>(),clonedGameState,move,0.0,createEmptyValueList(),clonedGameState.getCurrentPlayerIndex());
+            var expandedNode = new Node(null,new List<Node>(),clonedGameState,move,0.0,createEmptyValueList(),GameState.getCurrentPlayerIndex()); // change to 
             this.addChild(expandedNode);
         }
     }
