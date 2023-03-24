@@ -88,7 +88,7 @@ public class Node
         double epsilon = 1e-6;
         var rng = new Random();
         double firstTerm =  Value[PlayerIndex]/(Visits+epsilon); // Change to not use parent playerindex (Done)
-        double secondTerm = Math.Sqrt( Math.Log(Parent.Visits+1.0) / (Visits+epsilon) );
+        double secondTerm = Math.Sqrt( Math.Log(Parent!.Visits+1.0) / (Visits+epsilon) );
         double constant = Math.Sqrt(2.0);
         return firstTerm + (constant * secondTerm) + ( rng.NextDouble() + epsilon) ;
     }
@@ -97,15 +97,13 @@ public class Node
         this.Value[playerIndex] = this.Value[playerIndex] + value;
         this.Visits = this.Visits + 1;
         if(isRoot()) return;
-        Parent.backPropagate(value,playerIndex);
+        Parent!.backPropagate(value,playerIndex);
     }
 
     public void expand(){
         var topCard = GameState.getDeck().getTopCard();
         var hand = GameState.getCurrentPlayer().getHand();
-        var randomMovePicker = new RandomMovePicker();
-        var legalMoves = randomMovePicker.getLegalMoves(topCard,hand);
-        // Console.WriteLine("Number of legalmoves : " + legalMoves.Count());
+        var legalMoves = new RandomMovePicker().getLegalMoves(topCard,hand);
         foreach (var move in legalMoves)
         {
             var clonedGameState = GameState.Clone();

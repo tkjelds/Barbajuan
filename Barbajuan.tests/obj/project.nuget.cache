@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XnxI4ZI3ZHDUbiKkgeeqHdFbFrAePyt0gPhJTWtQ5LJG8bUv1iJKyfxVnPGULGhAKryttekoIFdr/IIo1jojMA==",
+  "dgSpecHash": "nfBffTREFUCbvTpYIJ8h42OPVGfy6RZp05ftVPB2dS+CQGoIpxh1sOd26rqWh6pARPX1X+DlZGjCoKu0duyqBQ==",
   "success": true,
-  "projectFilePath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
+  "projectFilePath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tkjel\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\tkjel\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512",

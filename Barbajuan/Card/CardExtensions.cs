@@ -22,7 +22,6 @@ public static class CardExtensions
         {
             return true;
         }
-        //TODO
         return false;
     }
 }

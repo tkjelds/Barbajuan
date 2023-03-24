@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj": {}
+    "D:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj": {}
   },
   "projects": {
-    "d:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj": {
+    "D:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
+        "projectUniqueName": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
         "projectName": "Barbajuan.tests",
-        "projectPath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
+        "projectPath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
         "packagesPath": "C:\\Users\\tkjel\\.nuget\\packages\\",
-        "outputPath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\obj\\",
+        "outputPath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,8 +33,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "d:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj": {
-                "projectPath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj"
+              "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj": {
+                "projectPath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj"
               }
             }
           }
@@ -94,14 +94,14 @@
         }
       }
     },
-    "d:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj": {
+    "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
+        "projectUniqueName": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
         "projectName": "Barbajuan",
-        "projectPath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
+        "projectPath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
         "packagesPath": "C:\\Users\\tkjel\\.nuget\\packages\\",
-        "outputPath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan\\obj\\",
+        "outputPath": "D:\\Documents\\ITU\\Barbajuan\\Barbajuan\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
