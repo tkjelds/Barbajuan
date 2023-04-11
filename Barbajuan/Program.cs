@@ -21,24 +21,18 @@ internal class Program
         playerPlacements.Add(("bot 4", new List<int>() { 0, 0, 0, 0 }));
         var i = 0;
 
-        var probMovePickerList = new List<(ImovePicker, int)>() {
-            new (new NaiveMovePicker(), 2),
-            new (new RandomMovePicker(), 1)
-        };
-
-        while(i<10000){
+        while(i<100){
             var players = new List<Iplayer>(){
-                //new FlatMonteCarloPlayer1bot 1", 10,100),
-                new StackingMovePlayer("bot 1"),
-                new StackingMovePlayer("bot 2"),
-                new StackingMovePlayer("bot 3"),
-                new StackingMovePlayer("bot 4")          
+                new RandomStackingPlayer("bot 1"),
+                new Cheating_UCT_Player("bot 2", 10, 100),
+                new RandomStackingPlayer("bot 3"),
+                new RandomStackingPlayer("bot 4")          
             };
             var gameState = new GameState(players);
             var scoreBoard = gameState.runReturnScoreBoard();
             scoreBoards.Add(scoreBoard);
             i++;
-            if(i % 10 == 0 ) {Console.WriteLine("Done with game number: " + i);};  
+            //if(i % 10 == 0 ) {Console.WriteLine("Done with game number: " + i);};  
             Console.WriteLine("Done with game number: " + i);
         }
         
@@ -85,7 +79,6 @@ internal class Program
         // });
         foreach (var scoreboard in scoreBoards)
         {
-
             for (int placementIndex = 0; placementIndex < scoreboard.Count(); placementIndex++)
             {
                 

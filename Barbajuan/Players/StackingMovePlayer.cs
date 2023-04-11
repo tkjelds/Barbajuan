@@ -94,9 +94,7 @@ public class StackingMovePlayer : Iplayer
         }
         return moves;
     }
-    public Iplayer clone()
-    {
-        //cursed 
+    public Iplayer clone(){
         var clonedHand = new List<Card>();
         foreach(var card in this.Hand){
             clonedHand.Add(card.Clone());
