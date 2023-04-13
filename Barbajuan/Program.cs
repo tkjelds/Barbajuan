@@ -20,21 +20,43 @@ internal class Program
         playerPlacements.Add(("bot 3", new List<int>() { 0, 0, 0, 0 }));
         playerPlacements.Add(("bot 4", new List<int>() { 0, 0, 0, 0 }));
         var i = 0;
+        
+        var records = new List<Timeline>();
 
-        while(i<1000){
+        while(i<10){
             var players = new List<Iplayer>(){
-                new MCTS_Player("bot 1", 50, 250, new Epsilon_Greedy()),
+                new MCTS_Player("bot 1", 50, 250),
                 new RandomStackingPlayer("bot 2"),
                 new RandomStackingPlayer("bot 3"),
                 new RandomStackingPlayer("bot 4")          
             };
             var gameState = new GameState(players);
-            var scoreBoard = gameState.runReturnScoreBoard();
-            scoreBoards.Add(scoreBoard);
+            var timeLine = gameState.runReturnTimeline();
+            int turnCount = 0;
+            foreach(var turn in timeLine) {
+                if(turn.Item2 == "bot 1") {
+                    turnCount++;
+                    foreach(var card in turn.Item3) {
+                        records.Add(new Timeline(turnCount, card));
+                    }
+                }
+            }
+            // scoreBoards.Add(scoreBoard);
             i++;
-            if(i % 10 == 0 ) {Console.WriteLine("Done with game number: " + i);};  
+            if(i % 1 == 0 ) {Console.WriteLine("Done with game number: " + i);};  
             //Console.WriteLine("Done with game number: " + i);
         }
+
+
+
+        using (var writer = new StreamWriter(@".\Documentation\TimeLine.csv"))
+        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        {
+            csv.WriteRecords(records);
+        }
+
+        
+
         
         // for (int i = 0; i < 100; i++)
         // { 
@@ -77,7 +99,7 @@ internal class Program
         //     scoreBoards.Add(scoreBoard);
         //     Console.WriteLine("Done with game number: " + number);
         // });
-        foreach (var scoreboard in scoreBoards)
+        /*foreach (var scoreboard in scoreBoards)
         {
             for (int placementIndex = 0; placementIndex < scoreboard.Count(); placementIndex++)
             {
@@ -117,10 +139,23 @@ internal class Program
                     csv.WriteField(numberOfPlacements);
                     csv.NextRecord();
                 }
-            }
+            } 
         }
 
         // Console.Write(scoreBoards.Count());
-        //var scoreBoards = gameState.runReturnScoreBoard();
+        //var scoreBoards = gameState.runReturnScoreBoard(); */
+    }
+    public class Timeline
+    {
+        public Timeline(int item1, Card card)
+        {
+            Turn = item1;
+            CardColor = card.cardColor.ToString();
+            CardType = card.cardType.ToString();
+        }
+
+        public int Turn {get; set;}
+        public string CardColor {get;set;} 
+        public string CardType {get;set;}
     }
 }

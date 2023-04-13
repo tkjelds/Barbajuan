@@ -372,11 +372,13 @@ public int runReturnNumberOfTurns()
         }
         var counter = 0;
         var notGameOver = true;
+
         while (notGameOver)
         {
             counter++;
             
             var action = this.currentPlayer.action(this);
+
             var newGameState = this.applyNoClone(action);
 
             if (IsGameOver())
@@ -388,6 +390,36 @@ public int runReturnNumberOfTurns()
         }
 
         return scoreBoard;
+    }
+
+    public List<(int, String, List<Card>)> runReturnTimeline()
+    {
+        foreach (var player in players)
+        {
+            player.addCardsToHand(deck.draw(7));
+        }
+        var counter = 0;
+        var notGameOver = true;
+
+        var timeLine = new List<(int, String, List<Card>)>();
+        while (notGameOver)
+        {
+            counter++;
+            
+            var action = this.currentPlayer.action(this);
+            timeLine.Add((counter, this.currentPlayer.getName(), action));
+            
+            var newGameState = this.applyNoClone(action);
+
+            if (IsGameOver())
+            {
+                scoreBoard.Add(players[0]);
+                notGameOver = false;
+            }
+
+        }
+
+        return timeLine;
     }
 
     /*

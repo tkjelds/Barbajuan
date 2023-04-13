@@ -6228,24 +6228,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tkjel\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Damie\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
+      "projectUniqueName": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
       "projectName": "Barbajuan.tests",
-      "projectPath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
-      "packagesPath": "C:\\Users\\tkjel\\.nuget\\packages\\",
-      "outputPath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan.tests\\obj\\",
+      "projectPath": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan.tests\\Barbajuan.tests.csproj",
+      "packagesPath": "C:\\Users\\Damie\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan.tests\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\tkjel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Damie\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6253,15 +6248,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "d:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj": {
-              "projectPath": "d:\\Documents\\ITU\\Barbajuan\\Barbajuan\\Barbajuan.csproj"
+            "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan\\Barbajuan.csproj": {
+              "projectPath": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan\\Barbajuan.csproj"
             }
           }
         }
@@ -6317,7 +6311,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }
