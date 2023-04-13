@@ -21,10 +21,10 @@ internal class Program
         playerPlacements.Add(("bot 4", new List<int>() { 0, 0, 0, 0 }));
         var i = 0;
 
-        while(i<100){
+        while(i<1000){
             var players = new List<Iplayer>(){
-                new RandomStackingPlayer("bot 1"),
-                new Cheating_UCT_Player("bot 2", 10, 100),
+                new MCTS_Player("bot 1", 50, 250, new Epsilon_Greedy()),
+                new RandomStackingPlayer("bot 2"),
                 new RandomStackingPlayer("bot 3"),
                 new RandomStackingPlayer("bot 4")          
             };
@@ -32,8 +32,8 @@ internal class Program
             var scoreBoard = gameState.runReturnScoreBoard();
             scoreBoards.Add(scoreBoard);
             i++;
-            //if(i % 10 == 0 ) {Console.WriteLine("Done with game number: " + i);};  
-            Console.WriteLine("Done with game number: " + i);
+            if(i % 10 == 0 ) {Console.WriteLine("Done with game number: " + i);};  
+            //Console.WriteLine("Done with game number: " + i);
         }
         
         // for (int i = 0; i < 100; i++)

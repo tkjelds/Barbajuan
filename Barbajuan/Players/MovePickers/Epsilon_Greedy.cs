@@ -21,9 +21,9 @@ public class Epsilon_Greedy : ImovePicker
         var rng = new Random();
         var pick = rng.Next(100);
 
-        if (pick<epsilon) return greedyMove.pick(gameState);
+        if (pick<epsilon) return randomMove.pick(gameState);
 
-        return randomMove.pick(gameState);
+        return greedyMove.pick(gameState);
     }
 
 

@@ -14,6 +14,13 @@ public class MCTS_Player : Iplayer
     ImovePicker Picker = new StackingMovePicker();
 
 
+    public MCTS_Player(string name, int determinations, int iterations, ImovePicker picker){
+        Name = name;
+        Determinations = determinations;
+        Iterations = iterations; 
+        Picker = picker;
+    }
+
 
 
     public MCTS_Player(List<Card> hand, int determinations, int iterations, string name, ImovePicker picker)
