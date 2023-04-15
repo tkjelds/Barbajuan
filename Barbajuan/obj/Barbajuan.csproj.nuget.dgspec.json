@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan\\Barbajuan.csproj": {}
+    "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan\\Barbajuan.csproj": {
+    "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
+        "projectUniqueName": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj",
         "projectName": "Barbajuan",
-        "projectPath": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan\\Barbajuan.csproj",
-        "packagesPath": "C:\\Users\\Damie\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Damie\\Documents\\Bachelor\\Barbajuan\\Barbajuan\\obj\\",
+        "projectPath": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/Barbajuan.csproj",
+        "packagesPath": "/Users/torekjelds/.nuget/packages/",
+        "outputPath": "/Users/torekjelds/Documents/ITU/Barbajuan/Barbajuan/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Damie\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/torekjelds/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -65,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.101/RuntimeIdentifierGraph.json"
         }
       }
     }

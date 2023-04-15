@@ -221,7 +221,7 @@ public class Cheating_UCT_Player : Iplayer
         foreach(var card in this.Hand){
             clonedHand.Add(card.Clone());
         }
-        var clonedPlayer = new MCTS_Player(clonedHand,this.Determinations,this.Iterations,this.Name,this.Picker);
+        var clonedPlayer = new Cheating_UCT_Player(clonedHand,this.Determinations,this.Iterations,this.Name,this.Picker);
         return clonedPlayer;
     }
 
