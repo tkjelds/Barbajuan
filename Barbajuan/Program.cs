@@ -23,38 +23,82 @@ internal class Program
         
         var records = new List<Timeline>();
 
-        while(i<10){
+        while(i<10000){
+            var temprecords = new List<Timeline>();
             var players = new List<Iplayer>(){
-                new MCTS_Player("bot 1", 50, 250),
+                new MCTS_Player("bot 1",50,250),
                 new RandomStackingPlayer("bot 2"),
-                new RandomStackingPlayer("bot 3"),
-                new RandomStackingPlayer("bot 4")          
+                new RandomStackingPlayer("bot 3"), 
+                new RandomStackingPlayer("bot 4")
             };
             var gameState = new GameState(players);
+            //var scoreBoard = gameState.runReturnScoreBoard();
             var timeLine = gameState.runReturnTimeline();
-            int turnCount = 0;
+            var turnCount = 0; 
+            
             foreach(var turn in timeLine) {
                 if(turn.Item2 == "bot 1") {
                     turnCount++;
-                    foreach(var card in turn.Item3) {
-                        records.Add(new Timeline(turnCount, card));
+                    var cardColor = turn.Item3.First().cardColor.ToString();
+
+                    //If number, put "Number", else the type.
+                    string cardType;
+                    if((int) turn.Item3.First().cardType < 10) {
+                        cardType = "Number";
+                    } else {
+                        cardType = turn.Item3.First().cardType.ToString();
                     }
+
+                    //If stacking move, concat stacking in front.
+                    if(turn.Item3.Count() > 1) {
+                        cardType = "STACKING" + cardType;
+                    }
+                     
+                    temprecords.Add(new Timeline(turnCount, cardColor, cardType, 0));
                 }
             }
-            // scoreBoards.Add(scoreBoard);
+
+            var turnCountDouble = Convert.ToDouble(turnCount);
+            var quart = turnCountDouble / 4.0;
+
+            //Console.WriteLine("Turn count = " + turnCount);
+            //Console.WriteLine("Turn count as a double = " + turnCountDouble);
+            //Console.WriteLine("Quartile size = " + quart);
+            foreach(var t in temprecords) {
+                if(t.Turn <= quart) {
+                    t.Quartile = 1;
+                    
+                } else if(t.Turn <= (quart*2.0)) {
+                    t.Quartile = 2;
+                    
+                } else if(t.Turn <= (quart*3.0)) {
+                    t.Quartile = 3;
+                    
+                } else if(t.Turn <= (quart*4.0)) {
+                    t.Quartile = 4;
+                   
+                }
+            }
+            
+            foreach(var t in temprecords) {
+                records.Add(t);
+            }
+
+            
+            // records.Add(new Timeline(turnCount, "ENDOFGAME", (i+1).ToString()));
+            //scoreBoards.Add(scoreBoard);
             i++;
             if(i % 1 == 0 ) {Console.WriteLine("Done with game number: " + i);};  
             //Console.WriteLine("Done with game number: " + i);
         }
 
-
-
-        using (var writer = new StreamWriter(@".\Documentation\TimeLine.csv"))
+        
+        using (var writer = new StreamWriter(@".\Documentation\UpdatedTimeLine.csv"))
         using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
         {
             csv.WriteRecords(records);
         }
-
+        
         
 
         
@@ -99,7 +143,8 @@ internal class Program
         //     scoreBoards.Add(scoreBoard);
         //     Console.WriteLine("Done with game number: " + number);
         // });
-        /*foreach (var scoreboard in scoreBoards)
+        /*
+        foreach (var scoreboard in scoreBoards)
         {
             for (int placementIndex = 0; placementIndex < scoreboard.Count(); placementIndex++)
             {
@@ -110,18 +155,20 @@ internal class Program
             }
         }
 
-        foreach (var player in playerPlacements)
+         foreach (var player in playerPlacements)
         {
             var playername = player.Item1;
             Console.WriteLine(player.Item1);
-            using (var stream = File.Open(@".\Documentation\FlatMonteCarloExperiments.csv", FileMode.Append))
+            /*using (var stream = File.Open(@".\Documentation\FlatMonteCarloExperiments.csv", FileMode.Append))
                 using (var writer = new StreamWriter(stream))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
                     // csv.WriteRecords(playername);
                     csv.WriteField(playername);
                     csv.NextRecord();
-                }
+                } 
+                */
+            /*
             for (int placementIndex = 0; placementIndex < player.Item2.Count(); placementIndex++)
             {
                 var placement = placementIndex + 1;
@@ -131,20 +178,21 @@ internal class Program
 
                 Console.WriteLine("Placement : " + placement + "    Amount of times : " + player.Item2[placementIndex]);
 
-
+                
                 using (var stream = File.Open(@".\Documentation\FlatMonteCarloExperiments.csv", FileMode.Append))
                 using (var writer = new StreamWriter(stream))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
                     csv.WriteField(numberOfPlacements);
                     csv.NextRecord();
-                }
+                }*/
             } 
         }
+    
+
 
         // Console.Write(scoreBoards.Count());
-        //var scoreBoards = gameState.runReturnScoreBoard(); */
-    }
+        //var scoreBoards = gameState.runReturnScoreBoard(); 
     public class Timeline
     {
         public Timeline(int item1, Card card)
@@ -154,8 +202,18 @@ internal class Program
             CardType = card.cardType.ToString();
         }
 
+        public Timeline(int item1, string cardColor, string cardType, int quartile) 
+        {
+            Turn = item1;
+            CardColor = cardColor;
+            CardType = cardType;
+            Quartile = quartile;
+        }
+
         public int Turn {get; set;}
         public string CardColor {get;set;} 
         public string CardType {get;set;}
+
+        public int Quartile {get;set;}
     }
-}
+
