@@ -2,10 +2,10 @@
 // Returns 1 if firstplace, returns 0 if not
 public class NaiveGameEvaluator : IgameEvaluator
 {
-    public int evaluate(GameState gs, string playerName)
+    public int Evaluate(GameState gs, string playerName)
     {
-        var scoreBoard = gs.getScoreBoard();
-        var score = scoreBoard[0].getName() == playerName ? 1 : 0;
+        var scoreBoard = gs.GetScoreBoard();
+        var score = scoreBoard[0].GetName() == playerName ? 1 : 0;
         return score;
     }
 }

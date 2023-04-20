@@ -18,7 +18,7 @@ public class DeckTests
     {
         var deck = new Deck(generateCards(5), new Stack<Card>());
 
-        Assert.True(deck.needsShuffle(10));
+        Assert.True(deck.NeedsShuffle(10));
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class DeckTests
         // When
 
         // Then
-        Assert.False(deck.needsShuffle(2));
+        Assert.False(deck.NeedsShuffle(2));
     }
 
     [Fact]
@@ -48,11 +48,11 @@ public class DeckTests
         // Given
         var deck = new Deck(generateCards(100), generateCards(0));
         // When
-        deck.popTopDrawPushDiscard();
-        var preShufflePeek = deck.getTopCard();
+        deck.PopTopDrawPushDiscard();
+        var preShufflePeek = deck.GetTopCard();
         deck.Shuffle();
-        deck.popTopDrawPushDiscard();
-        var postShufflePeek = deck.getTopCard();
+        deck.PopTopDrawPushDiscard();
+        var postShufflePeek = deck.GetTopCard();
         // Then
         Assert.NotEqual(preShufflePeek, postShufflePeek);
     }
@@ -74,7 +74,7 @@ public class DeckTests
         // Given
         var deck = new Deck(generateCards(3), generateCards(2));
         // When
-        var actual = deck.draw(4);
+        var actual = deck.Draw(4);
         // Then
         Assert.Equal(4, actual.Count);
     }
@@ -84,7 +84,7 @@ public class DeckTests
         // Given
         var deck = new Deck(generateCards(1), generateCards(10));
         // When
-        deck.draw(2);
+        deck.Draw(2);
         // Then
         Assert.Equal(8, deck.drawPile.Count);
     }
@@ -94,7 +94,7 @@ public class DeckTests
         // Given
         var deck = new Deck(generateCards(1), generateCards(10));
         // When
-        deck.draw(2);
+        deck.Draw(2);
         // Then
         Assert.Single(deck.discardPile);
     }
@@ -105,9 +105,9 @@ public class DeckTests
         // Given
         var deck = new Deck();
         // When
-        deck.setup();
+        deck.Setup();
         // Then
-        Assert.Equal(108, deck.deckCount());
+        Assert.Equal(108, deck.DeckCount());
     }
 
     [Fact]
@@ -116,7 +116,7 @@ public class DeckTests
         // Given
         var deck = new Deck();
         // When
-        deck.setup();
+        deck.Setup();
         // Then
         Assert.Single(deck.discardPile);
     }
@@ -160,7 +160,7 @@ public class DeckTests
         // Different REFs for object
         Assert.NotEqual(deck,actual);
         // Same of total amount of cards
-        Assert.Equal(deck.deckCount(),actual.deckCount());
+        Assert.Equal(deck.DeckCount(),actual.DeckCount());
         // Correct Amount of cards in discard 
         Assert.Equal(deck.discardPile.Count(),actual.discardPile.Count());
         // Correct amoutn of cards in drawppile

@@ -9,7 +9,7 @@ public class CardTests
         var red1 = new Card(RED, ONE);
         var blue1 = new Card(BLUE, ONE);
         //When
-        var actual = blue1.canBePlayedOn(red1);
+        var actual = blue1.CanBePlayedOn(red1);
         //Assert
         Assert.True(actual);
     }
@@ -36,7 +36,7 @@ public class CardTests
         var card = new Card((CardColor)cardColor, (CardType)cardType);
         var wildCard = new Card(WILD, SELECTCOLOR);
         // When
-        var actual = wildCard.canBePlayedOn(card);
+        var actual = wildCard.CanBePlayedOn(card);
         // Then
         Assert.True(actual);
     }
@@ -47,7 +47,7 @@ public class CardTests
         var red1 = new Card(RED, ONE);
         var blue4 = new Card(BLUE, FOUR);
         // When
-        var actual = red1.canBePlayedOn(blue4);
+        var actual = red1.CanBePlayedOn(blue4);
         // Then
         Assert.False(actual);
     }

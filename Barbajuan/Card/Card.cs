@@ -36,8 +36,5 @@ public class Card : IComparable
         if (this.cardType == other.cardType) return (this.cardColor - other.cardColor);
 
         return (this.cardType - other.cardType);
-        
-        //if(this.cardType < other.cardType || this.cardColor < other.cardColor) { return -1;} 
-        //throw new NotImplementedException();
     }
 }

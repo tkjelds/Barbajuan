@@ -1,7 +1,6 @@
-using static CardColor;
 public static class CardExtensions
 {
-    public static bool canBePlayedOn(this Card card1, Card card2)
+    public static bool CanBePlayedOn(this Card card1, Card card2)
     {
         if (card2.cardColor is WILD || card1.cardColor is WILD)
         {

@@ -18,7 +18,7 @@ public class Deck
         this.discardPile = new Stack<Card>();
     }
 
-    public void setup()
+    public void Setup()
     {
         var deck = new List<Card>();
         for (var i = 0; i < 4; i++)
@@ -45,14 +45,14 @@ public class Deck
         this.Shuffle();
     }
 
-    public void popTopDrawPushDiscard()
+    public void PopTopDrawPushDiscard()
     {
         var card = this.drawPile.Pop();
         this.discardPile.Push(card);
     }
 
-    public Card getTopCard() => this.discardPile.Peek();
-    public bool needsShuffle(int n) => this.drawPile.Count < n;
+    public Card GetTopCard() => this.discardPile.Peek();
+    public bool NeedsShuffle(int n) => this.drawPile.Count < n;
     
     public void ShuffleDrawPile(){
         var list = new List<Card>();
@@ -84,12 +84,12 @@ public class Deck
         this.discardPile.Push(this.drawPile.Pop());
     }
 
-    public List<Card> draw(int n)
+    public List<Card> Draw(int n)
     {
         var cards = new List<Card>();
         for (var i = 0; i < n; i++)
         {
-            if (this.needsShuffle(1))
+            if (this.NeedsShuffle(1))
             {
                 this.Shuffle();
             }
@@ -98,10 +98,10 @@ public class Deck
         }
         return cards;
     }
-    public List<Card> draw()
+    public List<Card> Draw()
     {
         var cards = new List<Card>();
-        if (this.needsShuffle(1))
+        if (this.NeedsShuffle(1))
         {
             this.Shuffle();
         }
@@ -110,7 +110,7 @@ public class Deck
         return cards;
     }
 
-    public int deckCount() => this.drawPile.Count + this.discardPile.Count;
+    public int DeckCount() => this.drawPile.Count + this.discardPile.Count;
 
     
 
@@ -123,14 +123,12 @@ public class Deck
         {
             clonedDrawPile.Push(card.Clone());
         }
-        //clonedDrawPile.Reverse();
 
         foreach (var card in this.discardPile)
         {
             clonedDiscardPile.Push(card.Clone());
         }
 
-        //clonedDiscardPile.Reverse();
         return new Deck(clonedDrawPile,clonedDiscardPile);
     }
 

@@ -1,6 +1,6 @@
 public interface ImovePicker
 {
     
-    List<List<Card>> getLegalMoves(Card topCard, List<Card> hand);
-    List<Card> pick(GameState gameState);
+    List<List<Card>> GetLegalMoves(Card topCard, List<Card> hand);
+    List<Card> Pick(GameState gameState);
 }

@@ -11,7 +11,7 @@ public class PlayerTests
         var player = new TestPlayer(new List<Card>() { new Card(GREEN, ZERO), new Card(RED, ONE), new Card(YELLOW, TWO) });
         var gameState = new GameState(new List<Iplayer>() { player }, deck);
         //When
-        var actual = player.action(gameState).First();
+        var actual = player.Action(gameState).First();
         //Then
         Assert.True(actual.cardType == DRAW1);
     }
@@ -23,7 +23,7 @@ public class PlayerTests
         var toBePlayedOn = new Card(RED, ZERO);
         var player = new RandomPlayer(new List<Card>() { new Card(BLUE, ZERO), new Card(RED, FOUR), new Card(YELLOW, FOUR), new Card(BLUE, FOUR) });
         // When
-        var stackingMoves = player.getStackingActions(toBePlayedOn);
+        var stackingMoves = player.GetStackingActions(toBePlayedOn);
         // Then
         Assert.Equal(6, stackingMoves.Count());
     }
@@ -39,7 +39,7 @@ public class PlayerTests
         new Card(WILD, DRAW4),
         new Card(WILD, SELECTCOLOR) });
         // When
-        var stackingMoves = player.getStackingActions(toBePlayedOn);
+        var stackingMoves = player.GetStackingActions(toBePlayedOn);
         // Then
         Assert.Equal(14, stackingMoves.Count());
     }
@@ -51,7 +51,7 @@ public class PlayerTests
         var toBePlayedOn = new Card(RED, ZERO);
         var player = new RandomPlayer(new List<Card>() { new Card(BLUE, ZERO), new Card(RED, FOUR), new Card(YELLOW, FOUR), new Card(BLUE, FOUR) });
         // When
-        var actual = player.getStackingActions(toBePlayedOn);
+        var actual = player.GetStackingActions(toBePlayedOn);
         var expected = new List<List<Card>>(){
             new List<Card>() {new Card(BLUE, ZERO)},
             new List<Card>() {new Card(RED, FOUR)},
@@ -69,13 +69,13 @@ public class PlayerTests
     {
         // Given
         var player = new RandomPlayer(new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)}, "carl");
-        var playerHand = player.getHand();
+        var playerHand = player.GetHand();
         // When
-        var actual = player.clone();
-        var actualHand = actual.getHand();
+        var actual = player.Clone();
+        var actualHand = actual.GetHand();
         // Then
-        Assert.Equal(player.getHand().Count() , actual.getHand().Count());
-        Assert.Equal(player.getName(), actual.getName());
+        Assert.Equal(player.GetHand().Count() , actual.GetHand().Count());
+        Assert.Equal(player.GetName(), actual.GetName());
         playerHand.Should().BeEquivalentTo(actualHand);
         Assert.NotEqual(player,actual);
         Assert.Equal(player,player);
@@ -86,13 +86,13 @@ public class PlayerTests
     {
         // Given
         var player = new RandomPlayer(new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)}, "carl");
-        var playerHand = player.getHand();
+        var playerHand = player.GetHand();
         // When
-        var actual = player.clone();
-        var actualHand = actual.getHand();
+        var actual = player.Clone();
+        var actualHand = actual.GetHand();
         // Then
-        Assert.Equal(player.getHand().Count() , actual.getHand().Count());
-        Assert.Equal(player.getName(), actual.getName());
+        Assert.Equal(player.GetHand().Count() , actual.GetHand().Count());
+        Assert.Equal(player.GetName(), actual.GetName());
         playerHand.Should().BeEquivalentTo(actualHand);
         Assert.NotEqual(player,actual);
         Assert.Equal(player,player);
@@ -103,13 +103,13 @@ public class PlayerTests
     {
         // Given
         var player = new RandomStackingPlayer ( "carl",new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)});
-        var playerHand = player.getHand();
+        var playerHand = player.GetHand();
         // When
-        var actual = player.clone();
-        var actualHand = actual.getHand();
+        var actual = player.Clone();
+        var actualHand = actual.GetHand();
         // Then
-        Assert.Equal(player.getHand().Count() , actual.getHand().Count());
-        Assert.Equal(player.getName(), actual.getName());
+        Assert.Equal(player.GetHand().Count() , actual.GetHand().Count());
+        Assert.Equal(player.GetName(), actual.GetName());
         playerHand.Should().BeEquivalentTo(actualHand);
         Assert.NotEqual(player,actual);
         Assert.Equal(player,player);
@@ -119,13 +119,13 @@ public class PlayerTests
     {
         // Given
         var player = new FlatMonteCarloPlayer (new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)},10,10,"carl");
-        var playerHand = player.getHand();
+        var playerHand = player.GetHand();
         // When
-        var actual = player.clone();
-        var actualHand = actual.getHand();
+        var actual = player.Clone();
+        var actualHand = actual.GetHand();
         // Then
-        Assert.Equal(player.getHand().Count() , actual.getHand().Count());
-        Assert.Equal(player.getName(), actual.getName());
+        Assert.Equal(player.GetHand().Count() , actual.GetHand().Count());
+        Assert.Equal(player.GetName(), actual.GetName());
         playerHand.Should().BeEquivalentTo(actualHand);
         Assert.NotEqual(player,actual);
         Assert.Equal(player,player);
@@ -140,13 +140,13 @@ public class PlayerTests
         // When
         foreach (var player in players)
         {
-            actual.Add(player.clone());
+            actual.Add(player.Clone());
         }
         // Then
         Assert.Equal(4,actual.Count());
-        Assert.Equal("Player0", actual[0].getName());
-        Assert.Equal("Player1", actual[1].getName());
-        Assert.Equal("Player2", actual[2].getName());
-        Assert.Equal("Player3", actual[3].getName());
+        Assert.Equal("Player0", actual[0].GetName());
+        Assert.Equal("Player1", actual[1].GetName());
+        Assert.Equal("Player2", actual[2].GetName());
+        Assert.Equal("Player3", actual[3].GetName());
     }
 }

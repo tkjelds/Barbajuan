@@ -3,75 +3,54 @@ using System.Collections.Concurrent;
 public class MCTS_Player : Iplayer
 {
 
-    List<Card> Hand = new List<Card>();
+    List<Card> hand = new List<Card>();
 
-    int Determinations = 0;
+    int determinations = 0;
 
-    int Iterations = 0;
+    int iterations = 0;
 
-    string Name = new Random().Next(int.MaxValue).ToString();
+    string name = new Random().Next(int.MaxValue).ToString();
     
-    ImovePicker Picker = new StackingMovePicker();
+    ImovePicker picker = new StackingMovePicker();
 
 
     public MCTS_Player(string name, int determinations, int iterations, ImovePicker picker){
-        Name = name;
-        Determinations = determinations;
-        Iterations = iterations; 
-        Picker = picker;
+        this.name = name;
+        this.determinations = determinations;
+        this.iterations = iterations; 
+        this.picker = picker;
     }
 
 
 
     public MCTS_Player(List<Card> hand, int determinations, int iterations, string name, ImovePicker picker)
     {
-        Hand = hand;
-        Determinations = determinations;
-        Iterations = iterations;
-        Name = name;
-        Picker = picker;
+        this.hand = hand;
+        this.determinations = determinations;
+        this.iterations = iterations;
+        this.name = name;
+        this.picker = picker;
     }
 
     public MCTS_Player(string name, int determinations, int iterations)
     {
-        Name = name;
-        Determinations = determinations;
-        Iterations = iterations; 
+        this.name = name;
+        this.determinations = determinations;
+        this.iterations = iterations; 
     }
-    public List<Card> action(IgameState gameState)
+    public List<Card> Action(GameState gameState)
     {
         
-        var legalMoves = getStackingActions(gameState.getDeck().discardPile.Peek());
+        var legalMoves = new StackingMovePicker().GetStackingActions(gameState.GetDeck().discardPile.Peek(),hand);
         if (legalMoves.Count == 0) return new List<Card>() { new Card(WILD, DRAW1) };
         if (legalMoves.Count == 1) return legalMoves[0];
-        // Console.WriteLine("New turn: ");
-        
-        //     foreach (var move in legalMoves)
-        //     {
-        //         Console.Write("Move : ");
-        //         foreach (var card in move)
-        //         {
-        //             Console.Write(card.ToString() + " ");
-        //         }
-        //         Console.WriteLine();
-        //     }
+     
         var moveRobustness = new ConcurrentBag<(List<Card>,int,int)>();
         var stackingMoves = new StackingMovePicker();
-        //var clonedGameState = gameState.Clone();
-        // for (int i = 0; i < Determinations; i++)
-        // {
-        //     //var clonedGameState = gameState.Clone();
-        //     var determinationRoot = createRootDetermination(clonedGameState);
-        //     var result = MCTS(determinationRoot);
-        //     foreach (var moveRobust in result)
-        //     { 
-        //         moveRobustness.Add(moveRobust);
-        //     }
-        //     //Console.WriteLine(i);
-        // }
-        Parallel.For(0,Determinations, _ =>{
+        
+        Parallel.For(0,determinations, _ =>{
             var clonedGameState = gameState.Clone();
-            var determinationRoot = createRootDetermination(clonedGameState);
+            var determinationRoot = CreateRootDetermination(clonedGameState);
             var result = MCTS(determinationRoot);
             foreach (var moveRobust in result)
             { 
@@ -95,92 +74,73 @@ public class MCTS_Player : Iplayer
                 resultList[moveIndex] = (moveRobust.Item1,newMoveValue,newWinsValue);
             }
         }
-        // Console.WriteLine("After MCTS");
-        // foreach (var mr in resultList)
-        // {
-        //     Console.Write("Move : ");
-        //     foreach (var card in mr.Item1)
-        //     {
-        //         Console.Write(card.ToString() + " ");
-        //     }
-        //     Console.Write("Visits : " + mr.Item2);
-        //     Console.Write(" Wins : " + mr.Item3);
-        //     Console.Write("   wins divided by visits: " + (((double) Math.Round(((double) mr.Item3 / (double) mr.Item2)*100)/100)));
 
-        //     Console.WriteLine();
-        // }
         resultList.Sort((x,y) => x.Item2.CompareTo(y.Item2));
         var bestMove = resultList.Last().Item1;
-        // Console.Write("Chosen move : ");
-        // foreach (var card in bestMove)
-        // {
-        //     Console.Write(card.ToString() + " ");
-        // }
-        // Console.WriteLine();
+    
         return bestMove;
     }
     
     public List<(List<Card>,int,int)> MCTS(Node node){
         //Console.WriteLine("start MCTS");
-        for (int i = 0; i < Iterations; i++)
+        for (int i = 0; i < iterations; i++)
         {
-            var currentNode = node;
-            while(!currentNode.isLeaf()){
-                currentNode = select(currentNode);
-            }
             // Select
-            //var selected = selection(node);
+            var currentNode = node;
+            while(!currentNode.IsLeaf()){
+                currentNode = Select(currentNode);
+            }
             // Expand
             // Check to see if terminal
-            if (currentNode.isTerminal()) currentNode.backPropagate(1,currentNode.getPlayerIndex()); // change to not use parent index
+            if (currentNode.IsTerminal()) currentNode.BackPropagate(1,currentNode.GetPlayerIndex()); 
             else {
-                currentNode.expand();
+                currentNode.Expand();
                 // Select a child from selected.
-                var selectedChild = select(currentNode);
+                var selectedChild = Select(currentNode);
                 // Simulate
-                var childRolloutWinner = rollout(selectedChild);
+                var childRolloutWinner = Rollout(selectedChild);
                 // Backpropogate 
-                selectedChild.backPropagate(1.0,childRolloutWinner);
+                selectedChild.BackPropagate(1.0,childRolloutWinner);
                 
             } 
         }
-        var children = node.getChildren();
+        var children = node.GetChildren();
         var result = new List<(List<Card>,int,int)>();
-        var amountOfValues = node.getvalue().Count;
-        //Console.WriteLine("new MCTS");
+        var amountOfValues = node.Getvalue().Count;
+        
         foreach (var child in children)
         {
-            //Console.WriteLine(child.getVisits());
-            result.Add((child.getAction(),(int)child.getVisits(),(int)child.getPlayerValue(0)));
+            
+            result.Add((child.GetAction(),(int)child.GetVisits(),(int)child.GetPlayerValue(0)));
         }
         return result;
     }
-    public void addCardsToHand(List<Card> cards)
+    public void AddCardsToHand(List<Card> cards)
     {
-        Hand.AddRange(cards);
+        hand.AddRange(cards);
     }
 
-    public List<Card> getHand()
+    public List<Card> GetHand()
     {
-        return Hand;
+        return hand;
     }
 
-    public string getName()
+    public string GetName()
     {
-        return Name;
+        return name;
     }
 
-    public void removeCardFromHand(Card cards)
+    public void RemoveCardFromHand(Card cards)
     {
-        Hand.Remove(cards);
+        hand.Remove(cards);
     }
      
-    public Node select(Node node){    
+    public Node Select(Node node){    
         Node? selected = null;
         double bestValue = double.MinValue;
-        foreach (var child in node.getChildren())
+        foreach (var child in node.GetChildren())
         {   
-            double uctValue = child.getUCT();
+            double uctValue = child.GetUCT();
             if(uctValue > bestValue){
                 selected = child;
                 bestValue = uctValue;                           
@@ -191,28 +151,28 @@ public class MCTS_Player : Iplayer
 
     // RollOut // SIMULATION returns playerindex in gamestate on which player won
 
-    public int rollout(Node node) 
+    public int Rollout(Node node) 
     {
         
-        if(node.isTerminal()) {
-            return node.getPlayerIndex(); // Change to not use parent Value       
+        if(node.IsTerminal()) {
+            return node.GetPlayerIndex();       
         } 
 
-        var gs = node.getGameState().Clone();
+        var gs = node.GetGameState().Clone();
 
         var remainingPlayers = gs.GetPlayers().Count;
 
         while(gs.GetPlayers().Count == remainingPlayers){
-            var toMovePlayerIndex = gs.getCurrentPlayerIndex();
-            var action = Picker.pick(gs);
-            gs.applyNoClone(action);
+            var toMovePlayerIndex = gs.GetCurrentPlayerIndex();
+            var action = picker.Pick(gs);
+            gs.ApplyNoClone(action);
             if(gs.GetPlayers().Count < remainingPlayers) return toMovePlayerIndex;
         }
         return -1;
     }
 
 
-    public Node createRootDetermination(GameState gameState)
+    public Node CreateRootDetermination(GameState gameState)
     {
         var copyGameState = gameState.Clone();
         List<(int,Iplayer)> cardsInHandPerPlayer = new List<(int, Iplayer)>();
@@ -220,41 +180,35 @@ public class MCTS_Player : Iplayer
         // Remove cards from players hand.
         // And add them to the draw pile.
         foreach (var p in copyGameState.GetPlayers()) {
-            if(p.getName().Trim().Equals(this.Name.Trim()) == false) { // This might be wrong // TODO
-                cardsInHandPerPlayer.Add(((p.getHand().Count(),p)));
-                foreach (var card in new List<Card>(p.getHand()))
+            if(p.GetName().Trim().Equals(this.name.Trim()) == false) { // This might be wrong // TODO
+                cardsInHandPerPlayer.Add(((p.GetHand().Count(),p)));
+                foreach (var card in new List<Card>(p.GetHand()))
                 {
-                    copyGameState.getDeck().drawPile.Push(card);
-                    p.removeCardFromHand(card);
+                    copyGameState.GetDeck().drawPile.Push(card);
+                    p.RemoveCardFromHand(card);
                 }
             }
         }
         // Shuffle Deck (Not discard)
-        copyGameState.getDeck().ShuffleDrawPile();
+        copyGameState.GetDeck().ShuffleDrawPile();
         // Give Cards to players again
         foreach (var k in cardsInHandPerPlayer) {
-            k.Item2.addCardsToHand(copyGameState.getDeck().draw((k.Item1)));
+            k.Item2.AddCardsToHand(copyGameState.GetDeck().Draw((k.Item1)));
         }
-        return new Node(null, new List<Node>(), copyGameState, new List<Card>(), 0, createEmptyValueList(copyGameState), -1);  // change to not use index (Root should not have index)  
+        return new Node(null, new List<Node>(), copyGameState, new List<Card>(), 0, CreateEmptyValueList(copyGameState), -1);  // change to not use index (Root should not have index)  
     }
 
-
-    public void rollout(IgameEvaluator evaluator) 
-    {
-        throw new NotImplementedException();
-    }
-
-    public Iplayer clone()
+    public Iplayer Clone()
     {
         var clonedHand = new List<Card>();
-        foreach(var card in this.Hand){
+        foreach(var card in this.hand){
             clonedHand.Add(card.Clone());
         }
-        var clonedPlayer = new MCTS_Player(clonedHand,this.Determinations,this.Iterations,this.Name,this.Picker);
+        var clonedPlayer = new MCTS_Player(clonedHand,this.determinations,this.iterations,this.name,this.picker);
         return clonedPlayer;
     }
 
-    public List<double> createEmptyValueList(GameState gameState){
+    public List<double> CreateEmptyValueList(GameState gameState){
         List<Double> valueList = new List<double>();
         for (int i = 0; i < gameState.GetPlayers().Count(); i++)
         {
@@ -263,60 +217,9 @@ public class MCTS_Player : Iplayer
         return valueList;
     }
     
-    public List<List<Card>> getLegalMoves(Card topCard)
+    public List<List<Card>> GetLegalMoves(Card topCard)
     {
-        return getStackingActions(topCard);
-    }
-    public List<List<Card>> getStackingActions(Card topCard)
-    {
-        var moves = new List<List<Card>>();
-        foreach (var card in new List<Card>(Hand))
-        {
-            if (card.canBePlayedOn(topCard))
-            {
-                if (card.cardType == DRAW4)
-                {
-                    moves.Add(new List<Card>() { new Card(GREEN, DRAW4) });
-                    moves.Add(new List<Card>() { new Card(BLUE, DRAW4) });
-                    moves.Add(new List<Card>() { new Card(YELLOW, DRAW4) });
-                    moves.Add(new List<Card>() { new Card(RED, DRAW4) });
-                }
-                if (card.cardType == SELECTCOLOR)
-                {
-                    moves.Add(new List<Card>() { new Card(GREEN, SELECTCOLOR) });
-                    moves.Add(new List<Card>() { new Card(BLUE, SELECTCOLOR) });
-                    moves.Add(new List<Card>() { new Card(YELLOW, SELECTCOLOR) });
-                    moves.Add(new List<Card>() { new Card(RED, SELECTCOLOR) });
-                }
-                if (card.cardType != SELECTCOLOR && card.cardType != DRAW4)
-                {
-                    var nextHand = new List<Card>(Hand);
-                    moves.Add(new List<Card>() { card });
-                    nextHand.Remove(card);
-                    moves.AddRange(getCardOfSameType(card, nextHand, new List<Card>() { card }));
-                }
-
-            }
-        }
-        return moves;
-    }
-    public List<List<Card>> getCardOfSameType(Card toBePlayedOn, List<Card> hand, List<Card> currentStack)
-    {
-        var moves = new List<List<Card>>();
-        foreach (var card in new List<Card>(hand))
-        {
-            var nextHand = new List<Card>(hand);
-            if (card.cardType == toBePlayedOn.cardType)
-            {
-                var moveStack = new List<Card>(currentStack);
-                moveStack.Add(card);
-                moves.Add(moveStack);
-                nextHand.Remove(card);
-                moves.AddRange(getCardOfSameType(card, nextHand, moveStack));
-
-            }
-        }
-        return moves;
+        return new StackingMovePicker().GetStackingActions(topCard,hand);;
     }
 
 }

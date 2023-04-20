@@ -4,26 +4,26 @@ using static CardType;
 public class TestPlayer : Iplayer
 {
 
-    String Name;
+    String? name;
 
-    List<Card> Hand = new List<Card>();
+    List<Card> hand = new List<Card>();
 
-    public TestPlayer(List<Card> Hand)
+    public TestPlayer(List<Card> hand)
     {
-        this.Hand = Hand;
+        this.hand = hand;
     }
 
     public TestPlayer() { }
 
     public TestPlayer(string name, List<Card> hand)
     {
-        Name = name;
-        Hand = hand;
+        this.name = name;
+        this.hand = hand;
     }
 
-    public List<Card> action(IgameState gameState)
+    public List<Card> Action(GameState gameState)
     {
-        var moves = this.getActions(gameState.getDeck().discardPile.Peek());
+        var moves = this.GetActions(gameState.GetDeck().discardPile.Peek());
         if (moves.Count == 0)
         {
             return new List<Card>() { new Card(WILD, DRAW1) };
@@ -31,12 +31,12 @@ public class TestPlayer : Iplayer
         moves = new List<List<Card>>(moves.Distinct());
         return moves[0];
     }
-    public List<List<Card>> getActions(Card topCard)
+    public List<List<Card>> GetActions(Card topCard)
     {
         var moves = new List<List<Card>>();
-        foreach (var card in new List<Card>(this.Hand))
+        foreach (var card in new List<Card>(this.hand))
         {
-            if (card.canBePlayedOn(topCard))
+            if (card.CanBePlayedOn(topCard))
             {
                 if (card.cardType == DRAW4)
                 {
@@ -62,39 +62,39 @@ public class TestPlayer : Iplayer
         }
         return moves;
     }
-    public void addCardsToHand(List<Card> cards)
+    public void AddCardsToHand(List<Card> cards)
     {
         throw new NotImplementedException();
     }
 
-    public List<Card> getHand()
+    public List<Card> GetHand()
     {
         throw new NotImplementedException();
     }
 
-    public string getName()
+    public string GetName()
     {
         return "TestBot";
     }
 
-    public void removeCardFromHand(Card cards)
+    public void RemoveCardFromHand(Card cards)
     {
         throw new NotImplementedException();
     }
-    public Iplayer clone()
+    public Iplayer Clone()
     {
         //cursed 
         var clonedHand = new List<Card>();
-        foreach(var card in this.Hand){
+        foreach(var card in this.hand){
             clonedHand.Add(card.Clone());
         }
-        var clonedPlayer = new TestPlayer(this.Name,clonedHand);
+        var clonedPlayer = new TestPlayer(this.name,clonedHand);
         return clonedPlayer;
     }
 
-    public List<List<Card>> getLegalMoves(Card topCard)
+    public List<List<Card>> GetLegalMoves(Card topCard)
     {
-        var legalMoves = getActions(topCard);
+        var legalMoves = GetActions(topCard);
         if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
         legalMoves.Distinct();
         return legalMoves;

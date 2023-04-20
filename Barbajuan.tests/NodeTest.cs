@@ -11,19 +11,19 @@ public class NodeTest
         var secondGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,1},0);
         var secondGenChildNode2 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,1},0);
         var thirdGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,1},1);
-        rootNode.addChild(firstGenChildNode1);
-        rootNode.addChild(firstGenChildNode2);
-        rootNode.addChild(firstGenChildNode3);
-        firstGenChildNode1.addChild(secondGenChildNode1);
-        firstGenChildNode2.addChild(secondGenChildNode2);
-        secondGenChildNode1.addChild(thirdGenChildNode1);
+        rootNode.AddChild(firstGenChildNode1);
+        rootNode.AddChild(firstGenChildNode2);
+        rootNode.AddChild(firstGenChildNode3);
+        firstGenChildNode1.AddChild(secondGenChildNode1);
+        firstGenChildNode2.AddChild(secondGenChildNode2);
+        secondGenChildNode1.AddChild(thirdGenChildNode1);
         
         // When
-        thirdGenChildNode1.backPropagate(10,0);
+        thirdGenChildNode1.BackPropagate(10,0);
     
         // Then
-        Assert.Equal(11,rootNode.getPlayerValue(0));
-        Assert.Equal(2,rootNode.getVisits());
+        Assert.Equal(11,rootNode.GetPlayerValue(0));
+        Assert.Equal(2,rootNode.GetVisits());
     }
 
     [Fact]
@@ -32,12 +32,12 @@ public class NodeTest
         // Given
         var rootNode = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,2},1);
         var firstGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,2},1);
-        rootNode.addChild(firstGenChildNode1);
+        rootNode.AddChild(firstGenChildNode1);
         // When
-        firstGenChildNode1.backPropagate(10,0);
+        firstGenChildNode1.BackPropagate(10,0);
         // Then
-        Assert.Equal(2,rootNode.getVisits());
-        Assert.Equal(11,rootNode.getvalue()[0]);
+        Assert.Equal(2,rootNode.GetVisits());
+        Assert.Equal(11,rootNode.Getvalue()[0]);
     }
 
     [Fact]
@@ -47,19 +47,19 @@ public class NodeTest
         var rootNode = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,2},1);
         var firstGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,2},1);
         var secondGenChildNode = new Node(null,new List<Node>(),new GameState(),new List<Card>(),1,new List<double>(){1,2},1);
-        rootNode.addChild(firstGenChildNode1);
-        firstGenChildNode1.addChild(secondGenChildNode);
+        rootNode.AddChild(firstGenChildNode1);
+        firstGenChildNode1.AddChild(secondGenChildNode);
         // When
-        secondGenChildNode.backPropagate(10,0);
+        secondGenChildNode.BackPropagate(10,0);
         // Then
-        Assert.Equal(1,rootNode.getChildren().Count);
-        Assert.True(rootNode.isRoot());
-        Assert.Null(rootNode.getParent());
-        Assert.NotNull(firstGenChildNode1.getParent());
-        Assert.NotNull(secondGenChildNode.getParent());
-        //Assert.NotNull(secondGenChildNode.getParent().getParent().getParent());
-        Assert.Equal(2,rootNode.getVisits());
-        Assert.Equal(11,rootNode.getvalue()[0]);
+        Assert.Equal(1,rootNode.GetChildren().Count);
+        Assert.True(rootNode.IsRoot());
+        Assert.Null(rootNode.GetParent());
+        Assert.NotNull(firstGenChildNode1.GetParent());
+        Assert.NotNull(secondGenChildNode.GetParent());
+        //Assert.NotNull(secondGenChildNode.GetParent().GetParent().GetParent());
+        Assert.Equal(2,rootNode.GetVisits());
+        Assert.Equal(11,rootNode.Getvalue()[0]);
     }
     
     [Fact]
@@ -69,21 +69,21 @@ public class NodeTest
         var rootNode = new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
         var firstGenChildNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
         // When
-        rootNode.addChild(firstGenChildNode1);
+        rootNode.AddChild(firstGenChildNode1);
         // Then
-        Assert.True(rootNode.isRoot());
-        Assert.False(firstGenChildNode1.isRoot());
+        Assert.True(rootNode.IsRoot());
+        Assert.False(firstGenChildNode1.IsRoot());
     }
     [Fact]
-    public void addChildNode()
+    public void AddChildNode()
     {
         // Given
         var rootNode =new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
         var firstGenChildNode1 =new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
         // When
-        rootNode.addChild(firstGenChildNode1);
+        rootNode.AddChild(firstGenChildNode1);
         // Then
-        Assert.Equivalent(rootNode,firstGenChildNode1.getParent());
+        Assert.Equivalent(rootNode,firstGenChildNode1.GetParent());
     }
 
 
@@ -95,10 +95,10 @@ public class NodeTest
         var rootNode1 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
         var Node2 = new Node(null,new List<Node>(),new GameState(),new List<Card>(),2,new List<double>(){1,2},1);
 
-        rootNode1.addChild(Node2);
+        rootNode1.AddChild(Node2);
         
         // When
-        var actual = Node2.getUCT();
+        var actual = Node2.GetUCT();
         double math = 1.8325546111576978;
         // Then
         Assert.Equal(math, actual);

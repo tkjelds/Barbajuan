@@ -21,13 +21,13 @@ public class GameStateTests
     {
         //given
         var deck = new Deck();
-        deck.setup();
-        var Player1 = new TestPlayer(deck.draw(7));
-        var Player2 = new TestPlayer(deck.draw(7));
-        var Player3 = new TestPlayer(deck.draw(7));
+        deck.Setup();
+        var Player1 = new TestPlayer(deck.Draw(7));
+        var Player2 = new TestPlayer(deck.Draw(7));
+        var Player3 = new TestPlayer(deck.Draw(7));
         var gs = new GameState(new List<Iplayer>() { Player1, Player2, Player3 }, deck);
         //when 
-        var actual = gs.GetPlayers()[gs.nextPlayer(gs.getCurrentPlayerIndex(), gs)];
+        var actual = gs.GetPlayers()[gs.NextPlayer(gs.GetCurrentPlayerIndex(), gs)];
         //then
         Assert.Equal(Player2, actual);
     }
@@ -37,13 +37,13 @@ public class GameStateTests
     {
         // Given
         var deck = new Deck();
-        deck.setup();
-        var player1 = new TestPlayer(deck.draw(7));
-        var player2 = new TestPlayer(deck.draw(7));
-        var player3 = new TestPlayer(deck.draw(7));
+        deck.Setup();
+        var player1 = new TestPlayer(deck.Draw(7));
+        var player2 = new TestPlayer(deck.Draw(7));
+        var player3 = new TestPlayer(deck.Draw(7));
         var gs = new GameState(player3, 2, new List<Iplayer>() { player1, player2, player3 }, deck);
         // When
-        var actual = gs.GetPlayers()[gs.nextPlayer(gs.getCurrentPlayerIndex(), gs)];
+        var actual = gs.GetPlayers()[gs.NextPlayer(gs.GetCurrentPlayerIndex(), gs)];
         // Then
         Assert.Equal(player1, actual);
     }
@@ -53,13 +53,13 @@ public class GameStateTests
     {
         // Given
         var deck = new Deck();
-        deck.setup();
-        var player1 = new TestPlayer(deck.draw(7));
-        var player2 = new TestPlayer(deck.draw(7));
-        var player3 = new TestPlayer(deck.draw(7));
+        deck.Setup();
+        var player1 = new TestPlayer(deck.Draw(7));
+        var player2 = new TestPlayer(deck.Draw(7));
+        var player3 = new TestPlayer(deck.Draw(7));
         var GameState = new GameState(new List<Iplayer>() { player1, player2, player3 }, deck, false);
         // When
-        var actual = GameState.GetPlayers()[GameState.nextPlayer()];
+        var actual = GameState.GetPlayers()[GameState.NextPlayer()];
         // Then
         Assert.Equal(player3, actual);
     }
@@ -142,10 +142,10 @@ public class GameStateTests
         var gamestate = new GameState(players);
         // When
 
-        var actual = gamestate.apply(new List<Card>() { new Card(CardColor.YELLOW, CardType.SKIP) });
+        var actual = gamestate.Apply(new List<Card>() { new Card(CardColor.YELLOW, CardType.SKIP) });
         // Then
-        Assert.Equal(2, actual.getCurrentPlayerIndex());
-        Assert.Equal(3, actual.getNextPlayerIndex());
+        Assert.Equal(2, actual.GetCurrentPlayerIndex());
+        Assert.Equal(3, actual.GetNextPlayerIndex());
     }
     [Fact]
     public void DoubleSkipCardApplyOnGameState()
@@ -160,10 +160,10 @@ public class GameStateTests
         var gamestate = new GameState(players);
         // When
 
-        var actual = gamestate.apply(new List<Card>() { new Card(CardColor.YELLOW, CardType.SKIP), new Card(CardColor.BLUE, CardType.SKIP) });
+        var actual = gamestate.Apply(new List<Card>() { new Card(CardColor.YELLOW, CardType.SKIP), new Card(CardColor.BLUE, CardType.SKIP) });
         // Then
-        Assert.Equal(1, actual.getNextPlayerIndex());
-        Assert.Equal(0, actual.getCurrentPlayerIndex());
+        Assert.Equal(1, actual.GetNextPlayerIndex());
+        Assert.Equal(0, actual.GetCurrentPlayerIndex());
     }
     [Fact]
     public void SkipOnReverseDirectionGameState()
@@ -176,10 +176,10 @@ public class GameStateTests
         };
         // When
         var gamestate = new GameState(players, new Deck(generateCards(10), generateCards(10)), false);
-        var actual = gamestate.apply(new List<Card>() { new Card(CardColor.BLUE, CardType.SKIP) });
+        var actual = gamestate.Apply(new List<Card>() { new Card(CardColor.BLUE, CardType.SKIP) });
         // Then
-        Assert.Equal(1, actual.getCurrentPlayerIndex());
-        Assert.Equal(0, actual.getNextPlayerIndex());
+        Assert.Equal(1, actual.GetCurrentPlayerIndex());
+        Assert.Equal(0, actual.GetNextPlayerIndex());
     }
 
     [Fact]
@@ -200,12 +200,12 @@ public class GameStateTests
         };
         // When
         var gamestate = new GameState(players, new Deck(generateCards(10), generateCards(10)), false);
-        var actual = gamestate.apply(new List<Card> { new Card(BLUE, SKIP), new Card(BLUE, SKIP) });
+        var actual = gamestate.Apply(new List<Card> { new Card(BLUE, SKIP), new Card(BLUE, SKIP) });
         // Then
-        Assert.Single(actual.GetPlayers()[0].getHand());
-        Assert.Equal(12, actual.getDeck().discardPile.Count());
-        Assert.Equal(1, actual.getCurrentPlayerIndex());
-        Assert.Equal(0, actual.getNextPlayerIndex());
+        Assert.Single(actual.GetPlayers()[0].GetHand());
+        Assert.Equal(12, actual.GetDeck().discardPile.Count());
+        Assert.Equal(1, actual.GetCurrentPlayerIndex());
+        Assert.Equal(0, actual.GetNextPlayerIndex());
     }
 
     [Fact]
@@ -226,14 +226,14 @@ public class GameStateTests
         };
         var gamestate = new GameState(players, new Deck(generateCards(10), generateCards(10)));
         // When
-        var actual = gamestate.apply(new List<Card> { new Card(WILD, DRAW4) });
+        var actual = gamestate.Apply(new List<Card> { new Card(WILD, DRAW4) });
         // Then
         // Check if first player card is removed from hand
-        Assert.Equal(3, actual.GetPlayers()[0].getHand().Count());
+        Assert.Equal(3, actual.GetPlayers()[0].GetHand().Count());
         // Check if next player has 4 more cards
-        Assert.Equal(8, actual.GetPlayers()[1].getHand().Count());
+        Assert.Equal(8, actual.GetPlayers()[1].GetHand().Count());
         // Check nextPlayerIsCorrect
-        Assert.Equal(2, actual.getCurrentPlayerIndex());
+        Assert.Equal(2, actual.GetCurrentPlayerIndex());
     }
 
     [Fact]
@@ -257,14 +257,14 @@ public class GameStateTests
 
         var gamestate = new GameState(players, new Deck(generateCards(10), generateCards(10)));
         // When
-        var actual = gamestate.apply(new List<Card> { new Card(RED, DRAW2) });
+        var actual = gamestate.Apply(new List<Card> { new Card(RED, DRAW2) });
         // Then
         //Check if player 1 has played a card from hand
-        Assert.Equal(3, actual.GetPlayers()[0].getHand().Count());
+        Assert.Equal(3, actual.GetPlayers()[0].GetHand().Count());
         //Check if player 2 is skipped correctly
-        Assert.Equal(2, actual.getCurrentPlayerIndex());
+        Assert.Equal(2, actual.GetCurrentPlayerIndex());
         //Check if player 2 has drawn the 2 cards
-        Assert.Equal(9, actual.GetPlayers()[1].getHand().Count());
+        Assert.Equal(9, actual.GetPlayers()[1].GetHand().Count());
     }
     [Fact]
     public void ApplyTwoDraw4OnGame()
@@ -285,16 +285,16 @@ public class GameStateTests
         };
         var gamestate = new GameState(players, new Deck(generateCards(10), generateCards(10)));
         // When
-        var actual = gamestate.apply(new List<Card> { new Card(WILD, DRAW4), new Card(WILD, DRAW4) });
+        var actual = gamestate.Apply(new List<Card> { new Card(WILD, DRAW4), new Card(WILD, DRAW4) });
         // Then
         // Check to see if the original gamestate is intact.
-        Assert.Equal(0, gamestate.getCurrentPlayerIndex());
+        Assert.Equal(0, gamestate.GetCurrentPlayerIndex());
         // Check if first player card is removed from hand
-        Assert.Equal(3, actual.GetPlayers()[0].getHand().Count());
+        Assert.Equal(3, actual.GetPlayers()[0].GetHand().Count());
         // Check if next player has 4 more cards
-        Assert.Equal(12, actual.GetPlayers()[1].getHand().Count());
+        Assert.Equal(12, actual.GetPlayers()[1].GetHand().Count());
         // Check nextPlayerIsCorrect
-        Assert.Equal(2, actual.getCurrentPlayerIndex());
+        Assert.Equal(2, actual.GetCurrentPlayerIndex());
     }
     [Fact]
     public void ApplyTwoDraw4OnGameAndReshuffle()
@@ -315,18 +315,18 @@ public class GameStateTests
         };
         var gamestate = new GameState(players, new Deck(generateCards(2), generateCards(10)));
         // When
-        var actual = gamestate.apply(new List<Card> { new Card(WILD, DRAW4), new Card(WILD, DRAW4) });
+        var actual = gamestate.Apply(new List<Card> { new Card(WILD, DRAW4), new Card(WILD, DRAW4) });
         // Then
         // Check if first player card is removed from hand
-        Assert.Equal(3, actual.GetPlayers()[0].getHand().Count());
+        Assert.Equal(3, actual.GetPlayers()[0].GetHand().Count());
         // Check if next player has 4 more cards
-        Assert.Equal(12, actual.GetPlayers()[1].getHand().Count());
+        Assert.Equal(12, actual.GetPlayers()[1].GetHand().Count());
         // Check nextPlayerIsCorrect
-        Assert.Equal(2, actual.getCurrentPlayerIndex());
+        Assert.Equal(2, actual.GetCurrentPlayerIndex());
         // Check remainingCard in Deck
-        Assert.Equal(3, actual.getDeck().drawPile.Count());
+        Assert.Equal(3, actual.GetDeck().drawPile.Count());
         // Check Correct number of cards in discard
-        Assert.Equal(3, actual.getDeck().discardPile.Count());
+        Assert.Equal(3, actual.GetDeck().discardPile.Count());
     }
 
     [Fact]
@@ -348,14 +348,14 @@ public class GameStateTests
         };
         var gamestate = new GameState(players, new Deck(generateCards(2), generateCards(10)));
         // When
-        var actual = gamestate.apply(new List<Card> { new Card(RED, REVERSE) });
+        var actual = gamestate.Apply(new List<Card> { new Card(RED, REVERSE) });
         var expected = new Card(RED, REVERSE);
         // Then
-        Assert.Equal(gamestate.getDeck().discardPile.Count() + 1, actual.getDeck().discardPile.Count());
-        Assert.Equal(3, actual.getCurrentPlayerIndex());
-        Assert.Equal(2, actual.getNextPlayerIndex());
-        Assert.Equal(4, actual.GetPlayers()[0].getHand().Count());
-        expected.Should().BeEquivalentTo(actual.getDeck().discardPile.Peek());
+        Assert.Equal(gamestate.GetDeck().discardPile.Count() + 1, actual.GetDeck().discardPile.Count());
+        Assert.Equal(3, actual.GetCurrentPlayerIndex());
+        Assert.Equal(2, actual.GetNextPlayerIndex());
+        Assert.Equal(4, actual.GetPlayers()[0].GetHand().Count());
+        expected.Should().BeEquivalentTo(actual.GetDeck().discardPile.Peek());
 
     }
     [Fact]
@@ -378,13 +378,13 @@ public class GameStateTests
         };
         var gamestate = new GameState(players, new Deck(generateCards(2), generateCards(10)));
         // When
-        var actual = gamestate.apply(new List<Card> { new Card(RED, REVERSE), new Card(RED, REVERSE) });
+        var actual = gamestate.Apply(new List<Card> { new Card(RED, REVERSE), new Card(RED, REVERSE) });
         var expected = new Card(RED, REVERSE);
         // Then
-        Assert.Equal(1, actual.getCurrentPlayerIndex());
-        Assert.Equal(2, actual.getNextPlayerIndex());
-        Assert.Equal(4, actual.GetPlayers()[0].getHand().Count());
-        expected.Should().BeEquivalentTo(actual.getDeck().discardPile.Peek());
+        Assert.Equal(1, actual.GetCurrentPlayerIndex());
+        Assert.Equal(2, actual.GetNextPlayerIndex());
+        Assert.Equal(4, actual.GetPlayers()[0].GetHand().Count());
+        expected.Should().BeEquivalentTo(actual.GetDeck().discardPile.Peek());
     }
 
     [Fact]
@@ -399,17 +399,17 @@ public class GameStateTests
         };
         var gameState = new GameState(players, new Deck(generateCards(10), generateCards(10)));
         // When
-        var actual = gameState.apply(new List<Card> { new Card(RED, DRAW1) });
+        var actual = gameState.Apply(new List<Card> { new Card(RED, DRAW1) });
         // Then
         // Player draws one card
-        Assert.Equal(5, actual.GetPlayers()[0].getHand().Count());
+        Assert.Equal(5, actual.GetPlayers()[0].GetHand().Count());
         // Next player is updated
-        Assert.Equal(1, actual.getCurrentPlayerIndex());
-        Assert.Equal(2, actual.getNextPlayerIndex());
+        Assert.Equal(1, actual.GetCurrentPlayerIndex());
+        Assert.Equal(2, actual.GetNextPlayerIndex());
 
         // The card is drawn from draw pile and the discard pile is untouched
-        Assert.Equal(9, actual.getDeck().drawPile.Count());
-        Assert.Equal(10, actual.getDeck().discardPile.Count());
+        Assert.Equal(9, actual.GetDeck().drawPile.Count());
+        Assert.Equal(10, actual.GetDeck().discardPile.Count());
 
     }
 
@@ -444,14 +444,14 @@ public class GameStateTests
         };
         var gamestate = new GameState(players);
         // When
-        var actual = gamestate.apply(new List<Card> { card });
+        var actual = gamestate.Apply(new List<Card> { card });
         var expected = card;
         // Then
-        Assert.Equal(gamestate.getDeck().discardPile.Count() + 1, actual.getDeck().discardPile.Count());
-        expected.Should().BeEquivalentTo(actual.getDeck().discardPile.Peek());
-        Assert.Equal(3, actual.GetPlayers()[0].getHand().Count());
-        Assert.Equal(1, actual.getCurrentPlayerIndex());
-        Assert.Equal(2, actual.getNextPlayerIndex());
+        Assert.Equal(gamestate.GetDeck().discardPile.Count() + 1, actual.GetDeck().discardPile.Count());
+        expected.Should().BeEquivalentTo(actual.GetDeck().discardPile.Peek());
+        Assert.Equal(3, actual.GetPlayers()[0].GetHand().Count());
+        Assert.Equal(1, actual.GetCurrentPlayerIndex());
+        Assert.Equal(2, actual.GetNextPlayerIndex());
     }
 
     [Theory]
@@ -486,19 +486,19 @@ public class GameStateTests
             new RandomPlayer(generateCards(4).ToList())
         };
         var gamestate = new GameState(players);
-        Assert.Single(gamestate.getDeck().discardPile);
+        Assert.Single(gamestate.GetDeck().discardPile);
         // When
-        var actual = gamestate.apply(new List<Card> { card1, card2 });
+        var actual = gamestate.Apply(new List<Card> { card1, card2 });
         var expected = card2;
         // Then
-        Assert.Equal(5, gamestate.getCurrentPlayer().getHand().Count());
-        expected.Should().BeEquivalentTo(actual.getDeck().discardPile.Peek());
-        Assert.Equal((gamestate.getDeck().discardPile.Count() + 2), actual.getDeck().discardPile.Count());
-        Assert.NotEqual(gamestate.getCurrentPlayerIndex(), actual.getCurrentPlayerIndex());
-        Assert.NotEqual(gamestate.getNextPlayerIndex(), actual.getNextPlayerIndex());
-        Assert.Equal(3, actual.GetPlayers()[0].getHand().Count());
-        Assert.Equal(1, actual.getCurrentPlayerIndex());
-        Assert.Equal(2, actual.getNextPlayerIndex());
+        Assert.Equal(5, gamestate.GetCurrentPlayer().GetHand().Count());
+        expected.Should().BeEquivalentTo(actual.GetDeck().discardPile.Peek());
+        Assert.Equal((gamestate.GetDeck().discardPile.Count() + 2), actual.GetDeck().discardPile.Count());
+        Assert.NotEqual(gamestate.GetCurrentPlayerIndex(), actual.GetCurrentPlayerIndex());
+        Assert.NotEqual(gamestate.GetNextPlayerIndex(), actual.GetNextPlayerIndex());
+        Assert.Equal(3, actual.GetPlayers()[0].GetHand().Count());
+        Assert.Equal(1, actual.GetCurrentPlayerIndex());
+        Assert.Equal(2, actual.GetNextPlayerIndex());
     }
 
     [Fact]
@@ -513,10 +513,10 @@ public class GameStateTests
         // Given
         var gs = new GameState(players);
         // When
-        gs.playerKnockOut(gs.getCurrentPlayer());
+        gs.PlayerKnockOut(gs.GetCurrentPlayer());
         // Then
-        Assert.Equal(0, gs.getCurrentPlayerIndex());
-        Assert.Equal(1, gs.getNextPlayerIndex());
+        Assert.Equal(0, gs.GetCurrentPlayerIndex());
+        Assert.Equal(1, gs.GetNextPlayerIndex());
     }
 
     [Fact]
@@ -531,10 +531,10 @@ public class GameStateTests
         };
         var gs = new GameState(players, false);
         // When
-        gs.playerKnockOut(gs.getCurrentPlayer());
+        gs.PlayerKnockOut(gs.GetCurrentPlayer());
         // Then
-        Assert.Equal(2, gs.getCurrentPlayerIndex());
-        Assert.Equal(1, gs.getNextPlayerIndex());
+        Assert.Equal(2, gs.GetCurrentPlayerIndex());
+        Assert.Equal(1, gs.GetNextPlayerIndex());
     }
 
     [Fact]
@@ -549,10 +549,10 @@ public class GameStateTests
         };
         var gs = new GameState(players, 3);
         // When
-        gs.playerKnockOut(gs.getCurrentPlayer());
+        gs.PlayerKnockOut(gs.GetCurrentPlayer());
         // Then
-        Assert.Equal(0, gs.getCurrentPlayerIndex());
-        Assert.Equal(1, gs.getNextPlayerIndex());
+        Assert.Equal(0, gs.GetCurrentPlayerIndex());
+        Assert.Equal(1, gs.GetNextPlayerIndex());
     }
     [Fact]
     public void LastPlayerKnockOutWhenReversePlayDirection()
@@ -566,9 +566,9 @@ public class GameStateTests
         };
         var gs = new GameState(players, 3, false);
         // When
-        gs.playerKnockOut(gs.getCurrentPlayer());
+        gs.PlayerKnockOut(gs.GetCurrentPlayer());
         // Then
-        Assert.Equal(2, gs.getCurrentPlayerIndex());
-        Assert.Equal(1, gs.getNextPlayerIndex());
+        Assert.Equal(2, gs.GetCurrentPlayerIndex());
+        Assert.Equal(1, gs.GetNextPlayerIndex());
     }
 }

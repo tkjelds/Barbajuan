@@ -2,58 +2,56 @@
 class CustomPlayer : Iplayer
 {
 
-    List<Card> Hand = new List<Card>();
-    string Name = "";
-
-    readonly ImovePicker MovePicker;
+    List<Card> hand = new List<Card>();
+    string name = "";
+    readonly ImovePicker movePicker;
 
     public CustomPlayer(List<Card> hand, string name, ImovePicker movePicker)
     {
-        Hand = hand;
-        Name = name;
-        MovePicker = movePicker;
+        this.hand = hand;
+        this.name = name;
+        this.movePicker = movePicker;
     }
 
-    public List<Card> action(IgameState gameState)
+    public void AddCardsToHand(List<Card> cards)
     {
-        var action = MovePicker.pick((GameState)gameState);
-        return action;
+        hand.AddRange(cards);
     }
 
-    public void addCardsToHand(List<Card> cards)
+    public List<Card> GetHand()
     {
-        Hand.AddRange(cards);
+        return this.hand;
     }
 
-    public List<Card> getHand()
+    public string GetName()
     {
-        return this.Hand;
+        return this.name;
     }
 
-    public string getName()
+    public void RemoveCardFromHand(Card cards)
     {
-        return this.Name;
+        this.hand.Remove(cards);
     }
 
-    public void removeCardFromHand(Card cards)
-    {
-        this.Hand.Remove(cards);
-    }
-
-    public Iplayer clone()
+    public Iplayer Clone()
     {
         var clonedHand = new List<Card>();
 
-        foreach (var card in Hand)
+        foreach (var card in hand)
         {
             clonedHand.Add(card.Clone());
         }
 
-        return new CustomPlayer(clonedHand, this.Name,this.MovePicker);
+        return new CustomPlayer(clonedHand, this.name,this.movePicker);
     }
 
-    List<List<Card>> Iplayer.getLegalMoves(Card topCard)
+    List<List<Card>> Iplayer.GetLegalMoves(Card topCard)
     {
-        return MovePicker.getLegalMoves(topCard,Hand);
+        return movePicker.GetLegalMoves(topCard,hand);
+    }
+
+    public List<Card> Action(GameState gameState)
+    {
+        return movePicker.Pick(gameState);
     }
 }

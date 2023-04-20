@@ -17,17 +17,17 @@ using System.Collections.Concurrent;
 public class FlatMonteCarloPlayer : Iplayer
 {
 
-    List<Card> Hand = new List<Card>();
+    List<Card> hand = new List<Card>();
 
-    int Determinations = 0;
+    int determinations = 0;
 
-    int Iterations = 0;
+    int iterations = 0;
 
-    string Name = "Not_Assigned";
+    string name = "Not_Assigned";
 
-    IgameEvaluator Evaluator = new FactorialEvaluator();
+    IgameEvaluator evaluator = new FactorialEvaluator();
     
-    ImovePicker Picker = new RandomMovePicker();
+    ImovePicker picker = new RandomMovePicker();
     
 
 
@@ -36,50 +36,50 @@ public class FlatMonteCarloPlayer : Iplayer
 
 
     public FlatMonteCarloPlayer( string name, int determinations, int iterations ){
-        Determinations = determinations;
-        Iterations = iterations;
-        Name = name;
+        this.determinations = determinations;
+        this.iterations = iterations;
+        this.name = name;
     }
 
     public FlatMonteCarloPlayer( string name, int determinations, int iterations, ImovePicker movepicker, IgameEvaluator evaluator ){
-        Determinations = determinations;
-        Iterations = iterations;
-        Name = name;
-        this.Picker = movepicker;
-        this.Evaluator = evaluator;
+        this.determinations = determinations;
+        this.iterations = iterations;
+        this.name = name;
+        this.picker = movepicker;
+        this.evaluator = evaluator;
     }
 
 
     public FlatMonteCarloPlayer(List<Card> hand, int determinations, int iterations, string name)
     {
-        Hand = hand;
-        Determinations = determinations;
-        Iterations = iterations;
-        Name = name;
+        this.hand = hand;
+        this.determinations = determinations;
+        this.iterations = iterations;
+        this.name = name;
     }
 
     public FlatMonteCarloPlayer(List<Card> hand, int determinations, int iterations, string name, IgameEvaluator evaluator, ImovePicker picker)
     {
-        Hand = hand;
-        Determinations = determinations;
-        Iterations = iterations;
-        Name = name;
-        Evaluator = evaluator;
-        Picker = picker;
+        this.hand = hand;
+        this.determinations = determinations;
+        this.iterations = iterations;
+        this.name = name;
+        this.evaluator = evaluator;
+        this.picker = picker;
     }
 
-    public List<Card> action(IgameState gameState)
+    public List<Card> Action(GameState gameState)
     {
         // Add all our own legal moves to the moveAndValue bag
         // -------------
         ConcurrentDictionary<int, int> moveAndValue = new ConcurrentDictionary<int, int>();
         CardsComparer cardsTheSame = new CardsComparer();
-        var legalMoves = getStackingActions(gameState.getDeck().discardPile.Peek());
+        var legalMoves = new StackingMovePicker().GetStackingActions(gameState.GetDeck().discardPile.Peek(),hand);
         if (legalMoves.Count == 0) return new List<Card>() { new Card(WILD, DRAW1) };
         if (legalMoves.Count == 1) return legalMoves[0];
         legalMoves.Distinct();
 
-        moveAndValue = new ConcurrentDictionary<int, int>(Determinations, legalMoves.Count());
+        moveAndValue = new ConcurrentDictionary<int, int>(determinations, legalMoves.Count());
         var numberToMove = new List<(int, List<Card>)>();
         for (int i = 0; i < legalMoves.Count(); i++)
         {
@@ -92,10 +92,10 @@ public class FlatMonteCarloPlayer : Iplayer
         // var determinations = new List<GameState>();
 
         // Simulate each determination a number of times, run in parallel
-        for (var i = 0; i < Determinations; i++)
+        for (var i = 0; i < determinations; i++)
         {
-            var d = createDetermination((GameState)gameState);
-            Parallel.For(0, Iterations, x =>
+            var d = CreateDetermination((GameState)gameState);
+            Parallel.For(0, iterations, x =>
             {
                 //var copyOfd = d.DeepClone(d);
                 var copyOfd = d.Clone();
@@ -144,54 +144,54 @@ public class FlatMonteCarloPlayer : Iplayer
 
     private (List<Card>, int) Simulate(GameState determination)
     {
-        var pickedAction = Picker.pick(determination);
+        var pickedAction = picker.Pick(determination);
 
         var result = (pickedAction, 0);
 
-        determination.applyNoClone(pickedAction);
+        determination.ApplyNoClone(pickedAction);
 
-        if (determination.IsGameOver()  || (determination.GetPlayers().Find(p => p.getName() == Name) == null) )
+        if (determination.IsGameOver()  || (determination.GetPlayers().Find(p => p.GetName() == name) == null) )
         {
-            result.Item2 = Evaluator.evaluate(determination,Name);
+            result.Item2 = evaluator.Evaluate(determination,name);
             return result;
         }
 
         var notGameOver = true;
         while (notGameOver) // TODO change to when we are knocked out
         {
-            var action = Picker.pick(determination);
-            determination.applyNoClone(action);
-            if(determination.IsGameOver() || (determination.GetPlayers().Find(p => p.getName() == Name) == null)) {
-                if (determination.IsGameOver()) determination.getScoreBoard().Add(determination.GetPlayers()[0]);
+            var action = picker.Pick(determination);
+            determination.ApplyNoClone(action);
+            if(determination.IsGameOver() || (determination.GetPlayers().Find(p => p.GetName() == name) == null)) {
+                if (determination.IsGameOver()) determination.GetScoreBoard().Add(determination.GetPlayers()[0]);
                 notGameOver = false;
-                var actionValue = Evaluator.evaluate(determination, Name);
+                var actionValue = evaluator.Evaluate(determination, name);
                 result.Item2 = actionValue;
             }
         }
         return result;       
     }
 
-    public void addCardsToHand(List<Card> cards)
+    public void AddCardsToHand(List<Card> cards)
     {
-        this.Hand.AddRange(cards);
+        this.hand.AddRange(cards);
     }
 
-    public List<Card> getHand()
+    public List<Card> GetHand()
     {
-        return Hand;
+        return hand;
     }
 
-    public string getName()
+    public string GetName()
     {
-        return Name;
+        return name;
     }
 
-    public void removeCardFromHand(Card cards)
+    public void RemoveCardFromHand(Card cards)
     {
-        Hand.Remove(cards);
+        hand.Remove(cards);
     }
 
-    public GameState createDetermination(GameState gs) {
+    public GameState CreateDetermination(GameState gs) {
         
         var copyGameState = gs.Clone();
         List<(int,Iplayer)> cardsInHandPerPlayer = new List<(int, Iplayer)>();
@@ -199,76 +199,23 @@ public class FlatMonteCarloPlayer : Iplayer
         // Remove cards from players hand.
         // And add them to the draw pile.
         foreach (var p in copyGameState.GetPlayers()) {
-            if(p.getName().Trim().Equals(this.Name.Trim()) == false) { // This might be wrong // TODO
-                cardsInHandPerPlayer.Add(((p.getHand().Count(),p)));
-                foreach (var card in new List<Card>(p.getHand()))
+            if(p.GetName().Trim().Equals(this.name.Trim()) == false) { // This might be wrong // TODO
+                cardsInHandPerPlayer.Add(((p.GetHand().Count(),p)));
+                foreach (var card in new List<Card>(p.GetHand()))
                 {
-                    copyGameState.getDeck().drawPile.Push(card);
-                    p.removeCardFromHand(card);
+                    copyGameState.GetDeck().drawPile.Push(card);
+                    p.RemoveCardFromHand(card);
                 }
             }
         }
         // Shuffle Deck (Not discard)
-        copyGameState.getDeck().ShuffleDrawPile();
+        copyGameState.GetDeck().ShuffleDrawPile();
         // Give Cards to players again
         foreach (var k in cardsInHandPerPlayer) {
-            k.Item2.addCardsToHand(copyGameState.getDeck().draw((k.Item1)));
+            k.Item2.AddCardsToHand(copyGameState.GetDeck().Draw((k.Item1)));
         }
         return copyGameState;
     }
-    public List<List<Card>> getStackingActions(Card topCard)
-    {
-        var moves = new List<List<Card>>();
-        foreach (var card in new List<Card>(Hand))
-        {
-            if (card.canBePlayedOn(topCard))
-            {
-                if (card.cardType == DRAW4)
-                {
-                    moves.Add(new List<Card>() { new Card(GREEN, DRAW4) });
-                    moves.Add(new List<Card>() { new Card(BLUE, DRAW4) });
-                    moves.Add(new List<Card>() { new Card(YELLOW, DRAW4) });
-                    moves.Add(new List<Card>() { new Card(RED, DRAW4) });
-                }
-                if (card.cardType == SELECTCOLOR)
-                {
-                    moves.Add(new List<Card>() { new Card(GREEN, SELECTCOLOR) });
-                    moves.Add(new List<Card>() { new Card(BLUE, SELECTCOLOR) });
-                    moves.Add(new List<Card>() { new Card(YELLOW, SELECTCOLOR) });
-                    moves.Add(new List<Card>() { new Card(RED, SELECTCOLOR) });
-                }
-                if (card.cardType != SELECTCOLOR && card.cardType != DRAW4)
-                {
-                    var nextHand = new List<Card>(Hand);
-                    moves.Add(new List<Card>() { card });
-                    nextHand.Remove(card);
-                    moves.AddRange(getCardOfSameType(card, nextHand, new List<Card>() { card }));
-                }
-
-            }
-        }
-        return moves;
-    }
-    public List<List<Card>> getCardOfSameType(Card toBePlayedOn, List<Card> hand, List<Card> currentStack)
-    {
-        var moves = new List<List<Card>>();
-        foreach (var card in new List<Card>(hand))
-        {
-            var nextHand = new List<Card>(hand);
-            if (card.cardType == toBePlayedOn.cardType)
-            {
-                var moveStack = new List<Card>(currentStack);
-                moveStack.Add(card);
-                moves.Add(moveStack);
-                nextHand.Remove(card);
-                moves.AddRange(getCardOfSameType(card, nextHand, moveStack));
-
-            }
-        }
-        return moves;
-    }
-
-
     /*
         Hand = hand;
         Determinations = determinations;
@@ -277,20 +224,20 @@ public class FlatMonteCarloPlayer : Iplayer
         Evaluator = evaluator;
         Picker = picker;
         Bloody mary, bloody mary, bloody mary*/
-    public Iplayer clone()
+    public Iplayer Clone()
     {
         //cursed 
         var clonedHand = new List<Card>();
-        foreach(var card in this.Hand){
+        foreach(var card in this.hand){
             clonedHand.Add(card.Clone());
         }
-        var clonedPlayer = new FlatMonteCarloPlayer(clonedHand,this.Determinations,this.Iterations,this.Name,this.Evaluator,this.Picker);
+        var clonedPlayer = new FlatMonteCarloPlayer(clonedHand,this.determinations,this.iterations,this.name,this.evaluator,this.picker);
         return clonedPlayer;
     }
 
-    public List<List<Card>> getLegalMoves(Card topCard)
+    public List<List<Card>> GetLegalMoves(Card topCard)
     {
-        var legalMoves = getStackingActions(topCard);
+        var legalMoves = new StackingMovePicker().GetStackingActions(topCard,hand);
         if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
         legalMoves.Distinct();
         return legalMoves;

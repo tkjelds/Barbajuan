@@ -1,32 +1,27 @@
 public class RandomStackingPlayer : Iplayer
 {
 
-    string Name;
+    string name;
 
-    List<Card> Hand = new List<Card>();
+    List<Card> hand = new List<Card>();
 
-    public RandomStackingPlayer(string Name)
+
+
+    public RandomStackingPlayer(string name)
     {
-        this.Name = Name;
+        this.name = name;
     }
 
-    public RandomStackingPlayer(string Name, List<Card> Hand) : this(Name)
+    public RandomStackingPlayer(string name, List<Card> hand) : this(name)
     {
-        this.Hand = Hand;
+        this.hand = hand;
     }
 
-    public List<Card> action(IgameState gameState)
+    public List<Card> Action(GameState gameState)
     {
-        var moves = getStackingActions(gameState.getDeck().discardPile.Peek());
+        var moves = GetStackingActions(gameState.GetDeck().discardPile.Peek());
         var rng = new Random();
-        // using (var stream = File.Open(@".\Documentation\AverageNumberOfActionsStackingPlayer.csv", FileMode.Append))
-        // using (var writer = new StreamWriter(stream))
-        // using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-        // {
-        //     if (moves.Count == 0) csv.WriteRecord(0);
-        //     else csv.WriteRecord(moves.Count());
-        //     csv.NextRecord();
-        // }
+
         if (moves.Count == 0)
         {
             return new List<Card>() { new Card(WILD, DRAW1) };
@@ -35,31 +30,31 @@ public class RandomStackingPlayer : Iplayer
         return moves[rng.Next(moves.Count())];
     }
 
-    public void addCardsToHand(List<Card> cards)
+    public void AddCardsToHand(List<Card> cards)
     {
-        Hand.AddRange(cards);
+        hand.AddRange(cards);
     }
 
-    public List<Card> getHand()
+    public List<Card> GetHand()
     {
-        return Hand;
+        return hand;
     }
 
-    public string getName()
+    public string GetName()
     {
-        return Name;
+        return name;
     }
 
-    public void removeCardFromHand(Card cards)
+    public void RemoveCardFromHand(Card cards)
     {
-        Hand.Remove(cards);
+        hand.Remove(cards);
     }
-    public List<List<Card>> getStackingActions(Card topCard)
+    public List<List<Card>> GetStackingActions(Card topCard)
     {
         var moves = new List<List<Card>>();
-        foreach (var card in new List<Card>(Hand))
+        foreach (var card in new List<Card>(hand))
         {
-            if (card.canBePlayedOn(topCard))
+            if (card.CanBePlayedOn(topCard))
             {
                 if (card.cardType == DRAW4)
                 {
@@ -77,48 +72,48 @@ public class RandomStackingPlayer : Iplayer
                 }
                 if (card.cardType != SELECTCOLOR && card.cardType != DRAW4)
                 {
-                    var nextHand = new List<Card>(Hand);
+                    var nextHand = new List<Card>(hand);
                     moves.Add(new List<Card>() { card });
                     nextHand.Remove(card);
-                    moves.AddRange(getCardOfSameType(card, nextHand, new List<Card>() { card }));
+                    moves.AddRange(GetCardOfSameType(card, nextHand, new List<Card>() { card }));
                 }
 
             }
         }
         return moves;
     }
-    public List<List<Card>> getCardOfSameType(Card toBePlayedOn, List<Card> Hand, List<Card> currentStack)
+    public List<List<Card>> GetCardOfSameType(Card toBePlayedOn, List<Card> hand, List<Card> currentStack)
     {
         var moves = new List<List<Card>>();
-        foreach (var card in new List<Card>(Hand))
+        foreach (var card in new List<Card>(hand))
         {
-            var nextHand = new List<Card>(Hand);
+            var nextHand = new List<Card>(hand);
             if (card.cardType == toBePlayedOn.cardType)
             {
                 var moveStack = new List<Card>(currentStack);
                 moveStack.Add(card);
                 moves.Add(moveStack);
                 nextHand.Remove(card);
-                moves.AddRange(getCardOfSameType(card, nextHand, moveStack));
+                moves.AddRange(GetCardOfSameType(card, nextHand, moveStack));
 
             }
         }
         return moves;
     }
-    public Iplayer clone()
+    public Iplayer Clone()
     {
         //cursed 
         var clonedHand = new List<Card>();
-        foreach(var card in this.Hand){
+        foreach(var card in this.hand){
             clonedHand.Add(card.Clone());
         }
-        var clonedPlayer = new RandomStackingPlayer(this.Name,clonedHand);
+        var clonedPlayer = new RandomStackingPlayer(this.name,clonedHand);
         return clonedPlayer;
     }
 
-    public List<List<Card>> getLegalMoves(Card topCard)
+    public List<List<Card>> GetLegalMoves(Card topCard)
     {
-        var legalMoves = getStackingActions(topCard);
+        var legalMoves = GetStackingActions(topCard);
         if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
         legalMoves.Distinct();
         return legalMoves;

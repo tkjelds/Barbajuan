@@ -1,12 +1,12 @@
 
 public class FactorialEvaluator : IgameEvaluator
 {
-    public int evaluate(GameState gs, string playerName)
+    public int Evaluate(GameState gs, string playerName)
     {
-        var totalPlayers = gs.GetPlayers().Count() + gs.getScoreBoard().Count();
-        for (int i = 0; i < gs.getScoreBoard().Count(); i++)
+        var totalPlayers = gs.GetPlayers().Count() + gs.GetScoreBoard().Count();
+        for (int i = 0; i < gs.GetScoreBoard().Count(); i++)
         {
-            if(gs.getScoreBoard()[i].getName() == playerName) return factorial(totalPlayers-i);
+            if(gs.GetScoreBoard()[i].GetName() == playerName) return factorial(totalPlayers-i);
         }
         return 0;
     }

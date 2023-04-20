@@ -16,19 +16,19 @@ public class Epsilon_Greedy : ImovePicker
 
     public Epsilon_Greedy(){}
 
-    public List<Card> pick(GameState gameState)
+    public List<Card> Pick(GameState gameState)
     {
         var rng = new Random();
         var pick = rng.Next(100);
 
-        if (pick<epsilon) return randomMove.pick(gameState);
+        if (pick<epsilon) return randomMove.Pick(gameState);
 
-        return greedyMove.pick(gameState);
+        return greedyMove.Pick(gameState);
     }
 
 
-    public List<List<Card>> getLegalMoves(Card topCard, List<Card> hand)
+    public List<List<Card>> GetLegalMoves(Card topCard, List<Card> hand)
     {
-        return randomMove.getLegalMoves(topCard, hand);
+        return randomMove.GetLegalMoves(topCard, hand);
     }
 }

@@ -1,22 +1,22 @@
 
 public class NaiveMovePicker : ImovePicker
 {
-    public List<Card> pick(GameState gameState)
+    public List<Card> Pick(GameState gameState)
     {
-        var hand = gameState.getCurrentPlayer().getHand();
-        var topCard = gameState.getDeck().discardPile.Peek();
+        var hand = gameState.GetCurrentPlayer().GetHand();
+        var topCard = gameState.GetDeck().discardPile.Peek();
 
-        var moves = getStackingActions(topCard,hand);
+        var moves = GetStackingActions(topCard,hand);
 
         return moves[0];
     }
 
-    public List<List<Card>> getStackingActions(Card topCard, List<Card> hand)
+    public List<List<Card>> GetStackingActions(Card topCard, List<Card> hand)
     {
         var moves = new List<List<Card>>();
         foreach (var card in new List<Card>(hand))
         {
-            if (card.canBePlayedOn(topCard))
+            if (card.CanBePlayedOn(topCard))
             {
                 if (card.cardType == DRAW4)
                 {
@@ -37,7 +37,7 @@ public class NaiveMovePicker : ImovePicker
                     var nextHand = new List<Card>(hand);
                     moves.Add(new List<Card>() { card });
                     nextHand.Remove(card);
-                    moves.AddRange(getCardOfSameType(card, nextHand, new List<Card>() { card }));
+                    moves.AddRange(GetCardOfSameType(card, nextHand, new List<Card>() { card }));
                 }
 
             }
@@ -45,7 +45,7 @@ public class NaiveMovePicker : ImovePicker
         return moves;
     }
 
-    public List<List<Card>> getCardOfSameType(Card toBePlayedOn, List<Card> hand, List<Card> currentStack)
+    public List<List<Card>> GetCardOfSameType(Card toBePlayedOn, List<Card> hand, List<Card> currentStack)
     {
         var moves = new List<List<Card>>();
         foreach (var card in new List<Card>(hand))
@@ -57,16 +57,16 @@ public class NaiveMovePicker : ImovePicker
                 moveStack.Add(card);
                 moves.Add(moveStack);
                 nextHand.Remove(card);
-                moves.AddRange(getCardOfSameType(card, nextHand, moveStack));
+                moves.AddRange(GetCardOfSameType(card, nextHand, moveStack));
 
             }
         }
         return moves;
     }
 
-    public List<List<Card>> getLegalMoves(Card topCard, List<Card> hand)
+    public List<List<Card>> GetLegalMoves(Card topCard, List<Card> hand)
     {
-        var legalMoves = getStackingActions(topCard,hand);
+        var legalMoves = GetStackingActions(topCard,hand);
         if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
         legalMoves.Distinct();
         return legalMoves;

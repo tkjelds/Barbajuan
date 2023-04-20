@@ -1,4 +1,4 @@
 public interface IgameEvaluator
 {
-    int evaluate(GameState gs, string playerName);
+    int Evaluate(GameState gs, string playerName);
 }
