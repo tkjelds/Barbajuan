@@ -68,74 +68,74 @@ public class PlayerTests
     public void CloneOfRandomPlayerIsDifferentObject()
     {
         // Given
-        var player = new RandomPlayer(new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)}, "carl");
+        var player = new RandomPlayer(new List<Card>() { new Card(YELLOW, FOUR), new Card(YELLOW, THREE) }, "carl");
         var playerHand = player.GetHand();
         // When
         var actual = player.Clone();
         var actualHand = actual.GetHand();
         // Then
-        Assert.Equal(player.GetHand().Count() , actual.GetHand().Count());
+        Assert.Equal(player.GetHand().Count(), actual.GetHand().Count());
         Assert.Equal(player.GetName(), actual.GetName());
         playerHand.Should().BeEquivalentTo(actualHand);
-        Assert.NotEqual(player,actual);
-        Assert.Equal(player,player);
+        Assert.NotEqual(player, actual);
+        Assert.Equal(player, player);
     }
 
     [Fact]
     public void CloneOfPlayerIsDifferentObject()
     {
         // Given
-        var player = new RandomPlayer(new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)}, "carl");
+        var player = new RandomPlayer(new List<Card>() { new Card(YELLOW, FOUR), new Card(YELLOW, THREE) }, "carl");
         var playerHand = player.GetHand();
         // When
         var actual = player.Clone();
         var actualHand = actual.GetHand();
         // Then
-        Assert.Equal(player.GetHand().Count() , actual.GetHand().Count());
+        Assert.Equal(player.GetHand().Count(), actual.GetHand().Count());
         Assert.Equal(player.GetName(), actual.GetName());
         playerHand.Should().BeEquivalentTo(actualHand);
-        Assert.NotEqual(player,actual);
-        Assert.Equal(player,player);
+        Assert.NotEqual(player, actual);
+        Assert.Equal(player, player);
     }
 
     [Fact]
     public void CloneOfRandomStackingPlayerIsDifferentObject()
     {
         // Given
-        var player = new RandomStackingPlayer ( "carl",new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)});
+        var player = new RandomStackingPlayer("carl", new List<Card>() { new Card(YELLOW, FOUR), new Card(YELLOW, THREE) });
         var playerHand = player.GetHand();
         // When
         var actual = player.Clone();
         var actualHand = actual.GetHand();
         // Then
-        Assert.Equal(player.GetHand().Count() , actual.GetHand().Count());
+        Assert.Equal(player.GetHand().Count(), actual.GetHand().Count());
         Assert.Equal(player.GetName(), actual.GetName());
         playerHand.Should().BeEquivalentTo(actualHand);
-        Assert.NotEqual(player,actual);
-        Assert.Equal(player,player);
+        Assert.NotEqual(player, actual);
+        Assert.Equal(player, player);
     }
     [Fact]
     public void CloneOfMonteCarloPlayerIsDifferentObject()
     {
         // Given
-        var player = new FlatMonteCarloPlayer (new List<Card>(){new Card(YELLOW,FOUR) ,new Card(YELLOW,THREE)},10,10,"carl");
+        var player = new FlatMonteCarloPlayer(new List<Card>() { new Card(YELLOW, FOUR), new Card(YELLOW, THREE) }, 10, 10, "carl");
         var playerHand = player.GetHand();
         // When
         var actual = player.Clone();
         var actualHand = actual.GetHand();
         // Then
-        Assert.Equal(player.GetHand().Count() , actual.GetHand().Count());
+        Assert.Equal(player.GetHand().Count(), actual.GetHand().Count());
         Assert.Equal(player.GetName(), actual.GetName());
         playerHand.Should().BeEquivalentTo(actualHand);
-        Assert.NotEqual(player,actual);
-        Assert.Equal(player,player);
+        Assert.NotEqual(player, actual);
+        Assert.Equal(player, player);
     }
 
     [Fact]
     public void ListofPlayersIsClonedInCorrectOrder()
     {
         // Given
-        var players = new List<Iplayer>(){new RandomPlayer("Player0"), new RandomPlayer("Player1"), new RandomPlayer("Player2"), new RandomPlayer("Player3")};
+        var players = new List<Iplayer>() { new RandomPlayer("Player0"), new RandomPlayer("Player1"), new RandomPlayer("Player2"), new RandomPlayer("Player3") };
         var actual = new List<Iplayer>();
         // When
         foreach (var player in players)
@@ -143,7 +143,7 @@ public class PlayerTests
             actual.Add(player.Clone());
         }
         // Then
-        Assert.Equal(4,actual.Count());
+        Assert.Equal(4, actual.Count());
         Assert.Equal("Player0", actual[0].GetName());
         Assert.Equal("Player1", actual[1].GetName());
         Assert.Equal("Player2", actual[2].GetName());

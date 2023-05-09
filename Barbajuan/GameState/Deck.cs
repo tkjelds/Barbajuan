@@ -53,8 +53,9 @@ public class Deck
 
     public Card GetTopCard() => this.discardPile.Peek();
     public bool NeedsShuffle(int n) => this.drawPile.Count < n;
-    
-    public void ShuffleDrawPile(){
+
+    public void ShuffleDrawPile()
+    {
         var list = new List<Card>();
         list.AddRange(this.drawPile.ToList());
         var n = list.Count;
@@ -66,7 +67,7 @@ public class Deck
         }
         this.drawPile = new Stack<Card>(list);
     }
-    
+
     public void Shuffle()
     {
         var list = new List<Card>();
@@ -112,7 +113,7 @@ public class Deck
 
     public int DeckCount() => this.drawPile.Count + this.discardPile.Count;
 
-    
+
 
     public Deck Clone()
     {
@@ -129,7 +130,7 @@ public class Deck
             clonedDiscardPile.Push(card.Clone());
         }
 
-        return new Deck(clonedDrawPile,clonedDiscardPile);
+        return new Deck(clonedDrawPile, clonedDiscardPile);
     }
 
 }

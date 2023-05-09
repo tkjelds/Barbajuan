@@ -2,7 +2,7 @@ class StackingMovePicker : ImovePicker
 {
     public List<Card> Pick(GameState gameState)
     {
-        var moves = GetStackingActions(gameState.GetDeck().GetTopCard(),gameState.GetCurrentPlayer().GetHand());
+        var moves = GetStackingActions(gameState.GetDeck().GetTopCard(), gameState.GetCurrentPlayer().GetHand());
 
         if (moves.Count == 0)
         {
@@ -11,7 +11,7 @@ class StackingMovePicker : ImovePicker
 
         moves.Distinct();
         moves.Sort((x, y) => x.Count().CompareTo(y.Count()));
-        
+
         return moves.Last();
     }
 
@@ -69,8 +69,8 @@ class StackingMovePicker : ImovePicker
     }
     public List<List<Card>> GetLegalMoves(Card topCard, List<Card> hand)
     {
-        var legalMoves = GetStackingActions(topCard,hand);
-        if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
+        var legalMoves = GetStackingActions(topCard, hand);
+        if (legalMoves.Count == 0) return new List<List<Card>>() { new List<Card>() { new Card(WILD, DRAW1) } };
         legalMoves.Distinct();
         return legalMoves;
     }

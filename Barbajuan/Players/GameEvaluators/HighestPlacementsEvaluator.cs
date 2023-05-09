@@ -8,7 +8,7 @@ class HighestPlacementsEvaluator : IgameEvaluator
         var highestScore = totalPlayers;
         for (int i = 0; i < gs.GetScoreBoard().Count(); i++)
         {
-            if(gs.GetScoreBoard()[i].GetName() == playerName) return highestScore-i;
+            if (gs.GetScoreBoard()[i].GetName() == playerName) return highestScore - i;
         }
 
         return 0;

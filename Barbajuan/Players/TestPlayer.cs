@@ -85,17 +85,18 @@ public class TestPlayer : Iplayer
     {
         //cursed 
         var clonedHand = new List<Card>();
-        foreach(var card in this.hand){
+        foreach (var card in this.hand)
+        {
             clonedHand.Add(card.Clone());
         }
-        var clonedPlayer = new TestPlayer(this.name,clonedHand);
+        var clonedPlayer = new TestPlayer(this.name, clonedHand);
         return clonedPlayer;
     }
 
     public List<List<Card>> GetLegalMoves(Card topCard)
     {
         var legalMoves = GetActions(topCard);
-        if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
+        if (legalMoves.Count == 0) return new List<List<Card>>() { new List<Card>() { new Card(WILD, DRAW1) } };
         legalMoves.Distinct();
         return legalMoves;
     }

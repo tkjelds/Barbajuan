@@ -6,7 +6,7 @@ public class NaiveMovePicker : ImovePicker
         var hand = gameState.GetCurrentPlayer().GetHand();
         var topCard = gameState.GetDeck().discardPile.Peek();
 
-        var moves = GetStackingActions(topCard,hand);
+        var moves = GetStackingActions(topCard, hand);
 
         return moves[0];
     }
@@ -66,8 +66,8 @@ public class NaiveMovePicker : ImovePicker
 
     public List<List<Card>> GetLegalMoves(Card topCard, List<Card> hand)
     {
-        var legalMoves = GetStackingActions(topCard,hand);
-        if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
+        var legalMoves = GetStackingActions(topCard, hand);
+        if (legalMoves.Count == 0) return new List<List<Card>>() { new List<Card>() { new Card(WILD, DRAW1) } };
         legalMoves.Distinct();
         return legalMoves;
     }

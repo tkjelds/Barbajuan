@@ -42,12 +42,12 @@ class CustomPlayer : Iplayer
             clonedHand.Add(card.Clone());
         }
 
-        return new CustomPlayer(clonedHand, this.name,this.movePicker);
+        return new CustomPlayer(clonedHand, this.name, this.movePicker);
     }
 
     List<List<Card>> Iplayer.GetLegalMoves(Card topCard)
     {
-        return movePicker.GetLegalMoves(topCard,hand);
+        return movePicker.GetLegalMoves(topCard, hand);
     }
 
     public List<Card> Action(GameState gameState)

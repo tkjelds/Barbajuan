@@ -16,7 +16,8 @@ public class RandomPlayer : Iplayer
         this.hand = hand;
     }
 
-    public RandomPlayer(string name){
+    public RandomPlayer(string name)
+    {
         this.name = name;
     }
 
@@ -142,17 +143,18 @@ public class RandomPlayer : Iplayer
     {
         //cursed 
         var clonedHand = new List<Card>();
-        foreach(var card in hand){
+        foreach (var card in hand)
+        {
             clonedHand.Add(card.Clone());
         }
-        var clonedPlayer = new RandomPlayer(clonedHand,this.name);
+        var clonedPlayer = new RandomPlayer(clonedHand, this.name);
         return clonedPlayer;
     }
 
     public List<List<Card>> GetLegalMoves(Card topCard)
     {
         var legalMoves = GetActions(topCard);
-        if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
+        if (legalMoves.Count == 0) return new List<List<Card>>() { new List<Card>() { new Card(WILD, DRAW1) } };
         legalMoves.Distinct();
         return legalMoves;
     }

@@ -8,10 +8,10 @@ public class RandomMovePicker : ImovePicker
 
         var rng = new Random();
 
-        var moves = GetStackingActions(topCard,hand);
+        var moves = GetStackingActions(topCard, hand);
 
         moves.Distinct();
-        
+
         if (moves.Count == 0)
         {
             return new List<Card>() { new Card(WILD, DRAW1) };
@@ -73,8 +73,8 @@ public class RandomMovePicker : ImovePicker
     }
     public List<List<Card>> GetLegalMoves(Card topCard, List<Card> hand)
     {
-        var legalMoves = GetStackingActions(topCard,hand);
-        if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
+        var legalMoves = GetStackingActions(topCard, hand);
+        if (legalMoves.Count == 0) return new List<List<Card>>() { new List<Card>() { new Card(WILD, DRAW1) } };
         legalMoves.Distinct();
         return legalMoves;
     }

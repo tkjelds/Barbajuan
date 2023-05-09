@@ -122,31 +122,33 @@ public class DeckTests
     }
 
     [Fact]
-    public void ShuffleDrawPileTest(){
-        var deck = new Deck(generateCards(100),generateCards(100));
+    public void ShuffleDrawPileTest()
+    {
+        var deck = new Deck(generateCards(100), generateCards(100));
         var topCardOfOriginalDeck = deck.drawPile.Peek();
-        
-        
+
+
         deck.ShuffleDrawPile();
 
         var actual = deck.drawPile.Peek();
 
-        Assert.Equal(100,deck.drawPile.Count());
-        Assert.NotEqual(topCardOfOriginalDeck,actual);
+        Assert.Equal(100, deck.drawPile.Count());
+        Assert.NotEqual(topCardOfOriginalDeck, actual);
     }
 
     [Fact]
-    public void ShuffleDrawPileTestDoesNotAffectDiscard(){
-        var deck = new Deck(generateCards(100),generateCards(100));
+    public void ShuffleDrawPileTestDoesNotAffectDiscard()
+    {
+        var deck = new Deck(generateCards(100), generateCards(100));
         var topCardOfOriginalDiscardPile = deck.discardPile.Peek();
-        
-        
+
+
         deck.ShuffleDrawPile();
 
         var actual = deck.discardPile.Peek();
 
-        Assert.Equal(100,deck.discardPile.Count());
-        Assert.Equal(topCardOfOriginalDiscardPile,actual);
+        Assert.Equal(100, deck.discardPile.Count());
+        Assert.Equal(topCardOfOriginalDiscardPile, actual);
     }
 
     [Fact]
@@ -158,22 +160,22 @@ public class DeckTests
         var actual = deck.Clone();
         // Then
         // Different REFs for object
-        Assert.NotEqual(deck,actual);
+        Assert.NotEqual(deck, actual);
         // Same of total amount of cards
-        Assert.Equal(deck.DeckCount(),actual.DeckCount());
+        Assert.Equal(deck.DeckCount(), actual.DeckCount());
         // Correct Amount of cards in discard 
-        Assert.Equal(deck.discardPile.Count(),actual.discardPile.Count());
+        Assert.Equal(deck.discardPile.Count(), actual.discardPile.Count());
         // Correct amoutn of cards in drawppile
-        Assert.Equal(deck.drawPile.Count(),actual.drawPile.Count());
+        Assert.Equal(deck.drawPile.Count(), actual.drawPile.Count());
     }
 
     [Fact]
     public void ClonedDeckIsTheSameOrder()
     {
         // Given
-    
+
         // When
-    
+
         // Then
     }
 }

@@ -8,8 +8,8 @@ public class GameState
     private bool playDirectionClockwise = true;
     private List<Iplayer> scoreBoard;
 
-    public GameState(){}
-    
+    public GameState() { }
+
     public GameState(List<Iplayer> players)
     {
         this.players = players;
@@ -152,7 +152,7 @@ public class GameState
     }
 
 
-// TODO Rename to applyWithClone ELLER NOGET!
+    // TODO Rename to applyWithClone ELLER NOGET!
     public GameState Apply(List<Card> cards)
     {
         GameState gs = Clone();
@@ -180,7 +180,7 @@ public class GameState
         if (cards.First().cardType == CardType.DRAW2 || cards.First().cardType == CardType.DRAW4) { nextPlayerIndex = NextPlayer(nextPlayerIndex, this); }
         if (players.Count() > 1)
         {
-            this.currentPlayer = this.players[PrevPlayer(NextPlayer(nextPlayerIndex,this),this)];
+            this.currentPlayer = this.players[PrevPlayer(NextPlayer(nextPlayerIndex, this), this)];
             currentPlayerIndex = nextPlayerIndex;
             nextPlayerIndex = NextPlayer();
         }
@@ -301,8 +301,9 @@ public class GameState
     }
 
 
-    public void DealSevenToEachPlayer(){
-            foreach (var player in players)
+    public void DealSevenToEachPlayer()
+    {
+        foreach (var player in players)
         {
             player.AddCardsToHand(deck.Draw(7));
         }
@@ -324,7 +325,7 @@ public class GameState
                 Console.WriteLine("Current Play: " + card.cardColor.ToString() + "   " + card.cardType.ToString());
             }
             Console.WriteLine();
-            
+
             Console.WriteLine("Number of plays: " + counter);
 
             Update(newGameState);
@@ -344,7 +345,7 @@ public class GameState
     }
 
 
-public int RunReturnNumberOfTurns()
+    public int RunReturnNumberOfTurns()
     {
         DealSevenToEachPlayer();
         var counter = 0;
@@ -376,7 +377,7 @@ public int RunReturnNumberOfTurns()
         while (notGameOver)
         {
             counter++;
-            
+
             var action = this.currentPlayer.Action(this);
 
             var newGameState = this.ApplyNoClone(action);
@@ -405,10 +406,10 @@ public int RunReturnNumberOfTurns()
         while (notGameOver)
         {
             counter++;
-            
+
             var action = this.currentPlayer.Action(this);
             timeLine.Add((counter, this.currentPlayer.GetName(), action));
-            
+
             var newGameState = this.ApplyNoClone(action);
 
             if (IsGameOver())
@@ -422,16 +423,8 @@ public int RunReturnNumberOfTurns()
         return timeLine;
     }
 
-    /*
-    private Iplayer currentPlayer;
-    private int nextPlayerIndex;
-    private int currentPlayerIndex = 0;
-    private List<Iplayer> players;
-    private Deck deck;
-    private bool playDirectionClockwise = true;
-    private List<Iplayer> scoreBoard;
-    */
-    public GameState Clone(){ // TODO
+    public GameState Clone()
+    { // TODO
 
         var clonedListOfPlayers = new List<Iplayer>();
 
@@ -446,22 +439,23 @@ public int RunReturnNumberOfTurns()
         {
             clonedScoreboard.Add(player.Clone());
         }
-        
-        
+
+
         var clonedCurrentPlayerIndex = EnsureValidIndex(this.currentPlayerIndex);
-        var clonedNextPlayerIndex = EnsureValidIndex(this.nextPlayerIndex); 
+        var clonedNextPlayerIndex = EnsureValidIndex(this.nextPlayerIndex);
 
         var clonedCurrentPlayer = clonedListOfPlayers[clonedCurrentPlayerIndex];
-        
+
         var clonedDeck = this.deck.Clone();
 
         // List<Iplayer> players, Deck deck, Iplayer currentPlayer, int currentPlayerIndex, int nextPlayerIndex, List<Iplayer> scoreBoard, bool playDirection
-        var clonedGS = new GameState(clonedListOfPlayers,clonedDeck,clonedCurrentPlayer,clonedCurrentPlayerIndex,clonedNextPlayerIndex,clonedScoreboard,this.playDirectionClockwise);
-    
+        var clonedGS = new GameState(clonedListOfPlayers, clonedDeck, clonedCurrentPlayer, clonedCurrentPlayerIndex, clonedNextPlayerIndex, clonedScoreboard, this.playDirectionClockwise);
+
         return clonedGS;
     }
 
-    public int EnsureValidIndex(int index) {
-        return PrevPlayer(NextPlayer(index,this),this);
+    public int EnsureValidIndex(int index)
+    {
+        return PrevPlayer(NextPlayer(index, this), this);
     }
 }

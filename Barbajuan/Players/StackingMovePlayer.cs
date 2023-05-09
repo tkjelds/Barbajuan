@@ -15,7 +15,7 @@ public class StackingMovePlayer : Iplayer
     public List<Card> Action(GameState gameState)
     {
 
-        return movePicker.Pick(gameState);  
+        return movePicker.Pick(gameState);
     }
 
     public void AddCardsToHand(List<Card> cards)
@@ -37,20 +37,22 @@ public class StackingMovePlayer : Iplayer
     {
         hand.Remove(cards);
     }
-    
-    public Iplayer Clone(){
+
+    public Iplayer Clone()
+    {
         var clonedHand = new List<Card>();
-        foreach(var card in this.hand){
+        foreach (var card in this.hand)
+        {
             clonedHand.Add(card.Clone());
         }
-        var clonedPlayer = new StackingMovePlayer(this.name,clonedHand);
+        var clonedPlayer = new StackingMovePlayer(this.name, clonedHand);
         return clonedPlayer;
     }
 
     public List<List<Card>> GetLegalMoves(Card topCard)
     {
-        var legalMoves = movePicker.GetLegalMoves(topCard,hand);
-        if(legalMoves.Count == 0 ) return new List<List<Card>>() { new List<Card>(){new Card(WILD, DRAW1)} };
+        var legalMoves = movePicker.GetLegalMoves(topCard, hand);
+        if (legalMoves.Count == 0) return new List<List<Card>>() { new List<Card>() { new Card(WILD, DRAW1) } };
         legalMoves.Distinct();
         return legalMoves;
     }
