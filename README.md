@@ -12,7 +12,7 @@ Additional parameters can be added on in 'dotnet run --project .\Barbajuan\ ' to
 
 * dotnet run --project .\Barbajuan\ 10 25 50
 
-Which would execute 50 games, with 1 MCTS-player with 10 determinizations and 25 iterations against 3 random playing agents. After it is done with the games a summary of how each agents performed is printed in the terminal
+Which would execute 50 games, with 1 MCTS-player with 10 determinizations and 25 iterations against 3 random playing agents. After the games are done, a summary of how each agents performed is printed in the terminal
 
 To execute the supplied test suite use the following commands in the terminal.
 
