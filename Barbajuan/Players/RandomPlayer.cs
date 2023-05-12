@@ -141,7 +141,6 @@ public class RandomPlayer : Iplayer
 
     public Iplayer Clone()
     {
-        //cursed 
         var clonedHand = new List<Card>();
         foreach (var card in hand)
         {

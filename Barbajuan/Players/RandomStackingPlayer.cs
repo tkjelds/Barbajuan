@@ -5,8 +5,6 @@ public class RandomStackingPlayer : Iplayer
 
     List<Card> hand = new List<Card>();
 
-
-
     public RandomStackingPlayer(string name)
     {
         this.name = name;
@@ -102,7 +100,6 @@ public class RandomStackingPlayer : Iplayer
     }
     public Iplayer Clone()
     {
-        //cursed 
         var clonedHand = new List<Card>();
         foreach (var card in this.hand)
         {

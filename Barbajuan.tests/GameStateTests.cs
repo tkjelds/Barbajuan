@@ -115,19 +115,7 @@ public class GameStateTests
         // Then
         Assert.True(actual);
     }
-    /*
-    Gamestate 
-        CurrentPlayer = 0
-        NextPlayer = 1
 
-    No Skip NextGameState 
-        CurrentPlayer = 1
-        NextPlayer = 2
-
-    With Skip NextGameState 
-        CurrentPlayer = 2
-        NextPlayer = 3
-    */
     [Fact]
     public void SkipCardApplyOnGameState()
     {

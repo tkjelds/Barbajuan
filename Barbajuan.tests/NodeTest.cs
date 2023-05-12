@@ -57,7 +57,6 @@ public class NodeTest
         Assert.Null(rootNode.GetParent());
         Assert.NotNull(firstGenChildNode1.GetParent());
         Assert.NotNull(secondGenChildNode.GetParent());
-        //Assert.NotNull(secondGenChildNode.GetParent().GetParent().GetParent());
         Assert.Equal(2, rootNode.GetVisits());
         Assert.Equal(11, rootNode.Getvalue()[0]);
     }
@@ -91,7 +90,6 @@ public class NodeTest
     public void UCTMathTest()
     {
         // Given
-        // Node? parent, List<Node> children, GameState? gameState, List<Card> action, double visits, double value
         var rootNode1 = new Node(null, new List<Node>(), new GameState(), new List<Card>(), 2, new List<double>() { 1, 2 }, 1);
         var Node2 = new Node(null, new List<Node>(), new GameState(), new List<Card>(), 2, new List<double>() { 1, 2 }, 1);
 

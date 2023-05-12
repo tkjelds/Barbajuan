@@ -168,14 +168,4 @@ public class DeckTests
         // Correct amoutn of cards in drawppile
         Assert.Equal(deck.drawPile.Count(), actual.drawPile.Count());
     }
-
-    [Fact]
-    public void ClonedDeckIsTheSameOrder()
-    {
-        // Given
-
-        // When
-
-        // Then
-    }
 }

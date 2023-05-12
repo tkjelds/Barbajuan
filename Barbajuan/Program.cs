@@ -83,21 +83,21 @@ internal partial class Program
 
                 switch (placement)
                 {
-                    case(1):
-                    Console.WriteLine("1st place : " +  player.Item2[placementIndex]);
-                    break;
-                    case(2):
-                    Console.WriteLine("2nd place : " +  player.Item2[placementIndex]);
-                    break;
-                    case(3):
-                    Console.WriteLine("3rd place : " +  player.Item2[placementIndex]);
-                    break;
-                    case(4):
-                    Console.WriteLine("4th place : " +  player.Item2[placementIndex]);
-                    break;
+                    case (1):
+                        Console.WriteLine("1st place : " + player.Item2[placementIndex]);
+                        break;
+                    case (2):
+                        Console.WriteLine("2nd place : " + player.Item2[placementIndex]);
+                        break;
+                    case (3):
+                        Console.WriteLine("3rd place : " + player.Item2[placementIndex]);
+                        break;
+                    case (4):
+                        Console.WriteLine("4th place : " + player.Item2[placementIndex]);
+                        break;
                     default:
-                    Console.WriteLine("Placement : " + placement + "    Amount of times : " + player.Item2[placementIndex]);
-                    break;
+                        Console.WriteLine("Placement : " + placement + "    Amount of times : " + player.Item2[placementIndex]);
+                        break;
                 }
             }
         }

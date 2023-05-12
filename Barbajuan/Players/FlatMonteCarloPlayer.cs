@@ -1,17 +1,3 @@
-/*
-
-public class monteCarloNode
-
-Value NodeValue
-Iterationer NumberOfIterations
-List<Card> Action
-GameState gs
-List<MonteCarloNode> children
-MonteCarloNode   Parent
-
-*/
-
-
 using System.Collections.Concurrent;
 
 public class FlatMonteCarloPlayer : Iplayer

@@ -69,34 +69,13 @@ public class Cheating_UCT_Player : Iplayer
                 resultList[moveIndex] = (moveRobust.Item1, newMoveValue, newWinsValue);
             }
         }
-        // Console.WriteLine("After MCTS");
-        // foreach (var mr in resultList)
-        // {
-        //     Console.Write("Move : ");
-        //     foreach (var card in mr.Item1)
-        //     {
-        //         Console.Write(card.ToString() + " ");
-        //     }
-        //     Console.Write("Visits : " + mr.Item2);
-        //     Console.Write(" Wins : " + mr.Item3);
-        //     Console.Write("   wins divided by visits: " + (((double) Math.Round(((double) mr.Item3 / (double) mr.Item2)*100)/100)));
-
-        //     Console.WriteLine();
-        // }
         resultList.Sort((x, y) => x.Item2.CompareTo(y.Item2));
         var bestMove = resultList.Last().Item1;
-        // Console.Write("Chosen move : ");
-        // foreach (var card in bestMove)
-        // {
-        //     Console.Write(card.ToString() + " ");
-        // }
-        // Console.WriteLine();
         return bestMove;
     }
 
     public List<(List<Card>, int, int)> MCTS(Node node)
     {
-        //Console.WriteLine("start MCTS");
         for (int i = 0; i < iterations; i++)
         {
             var currentNode = node;
@@ -124,10 +103,8 @@ public class Cheating_UCT_Player : Iplayer
         var children = node.GetChildren();
         var result = new List<(List<Card>, int, int)>();
         var amountOfValues = node.Getvalue().Count;
-        //Console.WriteLine("new MCTS");
         foreach (var child in children)
         {
-            //Console.WriteLine(child.getVisits());
             result.Add((child.GetAction(), (int)child.GetVisits(), (int)child.GetPlayerValue(0)));
         }
         return result;
@@ -168,7 +145,6 @@ public class Cheating_UCT_Player : Iplayer
         return selected!;
     }
 
-    // RollOut // SIMULATION returns playerindex in gamestate on which player won
 
     public int Rollout(Node node)
     {

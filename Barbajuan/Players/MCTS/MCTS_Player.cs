@@ -86,7 +86,6 @@ public class MCTS_Player : Iplayer
 
     public List<(List<Card>, int, int)> MCTS(Node node)
     {
-        //Console.WriteLine("start MCTS");
         for (int i = 0; i < iterations; i++)
         {
             // Select
@@ -156,8 +155,6 @@ public class MCTS_Player : Iplayer
         }
         return selected!;
     }
-
-    // RollOut // SIMULATION returns playerindex in gamestate on which player won
 
     public int Rollout(Node node)
     {
