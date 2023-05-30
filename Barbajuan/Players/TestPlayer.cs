@@ -1,6 +1,3 @@
-using static CardColor;
-using static CardType;
-
 public class TestPlayer : Iplayer
 {
 

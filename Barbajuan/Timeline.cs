@@ -1,8 +1,6 @@
-internal partial class Program
+// Helper class for timeline experiment.
+public class Timeline
 {
-    // Helper class for timeline experiment.
-    public class Timeline
-    {
 
         public int turn { get; set; }
         public string cardColor { get; set; }
@@ -25,5 +23,5 @@ internal partial class Program
         }
 
 
-    }
 }
+
